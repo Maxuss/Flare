@@ -1,6 +1,5 @@
 package space.maxus.flare.ui;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
