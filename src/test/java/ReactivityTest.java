@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import space.maxus.flare.Flare;
+import space.maxus.flare.util.FlareUtil;
 import space.maxus.flare.react.ReactiveState;
 
 import java.util.concurrent.ExecutorService;
@@ -43,7 +43,7 @@ class ReactivityTest {
             logger.info("Just changed state: " + state);
         });
 
-        ExecutorService pool = Flare.executor(10);
+        ExecutorService pool = FlareUtil.executor(10);
         for(int i = 0; i < 10; i ++) {
             int solid = i;
             pool.execute(() -> origin.set("Thread #" + solid));

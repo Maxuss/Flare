@@ -4,18 +4,21 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
+import org.apache.commons.lang3.concurrent.Computable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import space.maxus.flare.Flare;
+import space.maxus.flare.util.FlareUtil;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 final class ReactiveComponentImpl<V> implements ReactiveComponent<V> {
     private final AtomicReference<Component> parentRef = new AtomicReference<>(Component.empty());
-    private final Producer<V, Component> producer;
+    private final Computable<V, Component> producer;
 
-    ReactiveComponentImpl(Producer<V, Component> producer) {
+    ReactiveComponentImpl(Computable<V, Component> producer) {
         this.producer = producer;
     }
 
@@ -46,7 +49,12 @@ final class ReactiveComponentImpl<V> implements ReactiveComponent<V> {
 
     @Override
     public void onStateChange(@Nullable V state) {
-        parentRef.setRelease(producer.produce(state));
+        try {
+            parentRef.setRelease(producer.compute(state));
+        } catch (InterruptedException e) {
+            Flare.LOGGER.error(FlareUtil.text("<gold>InterruptedException<red> during ReactiveComponent state change handler!"), e);
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override
