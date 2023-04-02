@@ -26,4 +26,5 @@ public abstract class Frame {
     }
 
     public abstract void init();
+    public abstract @NotNull Inventory baseInventory();
 }
