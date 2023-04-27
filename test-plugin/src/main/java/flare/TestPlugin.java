@@ -3,6 +3,7 @@ package flare;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.Flare;
@@ -26,6 +27,8 @@ public class TestPlugin extends JavaPlugin implements CommandExecutor {
             sender.sendMessage(reactiveComponent);
         } else if("modify".equals(command.getName())) {
             mutableState.set(args[0]);
+        } else if("open".equals(command.getName())) {
+            Flare.open(new MockFrame(), (Player) sender);
         }
         return true;
     }

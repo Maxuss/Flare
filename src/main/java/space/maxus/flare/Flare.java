@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.handlers.ClickHandler;
+import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.PlayerFrameStateManager;
 
 @UtilityClass
@@ -26,5 +29,12 @@ public class Flare {
 
         Bukkit.getPluginManager().registerEvents(new ClickHandler(), hook);
         Bukkit.getPluginManager().registerEvents(new PlayerFrameStateManager(), hook);
+    }
+
+    public Inventory open(@NotNull Frame frame, Player player) {
+        Inventory base = frame.baseInventory();
+        frame.render(base);
+        player.openInventory(base);
+        return base;
     }
 }

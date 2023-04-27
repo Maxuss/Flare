@@ -1,4 +1,4 @@
-package space.maxus.flare.ui;
+package space.maxus.flare.ui.space;
 
 import java.util.Set;
 

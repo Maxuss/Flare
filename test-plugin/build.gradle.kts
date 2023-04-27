@@ -62,5 +62,6 @@ bukkit {
     commands {
         register("component")
         register("modify")
+        register("open")
     }
 }
