@@ -3,16 +3,18 @@ package space.maxus.flare.ui.space;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.util.MinMaxPair;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode
 public class Rect implements ComposableSpace {
     private final Set<Slot> slots;
+    private final Slot from;
+    private final Slot to;
 
     public Rect(Slot from, Slot to) {
         Set<Slot> slotsAggr = new HashSet<>();
@@ -22,6 +24,8 @@ public class Rect implements ComposableSpace {
             }
         }
         this.slots = ImmutableSet.copyOf(slotsAggr);
+        this.from = from;
+        this.to = to;
     }
 
     public static @NotNull Rect of(Slot from, Slot to) {
@@ -35,11 +39,15 @@ public class Rect implements ComposableSpace {
     }
 
     @Override
+    public Pair<Slot, Slot> points() {
+        return Pair.of(from, to);
+    }
+
+    @Override
     public String toString() {
-        List<Slot> list = this.slots.stream().toList();
         return MoreObjects.toStringHelper(this)
-                .add("from", list.get(0))
-                .add("to", list.get(list.size() - 1))
+                .add("from", from)
+                .add("to", to)
                 .toString();
     }
 }

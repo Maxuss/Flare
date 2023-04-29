@@ -9,6 +9,9 @@ import space.maxus.flare.react.ReactivityProvider;
 import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.ComposableReactiveState;
 import space.maxus.flare.ui.Frame;
+import space.maxus.flare.ui.PackedComposable;
+import space.maxus.flare.ui.compose.complex.Composition;
+import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -34,8 +37,9 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public void injectRoot(Frame root) {
-        // we activate the component at root injection
-        this.activate();
+        // we activate the component at root injection (if it has not been activated before)
+        if(this.composed == null)
+            this.activate();
         this.composed.injectRoot(root);
     }
 
@@ -48,6 +52,15 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
     public void markDirty() {
         if(this.composed != null)
             this.composed.markDirty(); // catching edge-case here, when a reactive state is set before composition
+    }
+
+    @Override
+    public @NotNull PackedComposable inside(@NotNull ComposableSpace space) {
+        if(this.composed == null) // component has to be activated here
+            this.activate();
+        if(this.composed instanceof Composition composition)
+            composition.fitIn(space);
+        return new PackedComposable(space, this);
     }
 
     public boolean handleShiftFrom(@NotNull InventoryClickEvent e) {

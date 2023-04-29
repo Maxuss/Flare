@@ -2,10 +2,12 @@ package space.maxus.flare.ui.space;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.lang3.tuple.Pair;
 import org.checkerframework.common.value.qual.IntRange;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 
 @Data
@@ -100,11 +102,18 @@ public class Slot implements Comparable<Slot>, ComposableSpace {
 
     @Override
     public int compareTo(@NotNull Slot o) {
-        return Integer.compare(this.rawSlot(), o.rawSlot());
+        return Comparator.comparingInt((Slot slot) -> slot.row)
+                .thenComparingInt(slot -> slot.column)
+                .compare(this, o);
     }
 
     @Override
     public Set<Slot> slots() {
         return Collections.singleton(this);
+    }
+
+    @Override
+    public Pair<Slot, Slot> points() {
+        return Pair.of(this, this);
     }
 }

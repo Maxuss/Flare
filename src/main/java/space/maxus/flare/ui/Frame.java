@@ -70,7 +70,9 @@ public abstract class Frame implements ReactivityProvider {
         final ItemStack[] contents = new ItemStack[inventory.getSize()];
         composed.forEach((key, value) -> {
             for (Slot slot : key.slots()) {
-                contents[slot.rawSlot()] = value.renderAt(slot);
+                ItemStack rendered = value.renderAt(slot);
+                if(rendered != null)
+                    contents[slot.rawSlot()] = rendered;
             }
         });
         inventory.setContents(contents);
