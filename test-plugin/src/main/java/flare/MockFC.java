@@ -27,7 +27,7 @@ public class MockFC extends FunctionComposable<Material> {
         return Button.create(
                 item,
                 Button.ClickHandler.cancelling((btn, e) -> counter.set(counter.get() + 1))
-        ).bindState(counter);
+        );
     }
 
     @Override

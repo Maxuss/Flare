@@ -29,6 +29,8 @@ public class ClickHandler implements Listener {
         if(e.getClickedInventory() != e.getView().getTopInventory()) {
             return;
         }
+        if(e.getClick().isCreativeAction())
+            e.setCancelled(true);
         frame.fireGenericClick(Slot.ofRaw(e.getSlot()), e);
         if(e.isShiftClick()) {
             e.setCancelled(frame.fireShiftClick(Slot.ofRaw(e.getSlot()), e));

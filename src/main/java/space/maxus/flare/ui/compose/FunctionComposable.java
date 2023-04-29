@@ -7,8 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.react.ReactivityProvider;
 import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableReactiveState;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.space.Slot;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class FunctionComposable<P> implements Composable, ReactivityProvider {
     private Composable composed;
@@ -93,6 +96,6 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
-        return new ReactiveState<>(initial);
+        return new ComposableReactiveState<>(initial, new AtomicReference<>(this));
     }
 }
