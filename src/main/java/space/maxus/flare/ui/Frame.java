@@ -28,9 +28,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public abstract class Frame implements ReactivityProvider {
     protected final @NotNull Map<@NotNull ComposableSpace, @NotNull Composable> composed = new LinkedHashMap<>();
-    private @Nullable Object context = null;
     protected final AtomicBoolean isDirty = new AtomicBoolean(false);
     private final ReadWriteLock renderLock = new ReentrantReadWriteLock();
+    private @Nullable Object context = null;
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
@@ -43,20 +43,22 @@ public abstract class Frame implements ReactivityProvider {
 
     @SuppressWarnings("unchecked")
     public <T> @Nullable T contextOrNull() {
-        if(context == null)
+        if (context == null)
             return null;
-        Class<? super T> tClass = new TypeToken<T>() { }.getRawType();
-        if(!tClass.isInstance(context))
+        Class<? super T> tClass = new TypeToken<T>() {
+        }.getRawType();
+        if (!tClass.isInstance(context))
             return null;
         return (T) this.context;
     }
 
     @SuppressWarnings("unchecked")
     public <T> @NotNull T context() throws InvalidContextValue {
-        if(context == null)
+        if (context == null)
             throw new InvalidContextValue("Context value was null when requested");
-        Class<? super T> tClass = new TypeToken<T>() { }.getRawType();
-        if(!tClass.isInstance(context))
+        Class<? super T> tClass = new TypeToken<T>() {
+        }.getRawType();
+        if (!tClass.isInstance(context))
             throw new InvalidContextValue("Context value was of type %s, not of requested type %s".formatted(context.getClass(), tClass));
         return (T) this.context;
 
@@ -71,7 +73,7 @@ public abstract class Frame implements ReactivityProvider {
         composed.forEach((key, value) -> {
             for (Slot slot : key.slots()) {
                 ItemStack rendered = value.renderAt(slot);
-                if(rendered != null)
+                if (rendered != null)
                     contents[slot.rawSlot()] = rendered;
             }
         });

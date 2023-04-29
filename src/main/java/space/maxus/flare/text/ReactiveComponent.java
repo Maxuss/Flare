@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.react.ReactiveSubscriber;
 
 public sealed interface ReactiveComponent<V> extends ReactiveSubscriber<V>, TextComponent permits ReactiveComponentImpl {
-    @NotNull TextComponent getParent();
-
     static <T> @NotNull ReactiveComponent<T> reactive(Computable<T, Component> producer) {
         return new ReactiveComponentImpl<>(producer);
     }
+
+    @NotNull TextComponent getParent();
 }

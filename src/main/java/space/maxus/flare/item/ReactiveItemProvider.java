@@ -22,11 +22,11 @@ public class ReactiveItemProvider<V> implements ItemProvider, ReactiveSubscriber
         try {
             this.current = computable.compute(state);
         } catch (InterruptedException e) {
-            if(e.getCause() instanceof ThreadDeath)
+            if (e.getCause() instanceof ThreadDeath)
                 Thread.currentThread().interrupt();
             else {
                 this.current = Stacks.getGenericErrorItem();
-                Flare.LOGGER.error("Error while computing reactive item" , e);
+                Flare.LOGGER.error("Error while computing reactive item", e);
             }
         }
     }

@@ -20,7 +20,7 @@ public class PlayerFrameStateManager implements Listener {
         Validate.notNull(to, "Tried to save a frame snapshot to a null player");
         Validate.notNull(to, "Tried to save a null frame snapshot");
 
-        if(!snapshots.containsKey(to.getUniqueId())) {
+        if (!snapshots.containsKey(to.getUniqueId())) {
             List<Frame> list = new ArrayList<>();
             list.add(snapshot);
             snapshots.put(to.getUniqueId(), list);
@@ -32,7 +32,7 @@ public class PlayerFrameStateManager implements Listener {
     public static @Nullable Frame restoreSnapshot(@NotNull HumanEntity from) {
         Validate.notNull(from, "Tried to restore a frame snapshot from a null player");
 
-        if(!snapshots.containsKey(from.getUniqueId()))
+        if (!snapshots.containsKey(from.getUniqueId()))
             return null;
         List<Frame> list = snapshots.get(from.getUniqueId());
         return list.remove(list.size() - 1);
@@ -40,8 +40,8 @@ public class PlayerFrameStateManager implements Listener {
 
     @EventHandler
     void onClose(InventoryCloseEvent e) {
-        if(e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW) {
-            if(e.getInventory().getHolder() instanceof ReactiveInventoryHolder holder)
+        if (e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW) {
+            if (e.getInventory().getHolder() instanceof ReactiveInventoryHolder holder)
                 saveSnapshot(e.getPlayer(), holder.getFrame());
         } else {
             snapshots.remove(e.getPlayer().getUniqueId());

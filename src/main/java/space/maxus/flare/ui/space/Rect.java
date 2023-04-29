@@ -18,8 +18,8 @@ public class Rect implements ComposableSpace {
 
     public Rect(Slot from, Slot to) {
         Set<Slot> slotsAggr = new HashSet<>();
-        for(int row = from.getRow(); row <= to.getRow(); row++) {
-            for(int col = from.getColumn(); col <= to.getColumn(); col++) {
+        for (int row = from.getRow(); row <= to.getRow(); row++) {
+            for (int col = from.getColumn(); col <= to.getColumn(); col++) {
                 slotsAggr.add(new Slot(row, col));
             }
         }

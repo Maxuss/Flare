@@ -6,5 +6,6 @@ import java.util.Set;
 
 public interface ComposableSpace {
     Set<Slot> slots();
+
     Pair<Slot, Slot> points();
 }

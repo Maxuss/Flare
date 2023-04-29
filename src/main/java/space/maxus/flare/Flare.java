@@ -20,7 +20,7 @@ public class Flare {
     private Plugin hook;
 
     public void hook(@NotNull Plugin plugin) {
-        if(HOOKED)
+        if (HOOKED)
             return;
         HOOKED = true;
         hook = plugin;

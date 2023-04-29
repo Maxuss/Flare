@@ -17,10 +17,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor @ToString @EqualsAndHashCode(callSuper = true)
+@RequiredArgsConstructor
+@ToString
+@EqualsAndHashCode(callSuper = true)
 class ExplicitComposition extends RootReferencing implements Composition {
-    private List<PackedComposable> composed;
     private final List<PackedComposable> toCompose;
+    private List<PackedComposable> composed;
 
     @Override
     public ItemStack renderAt(Slot slot) {
@@ -43,10 +45,10 @@ class ExplicitComposition extends RootReferencing implements Composition {
     @Override
     public List<PackedComposable> fitIn(ComposableSpace space) {
         // a little bit of caching
-        if(this.composed != null)
+        if (this.composed != null)
             return this.composed;
         Set<Slot> availableSlots = space.slots();
-        if(availableSlots.size() <= 1 && this.toCompose.size() != 1) {
+        if (availableSlots.size() <= 1 && this.toCompose.size() != 1) {
             throw new IllegalArgumentException("Can't fit more than one item in a single slot");
         }
         Pair<Slot, Slot> points = space.points();
@@ -64,6 +66,6 @@ class ExplicitComposition extends RootReferencing implements Composition {
 
     @Override
     public List<PackedComposable> children() {
-        return this.composed == null ? Collections.emptyList() :  this.composed;
+        return this.composed == null ? Collections.emptyList() : this.composed;
     }
 }

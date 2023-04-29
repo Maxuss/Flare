@@ -26,7 +26,7 @@ public class SubscriberList<V> {
     }
 
     public void notify(@Nullable V changedState) {
-        for(ReactiveSubscriber<V> subscriber: this.subscribers) {
+        for (ReactiveSubscriber<V> subscriber : this.subscribers) {
             subscriber.onStateChange(changedState);
         }
     }

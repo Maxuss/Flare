@@ -8,13 +8,14 @@ import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface
 public interface ItemProvider {
-    ItemStack provide();
-
     @Contract("_ -> new")
     static @NotNull ItemProvider still(@Nullable ItemStack stack) {
         return new StillItemProvider(stack);
     }
+
     static @NotNull <V> ItemProvider reactive(@NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
         return new ReactiveItemProvider<>(provider);
     }
+
+    ItemStack provide();
 }

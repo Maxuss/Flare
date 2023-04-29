@@ -17,22 +17,21 @@ import java.util.function.Consumer;
 @Getter
 @Slf4j
 public class Stacks {
-    @Getter
+    private void applyLore(ItemMeta meta, String lore) {
+        meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).toList());
+    }    @Getter
     private final ItemStack genericErrorItem = head(
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBlZTI4YjNkZjBkMDI1MGUyNDE2ZTJhNjJkN2RkY2Y5ZjJjOWNjODIzNjkwNDQ2OWZhMWY5MWYyYTk1OTVmZiJ9fX0=",
             loreMeta("An <red>unknown error</red> occurred when building this item.")
     );
-
-    private void applyLore(ItemMeta meta, String lore) {
-        meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).toList());
-    }
 
     public <T extends ItemMeta> Consumer<T> loreMeta(String lore) {
         return meta -> applyLore(meta, lore);
     }
 
     public ItemStack head(String skin) {
-        return head(skin, meta -> {});
+        return head(skin, meta -> {
+        });
     }
 
     public ItemStack head(String skin, Consumer<SkullMeta> configurator) {
@@ -48,8 +47,9 @@ public class Stacks {
         ItemMeta meta = item.getItemMeta();
         try {
             configurator.accept((M) meta);
-        } catch(ClassCastException e) {
-            log.error("ItemMeta of type {} does not match expected type of {}", meta.getClass().getName(), new TypeToken<M>() { }.getType().getTypeName());
+        } catch (ClassCastException e) {
+            log.error("ItemMeta of type {} does not match expected type of {}", meta.getClass().getName(), new TypeToken<M>() {
+            }.getType().getTypeName());
             return genericErrorItem;
         }
         item.setItemMeta(meta);
@@ -67,4 +67,6 @@ public class Stacks {
     public ItemStack withLore(Material material, @NotNull String lore) {
         return withMeta(material, meta -> applyLore(meta, lore));
     }
+
+
 }

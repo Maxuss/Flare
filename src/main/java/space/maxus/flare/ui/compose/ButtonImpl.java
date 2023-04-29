@@ -32,7 +32,7 @@ final class ButtonImpl extends RootReferencing implements Button {
 
     @Override
     public void click(@NotNull InventoryClickEvent e) {
-        if(this.isNotDisabled() && e.getClick() != ClickType.DOUBLE_CLICK) // skipping double clicks
+        if (this.isNotDisabled() && e.getClick() != ClickType.DOUBLE_CLICK) // skipping double clicks
             this.genericClick.click(this, e);
     }
 
@@ -57,13 +57,13 @@ final class ButtonImpl extends RootReferencing implements Button {
     }
 
     @Override
-    public boolean isNotDisabled() {
-        return !disabledState.get();
+    public void setDisabled(boolean disabled) {
+        this.disabledState.set(disabled);
     }
 
     @Override
-    public void setDisabled(boolean disabled) {
-        this.disabledState.set(disabled);
+    public boolean isNotDisabled() {
+        return !disabledState.get();
     }
 
     @Override

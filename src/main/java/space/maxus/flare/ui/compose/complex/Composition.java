@@ -16,13 +16,14 @@ import space.maxus.flare.util.FlareUtil;
 import java.util.*;
 
 public interface Composition extends Composable, Configurable<Composition> {
-    List<PackedComposable> fitIn(ComposableSpace space);
-    List<PackedComposable> children();
-
     @Contract("_ -> new")
     static @NotNull Composition list(PackedComposable... comps) {
         return new ExplicitComposition(Arrays.asList(comps));
     }
+
+    List<PackedComposable> fitIn(ComposableSpace space);
+
+    List<PackedComposable> children();
 
     @Override
     default boolean rightClick(@NotNull InventoryClickEvent e) {

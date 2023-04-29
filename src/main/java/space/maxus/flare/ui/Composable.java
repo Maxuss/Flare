@@ -14,6 +14,7 @@ import java.util.Map;
 
 public interface Composable {
     Frame root();
+
     void injectRoot(Frame root);
 
     ItemStack renderAt(Slot slot);
@@ -60,6 +61,7 @@ public interface Composable {
      * its value, this component will be marked dirty.
      * <p>
      * Not to be confused with {@link #into(ReactiveState)}.
+     *
      * @param state The state to be bound
      * @return This composable
      */
@@ -72,9 +74,10 @@ public interface Composable {
      * Sets provided ReactiveState value to this Composable reference.
      * <p>
      * Not to be confused with {@link #bind(ReactiveState)}.
+     *
      * @param state The state to be set
+     * @param <T>   The generic type of this composable
      * @return This composable
-     * @param <T> The generic type of this composable
      */
     @SuppressWarnings("unchecked")
     default <T extends Composable> Composable into(ReactiveState<T> state) {

@@ -10,11 +10,6 @@ import space.maxus.flare.react.ReactiveState;
 import java.util.function.BiConsumer;
 
 public interface Button extends ProviderRendered, Configurable<Button> {
-    boolean isDisabled();
-    boolean isNotDisabled();
-    void setDisabled(boolean disabled);
-    ReactiveState<Boolean> getDisabledState();
-
     static Builder builder(ItemProvider item, boolean disabled) {
         return new ButtonImpl.ButtonBuilderImpl(item).disabled(disabled);
     }
@@ -28,10 +23,16 @@ public interface Button extends ProviderRendered, Configurable<Button> {
         return new ButtonImpl.ButtonBuilderImpl(item).onClick(onClick).build();
     }
 
+    boolean isDisabled();
+
+    void setDisabled(boolean disabled);
+
+    boolean isNotDisabled();
+
+    ReactiveState<Boolean> getDisabledState();
+
     @FunctionalInterface
     interface ClickHandler {
-        boolean click(@NotNull Button self, @NotNull InventoryClickEvent e);
-
         @Contract(pure = true)
         static @NotNull ClickHandler noop() {
             return (btn, e) -> true;
@@ -43,6 +44,8 @@ public interface Button extends ProviderRendered, Configurable<Button> {
                 return true;
             };
         }
+
+        boolean click(@NotNull Button self, @NotNull InventoryClickEvent e);
     }
 
     interface CancellingClickHandler extends ClickHandler {
@@ -57,10 +60,15 @@ public interface Button extends ProviderRendered, Configurable<Button> {
 
     interface Builder {
         Button build();
+
         Builder disabled(boolean disabled);
+
         Builder onClick(ClickHandler handler);
+
         Builder onRightClick(ClickHandler handler);
+
         Builder onLeftClick(ClickHandler handler);
+
         Builder onShiftClick(ClickHandler handler);
     }
 }
