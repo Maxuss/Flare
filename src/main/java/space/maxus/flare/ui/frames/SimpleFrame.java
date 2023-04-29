@@ -1,8 +1,7 @@
 package space.maxus.flare.ui.frames;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.ui.Dimensions;
@@ -10,13 +9,20 @@ import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
-@RequiredArgsConstructor
+@Getter
 public abstract class SimpleFrame extends Frame {
     protected final @NotNull Dimensions dimensions;
+    protected final @NotNull ReactiveInventoryHolder holder;
 
     protected SimpleFrame() {
-        this(Dimensions.SIX_BY_NINE);
+        this.dimensions = Dimensions.SIX_BY_NINE;
+        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
+        this.init();
+    }
+
+    public SimpleFrame(@NotNull Dimensions dimensions) {
+        this.dimensions = dimensions;
+        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
         this.init();
     }
 
@@ -24,7 +30,7 @@ public abstract class SimpleFrame extends Frame {
     public abstract void init();
 
     @Override
-    public @NotNull Inventory baseInventory() {
-        return new ReactiveInventoryHolder(this, dimensions.getTotalSize()).getInventoryNoRender();
+    public @NotNull Inventory selfInventory() {
+        return holder.getInventoryNoRender();
     }
 }

@@ -29,7 +29,7 @@ public class ReactiveInventoryHolder implements InventoryHolder {
     @NotNull
     @Override
     public Inventory getInventory() {
-        frame.render(inventory);
+        frame.render();
         return inventory;
     }
 }

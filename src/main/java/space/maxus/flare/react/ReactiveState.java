@@ -4,6 +4,8 @@ import com.google.common.base.MoreObjects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ReactiveState<V> implements ReactiveNotifier<V> {
@@ -33,8 +35,21 @@ public class ReactiveState<V> implements ReactiveNotifier<V> {
         getSubscriberList().notify(newValue);
     }
 
-    public @Nullable V get() {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public void setOpt(@NotNull Optional<V> optValue) {
+        this.value.setRelease(optValue.orElse(null));
+    }
+
+    public @NotNull V get() {
+        return Objects.requireNonNull(getOrNull(), "State was null");
+    }
+
+    public @Nullable V getOrNull() {
         return this.value.get();
+    }
+
+    public @NotNull Optional<V> getOptional() {
+        return Optional.ofNullable(getOrNull());
     }
 
     @Override

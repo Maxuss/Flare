@@ -1,6 +1,5 @@
 package space.maxus.flare.handlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,7 +11,6 @@ import space.maxus.flare.ui.space.Slot;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class ClickHandler implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {

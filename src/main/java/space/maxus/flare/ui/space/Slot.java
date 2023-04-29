@@ -5,9 +5,12 @@ import lombok.Data;
 import org.checkerframework.common.value.qual.IntRange;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
-public class Slot implements Comparable<Slot> {
+public class Slot implements Comparable<Slot>, ComposableSpace {
     private final int row;
     private final int column;
 
@@ -95,5 +98,10 @@ public class Slot implements Comparable<Slot> {
     @Override
     public int compareTo(@NotNull Slot o) {
         return Integer.compare(this.rawSlot(), o.rawSlot());
+    }
+
+    @Override
+    public Set<Slot> slots() {
+        return Collections.singleton(this);
     }
 }

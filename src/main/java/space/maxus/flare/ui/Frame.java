@@ -1,12 +1,17 @@
 package space.maxus.flare.ui;
 
 import com.google.common.collect.Sets;
-import lombok.extern.slf4j.Slf4j;
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
+import space.maxus.flare.react.ReactiveState;
+import space.maxus.flare.react.ReactivityProvider;
 import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.FlareUtil;
@@ -16,19 +21,31 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
-@Slf4j
-public abstract class Frame {
+public abstract class Frame implements ReactivityProvider {
     protected final @NotNull ConcurrentHashMap<@NotNull ComposableSpace, @NotNull Composable> composed = new ConcurrentHashMap<>();
+    protected final AtomicBoolean isDirty = new AtomicBoolean(false);
+    private final AtomicReference<@Nullable BukkitTask> renderTask = new AtomicReference<>(null);
+    private final Object renderLock = new Object();
 
-    public void render(@NotNull Inventory inside) {
-        final ItemStack[] contents = new ItemStack[inside.getSize()];
-        composed.forEach((key, value) -> {
-            for(Slot slot: key.slots()) {
-                contents[slot.rawSlot()] = value.renderAt(slot);
-            }
-        });
-        inside.setContents(contents);
+    @Override
+    public <V> ReactiveState<V> useState(@Nullable V initial) {
+        return new ReactiveState<>(initial);
+    }
+
+    public void render() {
+        synchronized (renderLock) {
+            Inventory inventory = this.selfInventory();
+            final ItemStack[] contents = new ItemStack[inventory.getSize()];
+            composed.forEach((key, value) -> {
+                for (Slot slot : key.slots()) {
+                    contents[slot.rawSlot()] = value.renderAt(slot);
+                }
+            });
+            inventory.setContents(contents);
+        }
     }
 
     public @NotNull ConcurrentMap<ComposableSpace, Composable> composableMap() {
@@ -36,16 +53,41 @@ public abstract class Frame {
     }
 
     public void compose(@NotNull ComposableSpace space, @NotNull Composable element) {
+        element.injectRoot(this);
         this.composed.put(space, element);
     }
 
+    public void compose(@NotNull PackedComposable packed) {
+        this.compose(packed.getSpace(), packed.getComposable());
+    }
+
+    public void markDirty() {
+        if (this.renderTask.get() != null)
+            return;
+        this.isDirty.setRelease(true);
+        // Only render next tick
+        this.renderTask.set(Bukkit.getScheduler().runTaskLaterAsynchronously(
+                Flare.getHook(),
+                () -> {
+                    if (!this.isDirty.get())
+                        return;
+                    this.render();
+                    this.isDirty.setRelease(false);
+                    this.renderTask.set(null);
+                },
+                1L
+        ));
+    }
+
     public abstract void init();
-    public abstract @NotNull Inventory baseInventory();
+
+    public abstract @NotNull Inventory selfInventory();
+
     public final boolean fireLeftClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {
         boolean res = leftClick(slot, e);
         return composed.entrySet().stream()
                 .filter(entry -> entry.getKey().slots().contains(slot))
-                .findFirst()
+                .reduce((a, b) -> b)
                 .map(entry -> entry.getValue().leftClick(e))
                 .orElse(true) || res;
     }
@@ -54,7 +96,7 @@ public abstract class Frame {
         boolean res = rightClick(slot, e);
         return composed.entrySet().stream()
                 .filter(entry -> entry.getKey().slots().contains(slot))
-                .findFirst()
+                .reduce((a, b) -> b)
                 .map(entry -> entry.getValue().rightClick(e))
                 .orElse(true) || res;
     }
@@ -63,7 +105,7 @@ public abstract class Frame {
         genericClick(slot, e);
         composed.entrySet().stream()
                 .filter(entry -> entry.getKey().slots().contains(slot))
-                .findFirst()
+                .reduce((a, b) -> b)
                 .ifPresent(entry -> entry.getValue().click(e));
     }
 
@@ -71,7 +113,7 @@ public abstract class Frame {
         boolean res = shiftClick(slot, e);
         return composed.entrySet().stream()
                 .filter(entry -> entry.getKey().slots().contains(slot))
-                .findFirst()
+                .reduce((a, b) -> b)
                 .map(entry -> entry.getValue().shiftFrom(e))
                 .orElse(true) || res;
     }

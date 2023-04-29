@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 @Data
-public class StaticItemProvider implements ItemProvider {
+public class StillItemProvider implements ItemProvider {
     private final @Nullable ItemStack stack;
 
     @Override

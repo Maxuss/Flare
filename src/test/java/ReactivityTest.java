@@ -22,8 +22,8 @@ class ReactivityTest {
         state2.set(null);
         state1.set("A");
         state1.set(null);
-        Assertions.assertNull(state1.get());
-        Assertions.assertNull(state2.get());
+        Assertions.assertNull(state1.getOrNull());
+        Assertions.assertNull(state2.getOrNull());
     }
 
     private final ReactiveState<String> globalReactive = new ReactiveState<>("Origin");

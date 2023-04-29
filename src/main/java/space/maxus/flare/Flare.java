@@ -32,9 +32,8 @@ public class Flare {
     }
 
     public Inventory open(@NotNull Frame frame, Player player) {
-        Inventory base = frame.baseInventory();
-        frame.render(base);
-        player.openInventory(base);
-        return base;
+        frame.render();
+        player.openInventory(frame.selfInventory());
+        return frame.selfInventory();
     }
 }

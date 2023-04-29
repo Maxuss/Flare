@@ -16,7 +16,6 @@ java {
 
 dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
-    // paperweight.devBundle("com.example.paperfork", "1.19.4-R0.1-SNAPSHOT")
 
     testImplementation(platform("org.junit:junit-bom:5.9.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
