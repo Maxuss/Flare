@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.Set;
@@ -27,7 +28,11 @@ public class SubscriberList<V> {
 
     public void notify(@Nullable V changedState) {
         for (ReactiveSubscriber<V> subscriber : this.subscribers) {
-            subscriber.onStateChange(changedState);
+            try {
+                subscriber.onStateChange(changedState);
+            } catch (ReactiveException e) {
+                Flare.LOGGER.error("Error while notifying subscriber", e);
+            }
         }
     }
 

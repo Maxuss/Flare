@@ -7,6 +7,7 @@ import org.apache.commons.lang3.concurrent.Computable;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.ReactiveItemProvider;
 import space.maxus.flare.text.ReactiveComponent;
@@ -20,7 +21,11 @@ public class Reactive {
         ReactiveComponent<V> component = ReactiveComponent.reactive(producer);
         state.subscribe(component);
         // Populating original value
-        component.onStateChange(state.getOrNull());
+        try {
+            component.onStateChange(state.getOrNull());
+        } catch (ReactiveException e) {
+            Flare.LOGGER.error("Error while populating reactive component", e);
+        }
 
         return component;
     }

@@ -22,10 +22,10 @@ public class MockFrame extends SimpleFrame {
                 ).inside(Slot.ALL)
         );
 
-        this.compose(
-                new MockFC(Material.GOLD_INGOT)
-                        .inside(Rect.of(Slot.ROW_TWO_SLOT_TWO, Slot.ROW_FIVE_SLOT_EIGHT))
-        );
+        this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_TWO, Slot.ROW_THREE_SLOT_TWO)));
+        this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_FOUR, Slot.ROW_THREE_SLOT_FOUR)));
+        this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_SIX, Slot.ROW_THREE_SLOT_SIX)));
+        this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_EIGHT, Slot.ROW_THREE_SLOT_EIGHT)));
     }
 
     record Context(String value, Date today) {
