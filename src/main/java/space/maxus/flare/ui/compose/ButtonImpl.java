@@ -2,6 +2,7 @@ package space.maxus.flare.ui.compose;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
@@ -31,7 +32,7 @@ final class ButtonImpl extends RootReferencing implements Button {
 
     @Override
     public void click(@NotNull InventoryClickEvent e) {
-        if(this.isNotDisabled())
+        if(this.isNotDisabled() && e.getClick() != ClickType.DOUBLE_CLICK) // skipping double clicks
             this.genericClick.click(this, e);
     }
 

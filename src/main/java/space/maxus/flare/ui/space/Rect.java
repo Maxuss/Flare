@@ -1,12 +1,15 @@
 package space.maxus.flare.ui.space;
 
 import com.google.common.collect.ImmutableSet;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.util.MinMaxPair;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@ToString @EqualsAndHashCode
 public class Rect implements ComposableSpace {
     private final Set<Slot> slots;
 

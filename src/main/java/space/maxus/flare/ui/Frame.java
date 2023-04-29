@@ -6,7 +6,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
@@ -17,18 +16,18 @@ import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.FlareUtil;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public abstract class Frame implements ReactivityProvider {
-    protected final @NotNull ConcurrentHashMap<@NotNull ComposableSpace, @NotNull Composable> composed = new ConcurrentHashMap<>();
+    protected final @NotNull Map<@NotNull ComposableSpace, @NotNull Composable> composed = new LinkedHashMap<>();
     protected final AtomicBoolean isDirty = new AtomicBoolean(false);
-    private final AtomicReference<@Nullable BukkitTask> renderTask = new AtomicReference<>(null);
-    private final Object renderLock = new Object();
+    private final ReadWriteLock renderLock = new ReentrantReadWriteLock();
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
@@ -36,25 +35,33 @@ public abstract class Frame implements ReactivityProvider {
     }
 
     public void render() {
-        synchronized (renderLock) {
-            Inventory inventory = this.selfInventory();
-            final ItemStack[] contents = new ItemStack[inventory.getSize()];
-            composed.forEach((key, value) -> {
-                for (Slot slot : key.slots()) {
-                    contents[slot.rawSlot()] = value.renderAt(slot);
-                }
-            });
-            inventory.setContents(contents);
-        }
+        Lock readLock = renderLock.readLock();
+        readLock.lock();
+
+        Inventory inventory = this.selfInventory();
+        final ItemStack[] contents = new ItemStack[inventory.getSize()];
+        composed.forEach((key, value) -> {
+            for (Slot slot : key.slots()) {
+                contents[slot.rawSlot()] = value.renderAt(slot);
+            }
+        });
+        inventory.setContents(contents);
+
+        readLock.unlock();
     }
 
-    public @NotNull ConcurrentMap<ComposableSpace, Composable> composableMap() {
+    public @NotNull Map<ComposableSpace, Composable> composableMap() {
         return composed;
     }
 
     public void compose(@NotNull ComposableSpace space, @NotNull Composable element) {
+        Lock writeLock = this.renderLock.writeLock();
+        writeLock.lock();
+
         element.injectRoot(this);
         this.composed.put(space, element);
+
+        writeLock.unlock();
     }
 
     public void compose(@NotNull PackedComposable packed) {
@@ -62,21 +69,20 @@ public abstract class Frame implements ReactivityProvider {
     }
 
     public void markDirty() {
-        if (this.renderTask.get() != null)
+        if (this.isDirty.get())
             return;
         this.isDirty.setRelease(true);
         // Only render next tick
-        this.renderTask.set(Bukkit.getScheduler().runTaskLaterAsynchronously(
+        Bukkit.getScheduler().runTaskLaterAsynchronously(
                 Flare.getHook(),
                 () -> {
                     if (!this.isDirty.get())
                         return;
                     this.render();
                     this.isDirty.setRelease(false);
-                    this.renderTask.set(null);
                 },
                 1L
-        ));
+        );
     }
 
     public abstract void init();
