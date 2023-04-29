@@ -55,8 +55,30 @@ public interface Composable {
         root().markDirty();
     }
 
-    default Composable bindState(ReactiveState<?> state) {
+    /**
+     * Binds provided ReactiveState to this Composable. This means that every time the ReactiveState changes
+     * its value, this component will be marked dirty.
+     * <p>
+     * Not to be confused with {@link #into(ReactiveState)}.
+     * @param state The state to be bound
+     * @return This composable
+     */
+    default Composable bind(ReactiveState<?> state) {
         state.subscribe(v -> markDirty());
+        return this;
+    }
+
+    /**
+     * Sets provided ReactiveState value to this Composable reference.
+     * <p>
+     * Not to be confused with {@link #bind(ReactiveState)}.
+     * @param state The state to be set
+     * @return This composable
+     * @param <T> The generic type of this composable
+     */
+    @SuppressWarnings("unchecked")
+    default <T extends Composable> Composable into(ReactiveState<T> state) {
+        state.set((T) this);
         return this;
     }
 

@@ -6,12 +6,15 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.Stacks;
 import space.maxus.flare.react.Reactive;
+import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.FunctionComposable;
 import space.maxus.flare.util.FlareUtil;
 
 public class MockFC extends FunctionComposable<Material> {
+    private final ReactiveState<Button> button = useState(null);
+
     public MockFC(Material props) {
         super(props);
     }
@@ -27,7 +30,7 @@ public class MockFC extends FunctionComposable<Material> {
         return Button.create(
                 item,
                 Button.ClickHandler.cancelling((btn, e) -> counter.set(counter.get() + 1))
-        );
+        ).into(button);
     }
 
     @Override
@@ -50,6 +53,9 @@ public class MockFC extends FunctionComposable<Material> {
 
     @Override
     public boolean handleShiftFrom(@NotNull InventoryClickEvent e) {
+        // only in shift click we set button to different
+        Button btn = button.get();
+        btn.setDisabled(!btn.isDisabled());
         e.getWhoClicked().sendMessage(FlareUtil.text("<red>Shift FROM"));
         return true;
     }

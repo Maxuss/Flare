@@ -18,11 +18,10 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
     protected P props;
 
     public FunctionComposable(P props) {
-        this.activate(props);
+        this.props = props;
     }
 
-    public final void activate(P props) {
-        this.props = props;
+    public final void activate() {
         this.composed = this.compose();
     }
 
@@ -35,6 +34,8 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public void injectRoot(Frame root) {
+        // we activate the component at root injection
+        this.activate();
         this.composed.injectRoot(root);
     }
 
@@ -45,7 +46,8 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public void markDirty() {
-        this.composed.markDirty();
+        if(this.composed != null)
+            this.composed.markDirty(); // catching edge-case here, when a reactive state is set before composition
     }
 
     public boolean handleShiftFrom(@NotNull InventoryClickEvent e) {
@@ -97,5 +99,10 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
         return new ComposableReactiveState<>(initial, new AtomicReference<>(this));
+    }
+
+    @Override
+    public <V> ReactiveState<V> useUnboundState(@Nullable V initial) {
+        return new ReactiveState<>(initial);
     }
 }
