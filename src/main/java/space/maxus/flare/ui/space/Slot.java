@@ -95,6 +95,9 @@ public class Slot implements Comparable<Slot>, ComposableSpace {
     public static final Slot ROW_SIX_SLOT_EIGHT = new Slot(5, 7);
     public static final Slot ROW_SIX_SLOT_NINE = new Slot(5, 8);
 
+    // Special
+    public static final Rect ALL = new Rect(Slot.ROW_ONE_SLOT_ONE, Slot.ROW_SIX_SLOT_NINE);
+
     @Override
     public int compareTo(@NotNull Slot o) {
         return Integer.compare(this.rawSlot(), o.rawSlot());

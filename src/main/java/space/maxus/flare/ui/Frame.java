@@ -1,6 +1,8 @@
 package space.maxus.flare.ui;
 
 import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
+import lombok.experimental.StandardException;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -26,12 +28,38 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public abstract class Frame implements ReactivityProvider {
     protected final @NotNull Map<@NotNull ComposableSpace, @NotNull Composable> composed = new LinkedHashMap<>();
+    private @Nullable Object context = null;
     protected final AtomicBoolean isDirty = new AtomicBoolean(false);
     private final ReadWriteLock renderLock = new ReentrantReadWriteLock();
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
         return new ReactiveState<>(initial);
+    }
+
+    public <T> void useContext(@Nullable T context) {
+        this.context = context;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> @Nullable T contextOrNull() {
+        if(context == null)
+            return null;
+        Class<? super T> tClass = new TypeToken<T>() { }.getRawType();
+        if(!tClass.isInstance(context))
+            return null;
+        return (T) this.context;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> @NotNull T context() throws InvalidContextValue {
+        if(context == null)
+            throw new InvalidContextValue("Context value was null when requested");
+        Class<? super T> tClass = new TypeToken<T>() { }.getRawType();
+        if(!tClass.isInstance(context))
+            throw new InvalidContextValue("Context value was of type %s, not of requested type %s".formatted(context.getClass(), tClass));
+        return (T) this.context;
+
     }
 
     public void render() {
@@ -169,5 +197,10 @@ public abstract class Frame implements ReactivityProvider {
     public boolean drag(@NotNull Map<Slot, ItemStack> newItems, @NotNull InventoryDragEvent e) {
         // No extra logic here
         return true;
+    }
+
+    @StandardException
+    static class InvalidContextValue extends Exception {
+
     }
 }

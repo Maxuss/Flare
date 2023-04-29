@@ -1,9 +1,11 @@
 package space.maxus.flare.ui;
 
+import lombok.SneakyThrows;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
@@ -56,5 +58,14 @@ public interface Composable {
     default Composable bindState(ReactiveState<?> state) {
         state.subscribe(v -> markDirty());
         return this;
+    }
+
+    @SneakyThrows
+    default <T> @NotNull T context() {
+        return root().context();
+    }
+
+    default <T> @Nullable T contextOrNull() {
+        return root().contextOrNull();
     }
 }
