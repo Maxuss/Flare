@@ -9,6 +9,10 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
+repositories {
+    mavenCentral()
+}
+
 group = "space.maxus.flare"
 version = "1.0"
 description = "Test plugin for Flare Lib"

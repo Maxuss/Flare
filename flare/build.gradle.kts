@@ -1,13 +1,14 @@
-
 plugins {
     `java-library`
     id("io.papermc.paperweight.userdev") version "1.5.3"
     id("io.freefair.lombok") version "8.0.1"
+    `maven-publish`
+    signing
 }
 
 group = "space.maxus"
-version = "0.1"
-description = "Reactive Inventory UI Library"
+version = "0.3.1"
+description = "Reactive Spigot Inventory UI Library"
 
 java {
     // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
@@ -39,6 +40,82 @@ tasks {
     }
     processResources {
         filteringCharset = Charsets.UTF_8.name() // We want UTF-8 for everything
+    }
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    signing {
+        val signingPassword: String? by project
+        val signingKey = providers.environmentVariable("IN_MEMORY_KEY").forUseAtConfigurationTime()
+        if(signingKey.isPresent) {
+            useInMemoryPgpKeys(signingKey.get(), signingPassword)
+            sign(publishing.publications)
+        }
+    }
+
+    publishing {
+        repositories {
+            maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                name = "ossrh"
+                credentials(PasswordCredentials::class)
+                mavenContent {
+                    releasesOnly()
+                }
+            }
+
+            maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                name = "ossrh"
+                credentials(PasswordCredentials::class)
+                mavenContent {
+                    snapshotsOnly()
+                }
+            }
+        }
+
+        publications {
+            register<MavenPublication>(project.name) {
+                from(getComponents()["java"])
+                artifact(getTasks().jar.get().outputs.files.single())
+
+                groupId = project.group.toString()
+                artifactId = project.name.toLowerCase()
+                version = project.version.toString()
+
+                pom {
+                    name.set(project.name)
+                    description.set(project.description)
+                    url.set("https://github.com/Maxuss/Flare")
+                    licenses {
+                        license {
+                            name.set("Apache-2.0")
+                            url.set("https://opensource.org/licenses/Apache-2.0")
+                        }
+                    }
+                    developers {
+                        developer {
+                            name.set("maxuss")
+                        }
+                    }
+                    scm {
+                        url.set(
+                            "https://github.com/Maxuss/Flare.git"
+                        )
+                        connection.set(
+                            "scm:git:git://github.com/Maxuss/Flare.git"
+                        )
+                        developerConnection.set(
+                            "scm:git:git://github.com/Maxuss/Flare.git"
+                        )
+                    }
+                    issueManagement {
+                        url.set("https://github.com/Maxuss/Flare/issues")
+                    }
+                }
+            }
+        }
     }
 
     /*
