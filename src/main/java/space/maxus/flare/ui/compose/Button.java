@@ -9,7 +9,7 @@ import space.maxus.flare.react.ReactiveState;
 
 import java.util.function.BiConsumer;
 
-public interface Button extends ProviderRendered, Configurable<Button> {
+public sealed interface Button extends ProviderRendered, Configurable<Button> permits ButtonImpl {
     static Builder builder(ItemProvider item, boolean disabled) {
         return new ButtonImpl.ButtonBuilderImpl(item).disabled(disabled);
     }
@@ -23,13 +23,19 @@ public interface Button extends ProviderRendered, Configurable<Button> {
         return new ButtonImpl.ButtonBuilderImpl(item).onClick(onClick).build();
     }
 
-    boolean isDisabled();
+    default boolean isDisabled() {
+        return disabledState().get();
+    }
 
-    void setDisabled(boolean disabled);
+    default void setDisabled(boolean disabled) {
+        disabledState().set(disabled);
+    }
 
-    boolean isNotDisabled();
+    default boolean isNotDisabled() {
+        return !disabledState().get();
+    }
 
-    ReactiveState<Boolean> getDisabledState();
+    ReactiveState<Boolean> disabledState();
 
     @FunctionalInterface
     interface ClickHandler {

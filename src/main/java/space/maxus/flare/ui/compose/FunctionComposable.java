@@ -14,8 +14,6 @@ import space.maxus.flare.ui.compose.complex.Composition;
 import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public abstract class FunctionComposable<P> implements Composable, ReactivityProvider {
     protected P props;
     private Composable composed;
@@ -111,7 +109,7 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
-        return new ComposableReactiveState<>(initial, new AtomicReference<>(this));
+        return new ComposableReactiveState<>(initial, this);
     }
 
     @Override

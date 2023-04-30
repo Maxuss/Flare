@@ -9,10 +9,7 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 final class ButtonImpl extends RootReferencing implements Button {
-    @Getter
     private final ReactiveState<Boolean> disabledState;
     @Getter
     private final ItemProvider provider;
@@ -22,7 +19,7 @@ final class ButtonImpl extends RootReferencing implements Button {
     private final ClickHandler shiftClick;
 
     ButtonImpl(boolean disabled, @NotNull ItemProvider provider, ClickHandler genericClick, ClickHandler rightClick, ClickHandler leftClick, ClickHandler shiftClick) {
-        this.disabledState = new ComposableReactiveState<>(disabled, new AtomicReference<>(this));
+        this.disabledState = new ComposableReactiveState<>(disabled, this);
         this.provider = provider;
         this.genericClick = genericClick;
         this.rightClick = rightClick;
@@ -52,24 +49,14 @@ final class ButtonImpl extends RootReferencing implements Button {
     }
 
     @Override
-    public boolean isDisabled() {
-        return disabledState.get();
-    }
-
-    @Override
-    public void setDisabled(boolean disabled) {
-        this.disabledState.set(disabled);
-    }
-
-    @Override
-    public boolean isNotDisabled() {
-        return !disabledState.get();
-    }
-
-    @Override
     public Button configure(Configurator<Button> configurator) {
         configurator.configure(this);
         return this;
+    }
+
+    @Override
+    public ReactiveState<Boolean> disabledState() {
+        return disabledState;
     }
 
     @RequiredArgsConstructor

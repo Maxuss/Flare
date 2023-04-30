@@ -13,7 +13,7 @@ public interface ItemProvider {
         return new StillItemProvider(stack);
     }
 
-    static @NotNull <V> ItemProvider reactive(@NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
+    static @NotNull <V> ReactiveItemProvider<V> reactive(@NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
         return new ReactiveItemProvider<>(provider);
     }
 

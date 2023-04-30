@@ -5,6 +5,7 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apache.commons.lang3.concurrent.Computable;
 import org.apache.commons.lang3.concurrent.Memoizer;
@@ -34,7 +35,7 @@ public class FlareUtil {
     }
 
     public Component text(String miniMessage) {
-        return MINI_MESSAGE.deserialize(miniMessage);
+        return MINI_MESSAGE.deserialize(miniMessage).decoration(TextDecoration.ITALIC, false);
     }
 
     public <I, O> Computable<I, O> memoize(Computable<I, O> producer) {

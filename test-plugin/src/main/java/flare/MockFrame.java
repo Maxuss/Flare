@@ -26,6 +26,9 @@ public class MockFrame extends SimpleFrame {
         this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_FOUR, Slot.ROW_THREE_SLOT_FOUR)));
         this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_SIX, Slot.ROW_THREE_SLOT_SIX)));
         this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_EIGHT, Slot.ROW_THREE_SLOT_EIGHT)));
+        this.compose(new TextFieldFC("Input text 1: ").inside(Rect.of(Slot.ROW_FOUR_SLOT_ONE, Slot.ROW_FOUR_SLOT_TWO)));
+        this.compose(new TextFieldFC("Input text 2: ").inside(Rect.of(Slot.ROW_FIVE_SLOT_ONE, Slot.ROW_FIVE_SLOT_TWO)));
+
     }
 
     record Context(String value, Date today) {

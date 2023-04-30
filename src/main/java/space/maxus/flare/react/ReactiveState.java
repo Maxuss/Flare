@@ -3,6 +3,7 @@ package space.maxus.flare.react;
 import com.google.common.base.MoreObjects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -28,6 +29,15 @@ public class ReactiveState<V> implements ReactiveNotifier<V> {
     @Override
     public @NotNull SubscriberList<V> getSubscriberList() {
         return subscriberList;
+    }
+
+    public <S extends ReactiveSubscriber<V>> void subscribeUpdate(S subscriber) {
+        getSubscriberList().subscribe(subscriber);
+        try {
+            subscriber.onStateChange(this.value.get());
+        } catch (ReactiveException e) {
+            Flare.LOGGER.error("Error while populating a subscriber", e);
+        }
     }
 
     public void set(@Nullable V newValue) {

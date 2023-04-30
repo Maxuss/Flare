@@ -68,5 +68,7 @@ public class Stacks {
         return withMeta(material, meta -> applyLore(meta, lore));
     }
 
-
+    public ItemStack withName(Material material, @NotNull String name) {
+        return withMeta(material, meta -> meta.displayName(FlareUtil.text(name)));
+    }
 }

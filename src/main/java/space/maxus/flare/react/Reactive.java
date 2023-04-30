@@ -30,12 +30,11 @@ public class Reactive {
         return component;
     }
 
-    @SuppressWarnings("unchecked")
     public <V> @NotNull ItemProvider item(@NotNull ReactiveState<V> state, @NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
         Validate.notNull(state, "Tried to hook an ItemProvider to a null state!");
         Validate.notNull(provider, "Tried to hook a null provider to an ItemProvider");
 
-        ReactiveItemProvider<V> item = (ReactiveItemProvider<V>) ItemProvider.reactive(provider);
+        ReactiveItemProvider<V> item = ItemProvider.reactive(provider);
         state.subscribe(item);
         // Populating original value
         item.onStateChange(state.getOrNull());
