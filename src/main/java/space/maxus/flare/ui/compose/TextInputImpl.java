@@ -11,7 +11,8 @@ import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
 import space.maxus.flare.util.Validator;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 final class TextInputImpl extends RootReferencing implements TextInput {
     @Getter
     private final ItemProvider provider;

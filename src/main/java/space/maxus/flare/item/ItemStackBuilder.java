@@ -73,7 +73,7 @@ public class ItemStackBuilder implements ItemProvider {
     }
 
     public ItemStackBuilder branch(boolean condition, Consumer<ItemStackBuilder> ifTrue, Consumer<ItemStackBuilder> ifFalse) {
-        if(condition) {
+        if (condition) {
             ifTrue.accept(this);
         } else {
             ifFalse.accept(this);
@@ -82,7 +82,7 @@ public class ItemStackBuilder implements ItemProvider {
     }
 
     public ItemStackBuilder branch(boolean condition, Consumer<ItemStackBuilder> ifTrue) {
-        if(condition)
+        if (condition)
             ifTrue.accept(this);
         return this;
     }

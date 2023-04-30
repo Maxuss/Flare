@@ -3,10 +3,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import space.maxus.flare.util.FlareUtil;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.text.ReactiveComponent;
+import space.maxus.flare.util.FlareUtil;
 
 import java.util.logging.Logger;
 

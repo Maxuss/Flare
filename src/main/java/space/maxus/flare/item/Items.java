@@ -17,15 +17,13 @@ import java.util.function.Consumer;
 @Getter
 @Slf4j
 public class Items {
-    @Getter
+    public <T extends ItemMeta> Consumer<T> loreMeta(String lore) {
+        return meta -> applyLore(meta, lore);
+    }    @Getter
     private final ItemStack genericErrorItem = head(
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBlZTI4YjNkZjBkMDI1MGUyNDE2ZTJhNjJkN2RkY2Y5ZjJjOWNjODIzNjkwNDQ2OWZhMWY5MWYyYTk1OTVmZiJ9fX0=",
             loreMeta("An <red>unknown error</red> occurred when building this item.")
     );
-
-    public <T extends ItemMeta> Consumer<T> loreMeta(String lore) {
-        return meta -> applyLore(meta, lore);
-    }
 
     public ItemStack head(String skin) {
         return head(skin, meta -> {
@@ -77,4 +75,6 @@ public class Items {
     private void applyLore(@NotNull ItemMeta meta, String lore) {
         meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).toList());
     }
+
+
 }

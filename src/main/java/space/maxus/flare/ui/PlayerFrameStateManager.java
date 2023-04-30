@@ -43,7 +43,7 @@ public class PlayerFrameStateManager implements Listener {
         if (e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW) {
             if (e.getInventory().getHolder() instanceof ReactiveInventoryHolder holder)
                 saveSnapshot(e.getPlayer(), holder.getFrame());
-        } else if(e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
+        } else if (e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
             // TELEPORT is the Magic value for internal inventory closing
             snapshots.remove(e.getPlayer().getUniqueId());
         }

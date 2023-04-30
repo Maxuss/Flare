@@ -22,7 +22,7 @@ public class MemoizedReactiveComputable<I, O> implements Computable<I, O>, React
         try {
             this.currentValue = this.compute(state);
         } catch (InterruptedException e) {
-            if(e.getCause() instanceof ThreadDeath) {
+            if (e.getCause() instanceof ThreadDeath) {
                 Thread.currentThread().interrupt();
             } else {
                 throw new ReactiveException("Error while computing reactive state", e);

@@ -41,7 +41,8 @@ public class FlareUtil {
 
     @SuppressWarnings("unchecked")
     public <G> Class<G> genericClass() {
-        return (Class<G>) new TypeToken<G>() { }.getRawType();
+        return (Class<G>) new TypeToken<G>() {
+        }.getRawType();
     }
 
     public <I, O> Computable<I, O> memoize(Computable<I, O> producer) {

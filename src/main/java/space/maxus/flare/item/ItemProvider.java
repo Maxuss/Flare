@@ -12,9 +12,11 @@ public interface ItemProvider {
     static @NotNull ItemProvider still(@Nullable ItemStack stack) {
         return new StillItemProvider(stack);
     }
+
     static @NotNull ItemProvider still(@NotNull ItemStackBuilder builder) {
         return new StillItemProvider(builder.build());
     }
+
     static @NotNull <V> ReactiveItemProvider<V> reactive(@NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
         return new ReactiveItemProvider<>(provider);
     }

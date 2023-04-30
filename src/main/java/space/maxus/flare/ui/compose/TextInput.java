@@ -36,28 +36,37 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
     default boolean isDisabled() {
         return disabledState().get();
     }
-    default boolean isNotDisabled() {
-        return !disabledState().get();
-    }
+
     default void setDisabled(boolean disabled) {
         disabledState().set(disabled);
     }
+
+    default boolean isNotDisabled() {
+        return !disabledState().get();
+    }
+
     default @NotNull String getText() {
         return onTextChange().get();
     }
+
     default void setText(@NotNull String text) {
         onTextChange().set(text);
     }
+
     default @NotNull String getPrompt() {
         return promptState().get();
     }
+
     default void setPrompt(String prompt) {
         promptState().set(prompt);
     }
 
     ReactiveState<String> onTextChange();
+
     ReactiveState<String> promptState();
+
     ReactiveState<Boolean> disabledState();
+
     @Nullable Validator getValidator();
 
     @Override
@@ -72,7 +81,7 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
 
     @Override
     default void click(@NotNull InventoryClickEvent e) {
-        if(isDisabled())
+        if (isDisabled())
             return;
         Inventory current = e.getInventory();
         Prompt prompt = getValidator() == null ? new SimpleInvBoundPrompt(getPrompt(), onTextChange(), current) : new ValidatingInvBoundPrompt(getValidator(), getPrompt(), onTextChange(), current);
@@ -90,8 +99,11 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
         TextInput build();
 
         Builder disabled(boolean disabled);
+
         Builder prompt(String prompt);
+
         Builder initialText(String initialText);
+
         Builder validate(Validator validator);
     }
 }

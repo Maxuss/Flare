@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import space.maxus.flare.util.FlareUtil;
 import space.maxus.flare.react.ReactiveState;
+import space.maxus.flare.util.FlareUtil;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 class ReactivityTest {
     static final Logger logger = Logger.getLogger(ReactivityTest.class.getName());
+    private final ReactiveState<String> globalReactive = new ReactiveState<>("Origin");
 
     @Test
     void testReactiveStates() {
@@ -26,7 +27,6 @@ class ReactivityTest {
         Assertions.assertNull(state2.getOrNull());
     }
 
-    private final ReactiveState<String> globalReactive = new ReactiveState<>("Origin");
     @Test
     void testGlobalReactiveStates() {
         globalReactive.subscribe((state) -> logger.info("State changed: " + state));
@@ -44,7 +44,7 @@ class ReactivityTest {
         });
 
         ExecutorService pool = FlareUtil.executor(10);
-        for(int i = 0; i < 10; i ++) {
+        for (int i = 0; i < 10; i++) {
             int solid = i;
             pool.execute(() -> origin.set("Thread #" + solid));
         }
