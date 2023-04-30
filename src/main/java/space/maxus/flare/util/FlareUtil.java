@@ -2,6 +2,7 @@ package space.maxus.flare.util;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
@@ -36,6 +37,11 @@ public class FlareUtil {
 
     public Component text(String miniMessage) {
         return MINI_MESSAGE.deserialize(miniMessage).decoration(TextDecoration.ITALIC, false);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <G> Class<G> genericClass() {
+        return (Class<G>) new TypeToken<G>() { }.getRawType();
     }
 
     public <I, O> Computable<I, O> memoize(Computable<I, O> producer) {

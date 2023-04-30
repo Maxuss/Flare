@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
+import space.maxus.flare.util.Validator;
 
 @ToString @EqualsAndHashCode(callSuper = true)
 final class TextInputImpl extends RootReferencing implements TextInput {
@@ -16,20 +18,23 @@ final class TextInputImpl extends RootReferencing implements TextInput {
     private final ReactiveState<String> textState;
     private final ReactiveState<String> promptState;
     private final ReactiveState<Boolean> disabledState;
+    @Getter
+    private final @Nullable Validator validator;
 
     TextInputImpl(ItemProvider provider, boolean disabled) {
-        this(provider, disabled, "", "<yellow>Input text:");
+        this(provider, disabled, "", "<yellow>Input text:", null);
     }
 
-    TextInputImpl(ItemProvider provider, boolean disabled, String initialText, String prompt) {
+    TextInputImpl(ItemProvider provider, boolean disabled, String initialText, String prompt, @Nullable Validator validator) {
         this.provider = provider;
         this.textState = new ComposableReactiveState<>(initialText, this);
         this.promptState = new ComposableReactiveState<>(prompt, this);
         this.disabledState = new ComposableReactiveState<>(disabled, this);
+        this.validator = validator;
     }
 
     @Override
-    public ReactiveState<String> textState() {
+    public ReactiveState<String> onTextChange() {
         return textState;
     }
 
@@ -49,10 +54,11 @@ final class TextInputImpl extends RootReferencing implements TextInput {
         private @NotNull String prompt = "<yellow>Input text";
         private @NotNull String initialText = "";
         private boolean disabled = false;
+        private @Nullable Validator validator = null;
 
         @Override
         public TextInput build() {
-            return new TextInputImpl(provider, disabled, initialText, prompt);
+            return new TextInputImpl(provider, disabled, initialText, prompt, validator);
         }
 
         @Override
@@ -70,6 +76,12 @@ final class TextInputImpl extends RootReferencing implements TextInput {
         @Override
         public TextInput.Builder initialText(String initialText) {
             this.initialText = initialText;
+            return this;
+        }
+
+        @Override
+        public TextInput.Builder validate(Validator validator) {
+            this.validator = validator;
             return this;
         }
     }

@@ -25,7 +25,7 @@ public class ReactiveItemProvider<V> implements ItemProvider, ReactiveSubscriber
             if (e.getCause() instanceof ThreadDeath)
                 Thread.currentThread().interrupt();
             else {
-                this.current = Stacks.getGenericErrorItem();
+                this.current = Items.getGenericErrorItem();
                 Flare.LOGGER.error("Error while computing reactive item", e);
             }
         }

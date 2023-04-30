@@ -5,7 +5,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
-import space.maxus.flare.item.Stacks;
+import space.maxus.flare.item.Items;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.Composable;
@@ -29,7 +29,7 @@ public class MockFC extends FunctionComposable<Material> {
         var counter = useState(0);
         var item = Reactive.item(
                 counter,
-                count -> Stacks.withMeta(this.props,
+                count -> Items.withMeta(this.props,
                         meta -> meta.displayName(FlareUtil.text("<gold>You clicked <light_purple>%s".formatted(count)))
                 ));
         return Composition.list(

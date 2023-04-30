@@ -9,11 +9,14 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.react.ReactiveSubscriber;
 import space.maxus.flare.util.SimpleInvBoundPrompt;
+import space.maxus.flare.util.ValidatingInvBoundPrompt;
+import space.maxus.flare.util.Validator;
 
 public sealed interface TextInput extends ProviderRendered, Configurable<TextInput> permits TextInputImpl {
     @Contract("_ -> new")
@@ -40,10 +43,10 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
         disabledState().set(disabled);
     }
     default @NotNull String getText() {
-        return textState().get();
+        return onTextChange().get();
     }
     default void setText(@NotNull String text) {
-        textState().set(text);
+        onTextChange().set(text);
     }
     default @NotNull String getPrompt() {
         return promptState().get();
@@ -52,9 +55,10 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
         promptState().set(prompt);
     }
 
-    ReactiveState<String> textState();
+    ReactiveState<String> onTextChange();
     ReactiveState<String> promptState();
     ReactiveState<Boolean> disabledState();
+    @Nullable Validator getValidator();
 
     @Override
     default TextInput configure(@NotNull Configurator<TextInput> configurator) {
@@ -63,7 +67,7 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
     }
 
     default void onTextChange(ReactiveSubscriber<@NotNull String> change) {
-        this.textState().subscribe(change);
+        this.onTextChange().subscribe(change);
     }
 
     @Override
@@ -71,7 +75,7 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
         if(isDisabled())
             return;
         Inventory current = e.getInventory();
-        Prompt prompt = new SimpleInvBoundPrompt(getPrompt(), textState(), current);
+        Prompt prompt = getValidator() == null ? new SimpleInvBoundPrompt(getPrompt(), onTextChange(), current) : new ValidatingInvBoundPrompt(getValidator(), getPrompt(), onTextChange(), current);
         Player conversible = (Player) e.getWhoClicked();
         conversible.closeInventory(InventoryCloseEvent.Reason.TELEPORT);
         Conversation conv =
@@ -88,5 +92,6 @@ public sealed interface TextInput extends ProviderRendered, Configurable<TextInp
         Builder disabled(boolean disabled);
         Builder prompt(String prompt);
         Builder initialText(String initialText);
+        Builder validate(Validator validator);
     }
 }

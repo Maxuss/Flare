@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
-import space.maxus.flare.item.Stacks;
+import space.maxus.flare.item.Items;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.Composable;
@@ -25,9 +25,9 @@ public class HasherFC extends FunctionComposable<Void> {
     private final ReactiveState<byte[]> rawBytes = useState(new byte[16]);
     private final Computable<byte[], ItemStack> stackComputable = useMemo(rawBytes, bytes -> {
         String newName = "<gold>HASH: %s".formatted(Hashing.sha512().hashBytes(bytes).toString());
-        return Stacks.withMeta(Material.EMERALD, meta -> {
+        return Items.withMeta(Material.EMERALD, meta -> {
             meta.displayName(FlareUtil.text(newName));
-            Stacks.loreMeta("<gray>Original bytes: <yellow>%s".formatted(Base64.getEncoder().encodeToString(bytes))).accept(meta);
+            Items.loreMeta("<gray>Original bytes: <yellow>%s".formatted(Base64.getEncoder().encodeToString(bytes))).accept(meta);
         });
     });
 
