@@ -66,7 +66,7 @@ public class FlareUtil {
     }
 
     public @NotNull PlayerProfile createProfile(String withSkin) {
-        PlayerProfile profile = Bukkit.createProfile("null");
+        PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
         profile.setProperty(new ProfileProperty("textures", withSkin));
         return profile;
     }

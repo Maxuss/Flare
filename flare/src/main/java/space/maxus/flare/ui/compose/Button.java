@@ -6,10 +6,11 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
+import space.maxus.flare.ui.compose.extra.Checkbox;
 
 import java.util.function.BiConsumer;
 
-public sealed interface Button extends ProviderRendered, Configurable<Button> permits ButtonImpl {
+public interface Button extends ProviderRendered, Configurable<Button> {
     static Builder builder(ItemProvider item, boolean disabled) {
         return new ButtonImpl.ButtonBuilderImpl(item).disabled(disabled);
     }
@@ -21,6 +22,18 @@ public sealed interface Button extends ProviderRendered, Configurable<Button> pe
 
     static Button create(ItemProvider item, ClickHandler onClick) {
         return new ButtonImpl.ButtonBuilderImpl(item).onClick(onClick).build();
+    }
+
+    static @NotNull Checkbox checkbox(ItemProvider whenChecked, ItemProvider whenUnchecked) {
+        return new Checkbox(whenChecked, whenUnchecked, false, false);
+    }
+
+    static @NotNull Checkbox checkbox(ItemProvider whenChecked, ItemProvider whenUnchecked, boolean checked) {
+        return new Checkbox(whenChecked, whenUnchecked, checked, false);
+    }
+
+    static @NotNull Checkbox.Builder checkbox() {
+        return Checkbox.builder();
     }
 
     default boolean isDisabled() {

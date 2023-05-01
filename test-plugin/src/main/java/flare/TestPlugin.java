@@ -28,7 +28,7 @@ public class TestPlugin extends JavaPlugin implements CommandExecutor {
         } else if("modify".equals(command.getName())) {
             mutableState.set(args[0]);
         } else if("open".equals(command.getName())) {
-            Flare.open(new MockFrame(), (Player) sender);
+            Flare.open(new MockFrame((Player) sender), (Player) sender);
         }
         return true;
     }

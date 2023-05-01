@@ -1,7 +1,6 @@
 package space.maxus.flare.ui;
 
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeToken;
 import lombok.experimental.StandardException;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -45,23 +44,22 @@ public abstract class Frame implements ReactivityProvider {
     public <T> @Nullable T contextOrNull() {
         if (context == null)
             return null;
-        Class<? super T> tClass = new TypeToken<T>() {
-        }.getRawType();
-        if (!tClass.isInstance(context))
+        try {
+            return (T) this.context;
+        } catch (ClassCastException cast) {
             return null;
-        return (T) this.context;
+        }
     }
 
     @SuppressWarnings("unchecked")
     public <T> @NotNull T context() throws InvalidContextValue {
         if (context == null)
             throw new InvalidContextValue("Context value was null when requested");
-        Class<? super T> tClass = new TypeToken<T>() {
-        }.getRawType();
-        if (!tClass.isInstance(context))
-            throw new InvalidContextValue("Context value was of type %s, not of requested type %s".formatted(context.getClass(), tClass));
-        return (T) this.context;
-
+        try {
+            return (T) this.context;
+        } catch (ClassCastException cast) {
+            throw new InvalidContextValue("Context value was of type %s, not of requested type".formatted(context.getClass()));
+        }
     }
 
     public void render() {

@@ -18,7 +18,7 @@ import space.maxus.flare.util.SimpleInvBoundPrompt;
 import space.maxus.flare.util.ValidatingInvBoundPrompt;
 import space.maxus.flare.util.Validator;
 
-public sealed interface TextInput extends ProviderRendered, Configurable<TextInput> permits TextInputImpl {
+public interface TextInput extends ProviderRendered, Configurable<TextInput> {
     @Contract("_ -> new")
     static @NotNull TextInput text(ItemProvider provider) {
         return new TextInputImpl(provider, false);

@@ -1,5 +1,6 @@
 package space.maxus.flare.item;
 
+import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -12,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.util.FlareUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class ItemStackBuilder implements ItemProvider {
@@ -53,6 +57,29 @@ public class ItemStackBuilder implements ItemProvider {
 
     public ItemStackBuilder lore(@NotNull String lore) {
         this.stack.editMeta(Items.loreMeta(lore));
+        return this;
+    }
+
+    public ItemStackBuilder lore(@NotNull List<Component> lore) {
+        this.stack.editMeta(meta -> meta.lore(lore));
+        return this;
+    }
+
+    public ItemStackBuilder addLore(@NotNull String lore) {
+        this.stack.editMeta(meta -> {
+            List<Component> currentLore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
+            currentLore.addAll(FlareUtil.partitionString(lore).stream().map(st -> FlareUtil.text("<gray>%s".formatted(st))).toList());
+            meta.lore(currentLore);
+        });
+        return this;
+    }
+
+    public ItemStackBuilder addLore(@NotNull List<Component> lore) {
+        this.stack.editMeta(meta -> {
+            List<Component> currentLore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
+            currentLore.addAll(lore);
+            meta.lore(currentLore);
+        });
         return this;
     }
 
