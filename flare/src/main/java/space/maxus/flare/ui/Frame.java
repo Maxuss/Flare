@@ -3,6 +3,7 @@ package space.maxus.flare.ui;
 import com.google.common.collect.Sets;
 import lombok.experimental.StandardException;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
@@ -172,6 +173,11 @@ public abstract class Frame implements ReactivityProvider {
                 }), (left, right) -> left || right) || res;
     }
 
+    public final void close() {
+        this.onClose();
+        this.composed.values().forEach(Composable::destroy);
+    }
+
     public boolean shiftRequest(@NotNull ItemStack stack, @NotNull InventoryClickEvent e) {
         // No extra logic here
         return true;
@@ -199,6 +205,14 @@ public abstract class Frame implements ReactivityProvider {
     public boolean drag(@NotNull Map<Slot, ItemStack> newItems, @NotNull InventoryDragEvent e) {
         // No extra logic here
         return true;
+    }
+
+    public void onOpen(@NotNull Player player) {
+        // No extra logic here by default
+    }
+
+    public void onClose() {
+        // No extra logic here by default
     }
 
     @StandardException

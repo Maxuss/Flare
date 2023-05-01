@@ -34,6 +34,7 @@ public class Flare {
     public Inventory open(@NotNull Frame frame, Player player) {
         frame.render();
         player.openInventory(frame.selfInventory());
+        frame.onOpen(player);
         return frame.selfInventory();
     }
 }

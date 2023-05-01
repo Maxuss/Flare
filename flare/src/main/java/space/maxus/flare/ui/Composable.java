@@ -19,6 +19,10 @@ public interface Composable {
 
     ItemStack renderAt(Slot slot);
 
+    default void destroy() {
+        // no destruction logic by default
+    }
+
     default @NotNull PackedComposable inside(@NotNull ComposableSpace space) {
         return new PackedComposable(space, this);
     }

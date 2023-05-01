@@ -102,7 +102,7 @@ public class FlareUtil {
 
     public String formatFloat(float f) {
         BigDecimal decimal = BigDecimal.valueOf(f);
-        DecimalFormat df = f % 1 == .0 ? new DecimalFormat("#,###") : new DecimalFormat("#,##0.0");
+        DecimalFormat df = f % 1.0 == 0.0 ? new DecimalFormat("#,###") : new DecimalFormat("#,##0.0");
         return df.format(decimal.setScale(1, RoundingMode.DOWN).doubleValue());
     }
 

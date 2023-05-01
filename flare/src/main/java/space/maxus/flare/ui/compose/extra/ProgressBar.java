@@ -16,14 +16,14 @@ import java.util.Objects;
 public interface ProgressBar extends Composable, Configurable<ProgressBar> {
     static ItemStackBuilder fullBuilder(Material material, float progress, boolean dotted) {
         return Items.builder(material)
-                .name("<gray>Progress: <green>%s%% <dark_gray>[%%]".formatted(FlareUtil.formatFloat(progress * 100f)))
+                .name("<gray>Progress: <green>%s%% <dark_gray>[%%]".formatted(Math.round(progress * 100f)))
                 .addLoreLine(FlareUtil.renderBarText(progress, dotted ? 24 : 10, dotted))
                 .hideAllFlags();
     }
 
     static ItemStackBuilder emptyBuilder(Material material, float progress, boolean dotted) {
         return Items.builder(material)
-                .name("<gray>Progress: <red>%s%% <dark_gray>[%%]".formatted(FlareUtil.formatFloat(progress * 100f)))
+                .name("<gray>Progress: <red>%s%% <dark_gray>[%%]".formatted(Math.round(progress * 100f)))
                 .addLoreLine(FlareUtil.renderBarText(progress, dotted ? 24 : 10, dotted))
                 .hideAllFlags();
     }
