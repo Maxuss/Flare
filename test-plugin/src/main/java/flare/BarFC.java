@@ -23,10 +23,7 @@ public class BarFC extends FunctionComposable<Float> {
     @Override
     public @NotNull Composable compose() {
         ReactiveState<Float> bar = useState(props);
-        barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getHook(), () -> {
-            Flare.LOGGER.info("RUNNING");
-            bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f);
-        }, 5L, 5L);
+        barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getHook(), () -> bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f), 5L, 5L);
         return Composition.list(
                 ProgressBar
                         .create(

@@ -5,6 +5,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
@@ -45,12 +46,17 @@ public class PlayerFrameStateManager implements Listener {
     void onClose(@NotNull InventoryCloseEvent e) {
         if(!(e.getInventory().getHolder() instanceof ReactiveInventoryHolder flare))
             return;
-        flare.getFrame().close();
-        if (e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW) {
-            saveSnapshot(e.getPlayer(), flare.getFrame());
-        } else if (e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
-            // TELEPORT is the Magic value for internal inventory closing
-            snapshots.remove(e.getPlayer().getUniqueId());
+        if(e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
+            flare.getFrame().close();
+            if(e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW)
+                saveSnapshot(e.getPlayer(), flare.getFrame()); // saving snapshot in case player wants to return back
+            else
+                snapshots.remove(e.getPlayer().getUniqueId()); // player left UI, we clear the snapshots
         }
+    }
+
+    @EventHandler
+    void onLeave(@NotNull PlayerQuitEvent e) {
+        snapshots.remove(e.getPlayer().getUniqueId());
     }
 }

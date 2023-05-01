@@ -20,7 +20,11 @@ public interface Composable {
     ItemStack renderAt(Slot slot);
 
     default void destroy() {
-        // no destruction logic by default
+        // No destruction logic by default
+    }
+
+    default void restore() {
+        // No state restoration logic by default
     }
 
     default @NotNull PackedComposable inside(@NotNull ComposableSpace space) {

@@ -5,16 +5,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
+import space.maxus.flare.item.Items;
 import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.Placeholder;
 import space.maxus.flare.ui.compose.extra.Checkbox;
 import space.maxus.flare.ui.compose.extra.Selection;
+import space.maxus.flare.ui.compose.extra.Slideshow;
 import space.maxus.flare.ui.frames.ParamFrame;
 import space.maxus.flare.ui.space.Rect;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.FlareUtil;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class MockFrame extends ParamFrame<Player> {
@@ -61,6 +64,18 @@ public class MockFrame extends ParamFrame<Player> {
                         .inside(Slot.ROW_FOUR_SLOT_EIGHT)
         );
         this.compose(new BarFC(.2f).inside(Rect.of(Slot.ROW_FIVE_SLOT_ONE, Slot.ROW_SIX_SLOT_NINE)));
+        this.compose(
+                Slideshow.create(
+                        List.of(
+                                Items.builder(Material.DIAMOND_SWORD),
+                                Items.builder(Material.DIAMOND_PICKAXE),
+                                Items.builder(Material.DIAMOND_AXE),
+                                Items.builder(Material.DIAMOND_HOE),
+                                Items.builder(Material.DIAMOND_SHOVEL)
+                        ),
+                        20
+                ).inside(Slot.ROW_FIVE_SLOT_ONE)
+        );
     }
 
     public record Context(Player player) {

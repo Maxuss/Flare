@@ -178,6 +178,11 @@ public abstract class Frame implements ReactivityProvider {
         this.composed.values().forEach(Composable::destroy);
     }
 
+    public final void restorePreviousState(Player player) {
+        this.onOpen(player);
+        this.composed.values().forEach(Composable::restore);
+    }
+
     public boolean shiftRequest(@NotNull ItemStack stack, @NotNull InventoryClickEvent e) {
         // No extra logic here
         return true;
