@@ -67,21 +67,6 @@ public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkb
     @Override
     void click(@NotNull InventoryClickEvent e);
 
-    @Override
-    default boolean isDisabled() {
-        return disabledState().get();
-    }
-
-    @Override
-    default boolean isNotDisabled() {
-        return !disabledState().get();
-    }
-
-    @Override
-    default void setDisabled(boolean disabled) {
-        disabledState().set(disabled);
-    }
-
     default void toggle() {
         checkedState().set(!checkedState().get());
     }
