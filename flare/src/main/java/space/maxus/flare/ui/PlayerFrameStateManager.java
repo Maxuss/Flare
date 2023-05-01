@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerFrameStateManager implements Listener {
-    private static final ConcurrentHashMap<UUID, List<Frame>> snapshots = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, List<Frame>> snapshots = new ConcurrentHashMap<>();
 
-    public static void saveSnapshot(@NotNull HumanEntity to, @NotNull Frame snapshot) {
+    public void saveSnapshot(@NotNull HumanEntity to, @NotNull Frame snapshot) {
+        Flare.LOGGER.info("SIZE: {}", snapshots.size());
+
         Validate.notNull(to, "Tried to save a frame snapshot to a null player");
         Validate.notNull(to, "Tried to save a null frame snapshot");
 
@@ -29,7 +32,7 @@ public class PlayerFrameStateManager implements Listener {
         }
     }
 
-    public static @Nullable Frame restoreSnapshot(@NotNull HumanEntity from) {
+    public @Nullable Frame restoreSnapshot(@NotNull HumanEntity from) {
         Validate.notNull(from, "Tried to restore a frame snapshot from a null player");
 
         if (!snapshots.containsKey(from.getUniqueId()))
@@ -45,6 +48,7 @@ public class PlayerFrameStateManager implements Listener {
                 saveSnapshot(e.getPlayer(), holder.getFrame());
         } else if (e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
             // TELEPORT is the Magic value for internal inventory closing
+            Flare.LOGGER.info("REMOVING: {}", snapshots.size());
             snapshots.remove(e.getPlayer().getUniqueId());
         }
     }

@@ -5,12 +5,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
-import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.compose.extra.Checkbox;
 
 import java.util.function.BiConsumer;
 
-public interface Button extends ProviderRendered, Configurable<Button> {
+public interface Button extends Disable, ProviderRendered, Configurable<Button> {
     static Builder builder(ItemProvider item, boolean disabled) {
         return new ButtonImpl.ButtonBuilderImpl(item).disabled(disabled);
     }
@@ -25,30 +24,16 @@ public interface Button extends ProviderRendered, Configurable<Button> {
     }
 
     static @NotNull Checkbox checkbox(ItemProvider whenChecked, ItemProvider whenUnchecked) {
-        return new Checkbox(whenChecked, whenUnchecked, false, false);
+        return Checkbox.create(whenChecked, whenUnchecked);
     }
 
     static @NotNull Checkbox checkbox(ItemProvider whenChecked, ItemProvider whenUnchecked, boolean checked) {
-        return new Checkbox(whenChecked, whenUnchecked, checked, false);
+        return Checkbox.create(whenChecked, whenUnchecked, checked);
     }
 
     static @NotNull Checkbox.Builder checkbox() {
         return Checkbox.builder();
     }
-
-    default boolean isDisabled() {
-        return disabledState().get();
-    }
-
-    default void setDisabled(boolean disabled) {
-        disabledState().set(disabled);
-    }
-
-    default boolean isNotDisabled() {
-        return !disabledState().get();
-    }
-
-    ReactiveState<Boolean> disabledState();
 
     @FunctionalInterface
     interface ClickHandler {

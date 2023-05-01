@@ -18,7 +18,7 @@ import space.maxus.flare.util.SimpleInvBoundPrompt;
 import space.maxus.flare.util.ValidatingInvBoundPrompt;
 import space.maxus.flare.util.Validator;
 
-public interface TextInput extends ProviderRendered, Configurable<TextInput> {
+public interface TextInput extends Disable, ProviderRendered, Configurable<TextInput> {
     @Contract("_ -> new")
     static @NotNull TextInput text(ItemProvider provider) {
         return new TextInputImpl(provider, false);
@@ -32,19 +32,6 @@ public interface TextInput extends ProviderRendered, Configurable<TextInput> {
     static @NotNull Builder builder(@NotNull ItemProvider provider) {
         return new TextInputImpl.Builder(provider);
     }
-
-    default boolean isDisabled() {
-        return disabledState().get();
-    }
-
-    default void setDisabled(boolean disabled) {
-        disabledState().set(disabled);
-    }
-
-    default boolean isNotDisabled() {
-        return !disabledState().get();
-    }
-
     default @NotNull String getText() {
         return onTextChange().get();
     }
@@ -64,9 +51,6 @@ public interface TextInput extends ProviderRendered, Configurable<TextInput> {
     ReactiveState<String> onTextChange();
 
     ReactiveState<String> promptState();
-
-    ReactiveState<Boolean> disabledState();
-
     @Nullable Validator getValidator();
 
     @Override

@@ -8,11 +8,13 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.Placeholder;
 import space.maxus.flare.ui.compose.extra.Checkbox;
+import space.maxus.flare.ui.compose.extra.Selection;
 import space.maxus.flare.ui.frames.ParamFrame;
 import space.maxus.flare.ui.space.Rect;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.FlareUtil;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MockFrame extends ParamFrame<Player> {
@@ -49,9 +51,32 @@ public class MockFrame extends ParamFrame<Player> {
                         .configure(check -> check.checkedState().subscribe(now -> ctx.player.sendMessage(FlareUtil.text("<green>Toggled!"))))
                         .inside(Slot.ROW_FIVE_SLOT_ONE)
         );
+        this.compose(
+                Selection
+                        .create(Arrays.stream(ExampleEnumeration.values()).toList(), ExampleEnumeration::toString)
+                        .configure(select -> select.selectedState().subscribe(now -> {
+                            assert now != null;
+                            ctx.player.sendMessage(FlareUtil.text("<green>Selected: %s!".formatted(now)));
+                        }))
+                        .inside(Slot.ROW_FIVE_SLOT_TWO)
+        );
     }
 
     public record Context(Player player) {
 
+    }
+
+    enum ExampleEnumeration {
+        VALUE_ONE,
+        VALUE_TWO,
+        VALUE_THREE,
+        VALUE_FOUR,
+
+        ;
+
+        @Override
+        public String toString() {
+            return name().toLowerCase();
+        }
     }
 }
