@@ -1,19 +1,19 @@
 package space.maxus.flare.ui;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-@Data
+@ToString @EqualsAndHashCode
 public class ReactiveInventoryHolder implements InventoryHolder {
+    @Getter
     private final @NotNull Frame frame;
     @Getter(AccessLevel.NONE)
-    private final @NotNull Inventory inventory;
-    private final int size;
+    private @NotNull Inventory inventory;
+    @Getter
+    private int size;
 
     public ReactiveInventoryHolder(@NotNull Frame frame, int size) {
         this.frame = frame;
@@ -31,5 +31,10 @@ public class ReactiveInventoryHolder implements InventoryHolder {
     public Inventory getInventory() {
         frame.render();
         return inventory;
+    }
+
+    public void inherit(@NotNull ReactiveInventoryHolder other) {
+        this.size = other.size;
+        this.inventory = other.inventory;
     }
 }

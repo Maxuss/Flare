@@ -8,6 +8,7 @@ import space.maxus.flare.Flare;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
+import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.compose.RootReferencing;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.PausingTask;
@@ -39,13 +40,19 @@ final class SlideshowImpl extends RootReferencing implements Slideshow {
             this.currentIdx.setRelease(newIdx);
             this.currentSlide.set(slides.get(newIdx));
         });
-        this.task.runTaskTimerAsynchronously(Flare.getHook(), period, period);
         this.disabledState.subscribe(disabled -> {
             if(Objects.requireNonNullElse(disabled, false))
                 this.task.pause();
             else
                 this.task.resume();
         });
+    }
+
+    @Override
+    public void injectRoot(Frame root) {
+        super.injectRoot(root);
+        // starting task only on root injection
+        this.task.runTaskTimerAsynchronously(Flare.getHook(), period, period);
     }
 
     @Override

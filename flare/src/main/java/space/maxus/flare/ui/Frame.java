@@ -32,6 +32,9 @@ public abstract class Frame implements ReactivityProvider {
     private final ReadWriteLock renderLock = new ReentrantReadWriteLock();
     private @Nullable Object context = null;
 
+    public abstract void init();
+    public abstract @NotNull Inventory selfInventory();
+
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
         return new ReactiveState<>(initial);
@@ -116,10 +119,6 @@ public abstract class Frame implements ReactivityProvider {
         );
     }
 
-    public abstract void init();
-
-    public abstract @NotNull Inventory selfInventory();
-
     public final boolean fireLeftClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {
         boolean res = leftClick(slot, e);
         return composed.entrySet().stream()
@@ -171,6 +170,10 @@ public abstract class Frame implements ReactivityProvider {
                     Map<Slot, ItemStack> intersectionMap = FlareUtil.map2setIntersect(slots, intersection);
                     return each.getValue().drag(intersectionMap, e);
                 }), (left, right) -> left || right) || res;
+    }
+
+    public final void open(Player player) {
+        this.onOpen(player);
     }
 
     public final void close() {

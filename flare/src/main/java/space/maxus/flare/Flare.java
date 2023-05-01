@@ -31,10 +31,10 @@ public class Flare {
         Bukkit.getPluginManager().registerEvents(new PlayerFrameStateManager(), hook);
     }
 
-    public Inventory open(@NotNull Frame frame, Player player) {
+    public Inventory open(@NotNull Frame frame, @NotNull Player player) {
         frame.render();
         player.openInventory(frame.selfInventory());
-        frame.onOpen(player);
+        frame.open(player);
         return frame.selfInventory();
     }
 }

@@ -8,7 +8,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import space.maxus.flare.Flare;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,6 @@ public class PlayerFrameStateManager implements Listener {
     private final ConcurrentHashMap<UUID, List<Frame>> snapshots = new ConcurrentHashMap<>();
 
     public void saveSnapshot(@NotNull HumanEntity to, @NotNull Frame snapshot) {
-        Flare.LOGGER.info("SIZE: {}", snapshots.size());
-
         Validate.notNull(to, "Tried to save a frame snapshot to a null player");
         Validate.notNull(to, "Tried to save a null frame snapshot");
 
