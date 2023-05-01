@@ -1,6 +1,5 @@
 package space.maxus.flare.ui.compose.extra;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.Contract;
@@ -13,8 +12,6 @@ import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.compose.Configurable;
 import space.maxus.flare.ui.compose.Disable;
 import space.maxus.flare.ui.compose.ProviderRendered;
-
-import java.util.List;
 
 public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkbox> {
 
@@ -33,8 +30,8 @@ public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkb
                 .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWUyOGJlYTlkMzkzNzNkMzZlZThmYTQwZWM4M2Y5YzNmY2RkOTMxNzUyMjc3NDNmOWRkMWY3ZTc4ODZiN2VlNSJ9fX0=")
                 .name("<gray>%s <dark_gray>[⭘]".formatted(message))
                 .lore(description)
-                .addLore(List.of(Component.empty())) // padding
-                .addLore("Click to toggle")
+                .padLore() // padding
+                .addLoreLine("Click to toggle")
                 .hideAllFlags();
     }
 
@@ -44,8 +41,8 @@ public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkb
                 .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTc5YTVjOTVlZTE3YWJmZWY0NWM4ZGMyMjQxODk5NjQ5NDRkNTYwZjE5YTQ0ZjE5ZjhhNDZhZWYzZmVlNDc1NiJ9fX0=")
                 .name("<gray>%s <dark_gray>[<green>✔</green>]".formatted(message))
                 .lore(description)
-                .addLore(List.of(Component.empty())) // padding
-                .addLore("Click to toggle")
+                .padLore()
+                .addLoreLine("Click to toggle")
                 .hideAllFlags();
     }
 

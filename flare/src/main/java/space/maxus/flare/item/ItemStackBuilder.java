@@ -83,6 +83,28 @@ public class ItemStackBuilder implements ItemProvider {
         return this;
     }
 
+    public ItemStackBuilder addLoreLine(@NotNull String line) {
+        this.stack.editMeta(meta -> {
+            List<Component> currentLore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
+            currentLore.add(FlareUtil.text("<gray>%s".formatted(line)));
+            meta.lore(currentLore);
+        });
+        return this;
+    }
+
+    public ItemStackBuilder addLoreLine(@NotNull Component line) {
+        this.stack.editMeta(meta -> {
+            List<Component> currentLore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
+            currentLore.add(line);
+            meta.lore(currentLore);
+        });
+        return this;
+    }
+
+    public ItemStackBuilder padLore() {
+        return addLoreLine(Component.empty());
+    }
+
     public ItemStackBuilder name(@NotNull String name) {
         this.stack.editMeta(meta -> meta.displayName(FlareUtil.text(name)));
         return this;

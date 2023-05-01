@@ -51,8 +51,8 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
                 .name("<gray>%s <dark_gray>[☰]".formatted(name))
                 .lore(description)
                 .addLore(selectorLore(enumeration, value, mapper))
-                .addLore("<dark_gray>Left Click → Forward")
-                .addLore("<dark_gray>Right Click → Backward")
+                .addLoreLine("<dark_gray>Left Click → Forward")
+                .addLoreLine("<dark_gray>Right Click → Backward")
                 .hideAllFlags()
                 .build()
         );
