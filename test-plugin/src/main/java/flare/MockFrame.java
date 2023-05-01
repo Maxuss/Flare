@@ -49,7 +49,7 @@ public class MockFrame extends ParamFrame<Player> {
                         .uncheckedItem(Checkbox.uncheckedItem("Click me", "This is an <red>unchecked</red> checkbox"))
                         .build()
                         .configure(check -> check.checkedState().subscribe(now -> ctx.player.sendMessage(FlareUtil.text("<green>Toggled!"))))
-                        .inside(Slot.ROW_FIVE_SLOT_ONE)
+                        .inside(Slot.ROW_FOUR_SLOT_SEVEN)
         );
         this.compose(
                 Selection
@@ -58,8 +58,9 @@ public class MockFrame extends ParamFrame<Player> {
                             assert now != null;
                             ctx.player.sendMessage(FlareUtil.text("<green>Selected: %s!".formatted(now)));
                         }))
-                        .inside(Slot.ROW_FIVE_SLOT_TWO)
+                        .inside(Slot.ROW_FOUR_SLOT_EIGHT)
         );
+        this.compose(new BarFC(.2f).inside(Rect.of(Slot.ROW_FIVE_SLOT_ONE, Slot.ROW_SIX_SLOT_NINE)));
     }
 
     public record Context(Player player) {

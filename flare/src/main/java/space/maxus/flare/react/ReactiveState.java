@@ -31,6 +31,15 @@ public class ReactiveState<V> implements ReactiveNotifier<V> {
         return subscriberList;
     }
 
+    /**
+     * Connects this state to another state, meaning that whenever the other state changes,
+     * this state will be updated with its new value.
+     * @param other The other state to connect to
+     */
+    public void connect(@NotNull ReactiveState<V> other) {
+        other.subscribe(val -> this.setOpt(Optional.ofNullable(val)));
+    }
+
     public <S extends ReactiveSubscriber<V>> void subscribeUpdate(S subscriber) {
         getSubscriberList().subscribe(subscriber);
         try {

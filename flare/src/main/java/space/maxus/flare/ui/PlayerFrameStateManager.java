@@ -48,7 +48,6 @@ public class PlayerFrameStateManager implements Listener {
                 saveSnapshot(e.getPlayer(), holder.getFrame());
         } else if (e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
             // TELEPORT is the Magic value for internal inventory closing
-            Flare.LOGGER.info("REMOVING: {}", snapshots.size());
             snapshots.remove(e.getPlayer().getUniqueId());
         }
     }

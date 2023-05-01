@@ -59,7 +59,7 @@ class ExplicitComposition extends RootReferencing implements Composition {
                     new Slot(Math.min(origin.getRow() + slot.getRow(), max.getRow()), Math.min(origin.getColumn() + slot.getColumn(), max.getColumn()))
             ).collect(Collectors.toSet());
             RawRect newSpace = new RawRect(area);
-            return new PackedComposable(newSpace, packed.getComposable());
+            return packed.getComposable().inside(newSpace);
         }).toList();
         return this.composed;
     }

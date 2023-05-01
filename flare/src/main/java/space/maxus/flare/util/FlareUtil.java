@@ -14,6 +14,9 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,6 +29,8 @@ public class FlareUtil {
     public final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
     private final ThreadFactory THREAD_FACTORY = new ThreadFactoryBuilder().setNameFormat("flare-%d").build();
     private final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(4, THREAD_FACTORY);
+    private final String DASH = "⏤";
+    private final String DOT = "•";
 
     public void execute(Runnable executable) {
         THREAD_POOL.execute(executable);
@@ -93,5 +98,21 @@ public class FlareUtil {
         }
         result.add(inter.toString().stripTrailing());
         return result;
+    }
+
+    public String formatFloat(float f) {
+        BigDecimal decimal = BigDecimal.valueOf(f);
+        DecimalFormat df = f % 1 == .0 ? new DecimalFormat("#,###") : new DecimalFormat("#,##0.0");
+        return df.format(decimal.setScale(1, RoundingMode.DOWN).doubleValue());
+    }
+
+    public Component renderBarText(float ratio, int scale, boolean dotted) {
+        long toFill = Math.round(Math.floor(ratio * scale));
+        long toLeaveEmpty = scale - toFill;
+        String dashesEmpty = dotted ? DOT.repeat((int) toLeaveEmpty) : DASH.repeat((int) toLeaveEmpty);
+        String dashesFull = dotted ? DOT.repeat((int) toFill) : DASH.repeat((int) toFill);
+        String dashedPart = dotted ? "<green>%s<gray>%s".formatted(dashesFull, dashesEmpty) : "<strikethrough><green>%s<gray>%s</strikethrough>".formatted(dashesFull, dashesEmpty);
+        String numberPart = "<yellow>%s%%<gold>/<yellow>100%%".formatted(formatFloat(ratio * 100f));
+        return MINI_MESSAGE.deserialize("%s %s".formatted(dashedPart, numberPart)).decoration(TextDecoration.ITALIC, false);
     }
 }
