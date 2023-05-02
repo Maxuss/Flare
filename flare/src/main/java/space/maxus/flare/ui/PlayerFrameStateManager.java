@@ -15,9 +15,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerFrameStateManager implements Listener {
-    private final ConcurrentHashMap<UUID, List<Frame>> snapshots = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<UUID, List<Frame>> snapshots = new ConcurrentHashMap<>();
 
-    public void saveSnapshot(@NotNull HumanEntity to, @NotNull Frame snapshot) {
+    public static void saveSnapshot(@NotNull HumanEntity to, @NotNull Frame snapshot) {
         Validate.notNull(to, "Tried to save a frame snapshot to a null player");
         Validate.notNull(to, "Tried to save a null frame snapshot");
 
@@ -30,7 +30,7 @@ public class PlayerFrameStateManager implements Listener {
         }
     }
 
-    public @Nullable Frame restoreSnapshot(@NotNull HumanEntity from) {
+    public static @Nullable Frame restoreSnapshot(@NotNull HumanEntity from) {
         Validate.notNull(from, "Tried to restore a frame snapshot from a null player");
 
         if (!snapshots.containsKey(from.getUniqueId()))

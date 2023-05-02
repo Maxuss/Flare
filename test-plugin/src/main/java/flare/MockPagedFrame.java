@@ -18,6 +18,7 @@ public class MockPagedFrame extends PaginatingFrame {
     public void init() {
         createPage(page ->
         {
+            page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 1"));
             page.compose(Placeholder.of(Items.builder(Material.GRAY_STAINED_GLASS_PANE)).inside(Slot.ALL));
             page.compose(Button
                     .builder(Items.builder(Material.ARROW))
@@ -48,6 +49,7 @@ public class MockPagedFrame extends PaginatingFrame {
 
         createPage(page ->
         {
+            page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 2"));
             page.compose(Placeholder.of(Items.builder(Material.YELLOW_STAINED_GLASS_PANE)).inside(Slot.ALL));
             setupMockPage(page);
             page.compose(Slideshow
@@ -67,6 +69,7 @@ public class MockPagedFrame extends PaginatingFrame {
 
         pagination.createPage(page ->
         {
+            page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 3"));
             page.compose(Placeholder.of(Items.builder(Material.GREEN_STAINED_GLASS_PANE)).inside(Slot.ALL));
             setupMockPage(page);
             page.compose(Slideshow
@@ -86,6 +89,7 @@ public class MockPagedFrame extends PaginatingFrame {
 
         pagination.createPage(page ->
         {
+            page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 4"));
             page.compose(Placeholder.of(Items.builder(Material.BLUE_STAINED_GLASS_PANE)).inside(Slot.ALL));
             setupMockPage(page);
             page.compose(Slideshow
