@@ -3,8 +3,10 @@ package space.maxus.flare.ui;
 import com.google.common.collect.Sets;
 import lombok.experimental.StandardException;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +36,9 @@ public abstract class Frame implements ReactivityProvider {
 
     public abstract void init();
     public abstract @NotNull Inventory selfInventory();
+    public abstract @NotNull Dimensions getDimensions();
+    public abstract @NotNull ReactiveInventoryHolder getHolder();
+    protected abstract void setHolder(ReactiveInventoryHolder holder);
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
@@ -42,6 +47,50 @@ public abstract class Frame implements ReactivityProvider {
 
     public <T> void useContext(@Nullable T context) {
         this.context = context;
+    }
+
+    public void switchFrame(HumanEntity viewer, Frame other) {
+        if(!(viewer instanceof Player player))
+            return;
+        if(other.getDimensions() != this.getDimensions()) {
+            // we need to reopen inventory
+            other.render();
+            viewer.closeInventory(InventoryCloseEvent.Reason.OPEN_NEW);
+            viewer.openInventory(other.selfInventory());
+            other.open(player);
+        } else {
+            // we need to simply re-render inventory
+            PlayerFrameStateManager.saveSnapshot(viewer, this);
+            this.close();
+            other.getHolder().inherit(this.getHolder());
+            this.getHolder().setFrame(other);
+            other.render();
+            other.open(player);
+        }
+    }
+
+    public void goBack(HumanEntity viewer) {
+        if(!(viewer instanceof Player player))
+            return;
+        Frame other = PlayerFrameStateManager.restoreSnapshot(viewer);
+        if(other == null)
+            return;
+
+        if(other.getDimensions() != this.getDimensions()) {
+            // we need to reopen inventory
+            other.render();
+            viewer.closeInventory(InventoryCloseEvent.Reason.TELEPORT);
+            viewer.openInventory(other.selfInventory());
+            other.restorePreviousState(player);
+        } else {
+            // we need to simply re-render inventory
+            // not saving snapshots here
+            this.close();
+            // we don't need to change inventory reference here, since it was restored
+            other.getHolder().setFrame(other); // looks weird, but it is basically setting the frame reference to the frame we just restored
+            other.render();
+            other.restorePreviousState(player);
+        }
     }
 
     @SuppressWarnings("unchecked")

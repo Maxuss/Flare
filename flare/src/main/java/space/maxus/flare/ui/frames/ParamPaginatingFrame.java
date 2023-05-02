@@ -1,6 +1,7 @@
 package space.maxus.flare.ui.frames;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.ui.Dimensions;
@@ -14,7 +15,8 @@ import space.maxus.flare.ui.page.PaginationProxy;
 import java.util.function.Consumer;
 
 public abstract class ParamPaginatingFrame<P> extends Frame implements PaginationProxy {
-    protected final @NotNull Dimensions dimensions;
+    @Getter @Setter
+    protected Dimensions dimensions;
     protected final @NotNull ReactiveInventoryHolder holder;
     @Getter
     protected final @NotNull Pagination<Consumer<PageFrame>> pagination;

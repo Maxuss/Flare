@@ -76,6 +76,13 @@ public class MockFrame extends ParamFrame<Player> {
                         20
                 ).inside(Slot.ROW_FIVE_SLOT_ONE)
         );
+        this.compose(
+                Button.create(
+                        Items.builder(Material.DIAMOND),
+                        Button.ClickHandler.cancelling((btn, e) -> this.goBack(e.getWhoClicked()))
+                )
+                        .inside(Slot.ROW_ONE_SLOT_ONE)
+        );
     }
 
     public record Context(Player player) {

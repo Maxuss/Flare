@@ -45,6 +45,13 @@ public class MockPagedFrame extends PaginatingFrame {
                     .configure(slides -> slides.itemState().subscribe(newItem -> Flare.LOGGER.info("SWITCHING 1")))
                     .inside(Slot.ROW_ONE_SLOT_FIVE)
             );
+            page.compose(Button
+                    .create(
+                            Items.builder(Material.DIAMOND),
+                            Button.ClickHandler.cancelling((btn, e) -> this.switchFrame(e.getWhoClicked(), new MockFrame((Player) e.getWhoClicked())))
+                    )
+                    .inside(Slot.ROW_SIX_SLOT_FIVE)
+            );
         });
 
         createPage(page ->

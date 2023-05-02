@@ -1,6 +1,7 @@
 package space.maxus.flare.ui.frames;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -20,8 +21,10 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public abstract class PaginatingFrame extends Frame implements PaginationProxy  {
+    @Getter
     protected final @NotNull Dimensions dimensions;
-    protected final @NotNull ReactiveInventoryHolder holder;
+    @Getter @Setter
+    protected @NotNull ReactiveInventoryHolder holder;
     @Getter
     protected final @NotNull Pagination<Consumer<PageFrame>> pagination;
 

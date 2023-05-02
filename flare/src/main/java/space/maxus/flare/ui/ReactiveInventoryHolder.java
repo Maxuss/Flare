@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 @ToString @EqualsAndHashCode
 public class ReactiveInventoryHolder implements InventoryHolder {
-    @Getter
-    private final @NotNull Frame frame;
-    @Getter(AccessLevel.NONE)
+    @Getter @Setter
+    private @NotNull Frame frame;
+    @Getter(AccessLevel.NONE) @Setter
     private @NotNull Inventory inventory;
     @Getter
     private int size;
