@@ -44,11 +44,12 @@ public abstract class Frame implements ReactivityProvider {
     public <V> ReactiveState<V> useState(@Nullable V initial) {
         return new ReactiveState<>(initial);
     }
-
     public <T> void useContext(@Nullable T context) {
         this.context = context;
     }
-
+    public void setTitle(Player viewer, String title) {
+        Flare.getNms().sendPacket(Flare.getNms().obtainConnection(viewer), Flare.getNms().buildTitlePacket(viewer, FlareUtil.text(title)));
+    }
     public void switchFrame(HumanEntity viewer, Frame other) {
         if(!(viewer instanceof Player player))
             return;
@@ -64,6 +65,7 @@ public abstract class Frame implements ReactivityProvider {
             this.close();
             other.getHolder().inherit(this.getHolder());
             this.getHolder().setFrame(other);
+            other.setTitle(player, other.getTitle());
             other.render();
             other.open(player);
         }
@@ -89,6 +91,7 @@ public abstract class Frame implements ReactivityProvider {
             // we don't need to change inventory reference here, since it was restored
             other.getHolder().setFrame(other); // looks weird, but it is basically setting the frame reference to the frame we just restored
             other.render();
+            other.setTitle(player, other.getTitle());
             other.restorePreviousState(player);
         }
     }
@@ -270,6 +273,10 @@ public abstract class Frame implements ReactivityProvider {
 
     public void onClose() {
         // No extra logic here by default
+    }
+
+    public String getTitle() {
+        return "A Flare %s".formatted(this.getClass().getSimpleName());
     }
 
     @StandardException

@@ -4,10 +4,12 @@ plugins {
     id("io.freefair.lombok") version "8.0.1"
     `maven-publish`
     signing
+
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "space.maxus"
-version = "0.3.1"
+version = project.properties["core.version"].toString()
 description = "Reactive Spigot Inventory UI Library"
 
 java {
@@ -17,6 +19,9 @@ java {
 
 dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+
+    implementation(project(":flare:common"))
+    runtimeOnly(project(":flare:nms"))
 
     testImplementation(platform("org.junit:junit-bom:5.9.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

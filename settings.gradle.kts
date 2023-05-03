@@ -7,4 +7,9 @@
  * in the user manual at https://docs.gradle.org/8.1.1/userguide/multi_project_builds.html
  */
 
-rootProject.name = "flare-base"
+include(":flare:core")
+include(":flare:common")
+include(":flare:nms")
+include(":flare:nms:v1_19_R3")
+
+include(":test-plugin")
