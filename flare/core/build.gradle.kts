@@ -10,6 +10,7 @@ plugins {
 
 group = "space.maxus"
 version = project.properties["core.version"].toString()
+
 description = "Reactive Spigot Inventory UI Library"
 
 java {
@@ -30,6 +31,22 @@ dependencies {
 tasks {
     // Configure reobfJar to run when invoking the build task
     assemble {
+        dependsOn(reobfJar)
+    }
+
+    jar {
+        archiveFileName.set("flare-ui-${project.version}.jar")
+    }
+
+    shadowJar {
+        archiveFileName.set("flare-ui-${project.version}-all.jar")
+    }
+
+    reobfJar {
+        base.archivesName.set("flare-ui")
+    }
+
+    publish {
         dependsOn(reobfJar)
     }
 
@@ -66,31 +83,28 @@ tasks {
             maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 name = "ossrh"
                 credentials(PasswordCredentials::class)
-                mavenContent {
-                    releasesOnly()
-                }
             }
 
-            maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                name = "ossrh"
-                credentials(PasswordCredentials::class)
-                mavenContent {
-                    snapshotsOnly()
-                }
-            }
+//            maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+//                name = "ossrh"
+//                credentials(PasswordCredentials::class)
+//                mavenContent {
+//                    snapshotsOnly()
+//                }
+//            }
         }
 
         publications {
             register<MavenPublication>(project.name) {
                 from(getComponents()["java"])
-                artifact(getTasks().jar.get().outputs.files.single())
+                artifact(getTasks().shadowJar.get().outputs.files.single())
 
                 groupId = project.group.toString()
-                artifactId = project.name.toLowerCase()
+                artifactId = "flare"
                 version = project.version.toString()
 
                 pom {
-                    name.set(project.name)
+                    name.set("flare")
                     description.set(project.description)
                     url.set("https://github.com/Maxuss/Flare")
                     licenses {
@@ -123,18 +137,14 @@ tasks {
         }
     }
 
-    /*
-    reobfJar {
-      // This is an example of how you might change the output location for reobfJar. It's recommended not to do this
-      // for a variety of reasons, however it's asked frequently enough that an example of how to do it is included here.
-      outputJar.set(layout.buildDirectory.file("libs/PaperweightTestPlugin-${project.version}.jar"))
-    }
-     */
-
     test {
         useJUnitPlatform()
         testLogging {
             events("passed", "skipped", "failed")
         }
+    }
+
+    named("generateMetadataFileForCorePublication") {
+        dependsOn(reobfJar)
     }
 }

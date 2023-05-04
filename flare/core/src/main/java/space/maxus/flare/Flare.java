@@ -12,6 +12,7 @@ import space.maxus.flare.handlers.ClickHandler;
 import space.maxus.flare.nms.NmsHelper;
 import space.maxus.flare.nms.NmsVersion;
 import space.maxus.flare.nms.generic.ReflectingNmsHelper;
+import space.maxus.flare.nms.generic.ReflectionHelper;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.PlayerFrameStateManager;
 
@@ -50,7 +51,7 @@ public class Flare {
         if(helper.getVersion() == NmsVersion.UNKNOWN || helper instanceof ReflectingNmsHelper) {
             Flare.LOGGER.warn("Could not find a suitable dedicated NMS version, using fallback mode...");
             Flare.LOGGER.warn("This may cause issues with some features.");
-            Flare.LOGGER.warn("Possibly resolution: update to a newer version of Flare that supports NMS {}", NmsVersion.currentStrVersion());
+            Flare.LOGGER.warn("Possibly resolution: update to a newer version of Flare that supports NMS {}", ReflectionHelper.NMS_VERSION.name());
         } else {
             Flare.LOGGER.info("Enabled NMS support for version {}", helper.getVersion());
         }

@@ -43,11 +43,17 @@ public final class ReflectingNmsHelper implements space.maxus.flare.nms.NmsHelpe
             Object containerMenu = containerMenuField.get(serverPlayer);
             Field containerId = containerMenu.getClass().getField("j"); // https://nms.screamingsandals.org/1.19.4/net/minecraft/world/inventory/AbstractContainerMenu.html
             Method containerType = containerMenu.getClass().getDeclaredMethod("getNotchInventoryType", Inventory.class);
-            Class<?> packetClass = Class.forName("net.minecraft.network.protocol.game.PacketPlayOutOpenWindow"); // https://nms.screamingsandals.org/1.19.4/net/minecraft/network/protocol/game/ClientboundOpenScreenPacket.html
-            Constructor<?> ctor = packetClass.getDeclaredConstructor(int.class, Class.forName("net.minecraft.world.inventory.Containers"), Class.forName("net.minecraft.network.chat.IChatBaseComponent"));
+            Class<?> packetClass = ReflectionHelper.classOrThrow(ReflectionHelper.findNmClassName("network.protocol.game.PacketPlayOutOpenWindow")); // https://nms.screamingsandals.org/1.19.4/net/minecraft/network/protocol/game/ClientboundOpenScreenPacket.html
+            Constructor<?> ctor = packetClass.getDeclaredConstructor(
+                    int.class,
+                    ReflectionHelper.classOrThrow(ReflectionHelper.findNmClassName("world.inventory.Containers")),
+                    ReflectionHelper.anyClassOrThrow(
+                            ReflectionHelper.findNmsClassName("IChatBaseComponent"),
+                            ReflectionHelper.findNmClassName("network.chat.IChatBaseComponent")
+                    ));
             return ctor.newInstance(containerId.get(containerMenu), containerType.invoke(null, player.getOpenInventory().getTopInventory()), PaperAdventure.asVanilla(newTitle));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | NoSuchFieldException |
-                 ClassNotFoundException | InstantiationException e) {
+                 InstantiationException e) {
             log.error("Error in generic nms helper (building screen title packet)", e);
             return null;
         }
@@ -56,9 +62,12 @@ public final class ReflectingNmsHelper implements space.maxus.flare.nms.NmsHelpe
     @Override
     public void sendPacket(Object connection, Object packet) {
         try {
-            Method send = connection.getClass().getDeclaredMethod("a", Class.forName("net.minecraft.network.protocol.Packet"));
+            Method send = connection.getClass().getDeclaredMethod(
+                    "a",
+                    ReflectionHelper.classOrThrow(ReflectionHelper.findNmClassName("network.protocol.Packet"))
+            );
             send.invoke(connection, packet);
-        } catch (IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             log.error("Error in generic nms helper (sending packet)", e);
         }
     }

@@ -24,7 +24,6 @@ subprojects {
 
     group = "space.maxus"
     version = project.properties["core.version"].toString()
-    group = "flare-nms-${this@subprojects.name}"
 
     dependencies {
         implementation(project(":flare:common"))
