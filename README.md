@@ -7,7 +7,7 @@ A reactive Spigot Inventory UI library.
 ### Usage
 
 Flare is available on Maven Central. Replace `VERSION` with version number
-you can find in the github releases.
+you can find in the GitHub releases.
 
 Setup for maven:
 ```xml

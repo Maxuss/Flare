@@ -7,9 +7,13 @@
  * in the user manual at https://docs.gradle.org/8.1.1/userguide/multi_project_builds.html
  */
 
+val nmsVersions = arrayOf("v1_19_R3", "v1_19_R2", "v1_19_R1")
+
 include(":flare:core")
 include(":flare:common")
 include(":flare:nms")
-include(":flare:nms:v1_19_R3")
+nmsVersions.forEach {
+    include(":flare:nms:$it")
+}
 
 include(":test-plugin")
