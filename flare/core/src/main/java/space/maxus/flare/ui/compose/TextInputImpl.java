@@ -23,15 +23,17 @@ final class TextInputImpl extends RootReferencing implements TextInput {
     private final @Nullable Validator validator;
 
     TextInputImpl(ItemProvider provider, boolean disabled) {
-        this(provider, disabled, "", "<yellow>Input text:", null);
+        this(provider, disabled, "", "<yellow>Input text:", null, null, null);
     }
 
-    TextInputImpl(ItemProvider provider, boolean disabled, String initialText, String prompt, @Nullable Validator validator) {
-        this.provider = provider;
+    TextInputImpl(@Nullable ItemProvider provider, boolean disabled, String initialText, String prompt, @Nullable Validator validator, @Nullable String name, @Nullable String description) {
         this.textState = new ComposableReactiveState<>(initialText, this);
         this.promptState = new ComposableReactiveState<>(prompt, this);
         this.disabledState = new ComposableReactiveState<>(disabled, this);
         this.validator = validator;
+        String newName = name == null ? "Input Text" : name;
+        String newDescription = description == null ? "" : description;
+        this.provider = provider == null ? TextInput.inputItem(this.textState, newName, newDescription) : provider;
     }
 
     @Override
@@ -51,7 +53,9 @@ final class TextInputImpl extends RootReferencing implements TextInput {
 
     @RequiredArgsConstructor
     static final class Builder implements TextInput.Builder {
-        private final @NotNull ItemProvider provider;
+        private final @Nullable ItemProvider provider;
+        private final @Nullable String name;
+        private final @Nullable String description;
         private @NotNull String prompt = "<yellow>Input text";
         private @NotNull String initialText = "";
         private boolean disabled = false;
@@ -59,7 +63,7 @@ final class TextInputImpl extends RootReferencing implements TextInput {
 
         @Override
         public TextInput build() {
-            return new TextInputImpl(provider, disabled, initialText, prompt, validator);
+            return new TextInputImpl(provider, disabled, initialText, prompt, validator, name, description);
         }
 
         @Override
