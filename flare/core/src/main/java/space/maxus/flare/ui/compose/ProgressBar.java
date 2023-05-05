@@ -1,4 +1,4 @@
-package space.maxus.flare.ui.compose.extra;
+package space.maxus.flare.ui.compose;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +8,6 @@ import space.maxus.flare.item.Items;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.Composable;
-import space.maxus.flare.ui.compose.Configurable;
 import space.maxus.flare.util.FlareUtil;
 
 import java.util.Objects;

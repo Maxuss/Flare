@@ -1,4 +1,4 @@
-package space.maxus.flare.ui.compose.extra;
+package space.maxus.flare.ui.compose;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
 import space.maxus.flare.ui.Frame;
-import space.maxus.flare.ui.compose.RootReferencing;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.PausingTask;
 

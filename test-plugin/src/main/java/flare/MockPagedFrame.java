@@ -6,7 +6,7 @@ import space.maxus.flare.Flare;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.Placeholder;
-import space.maxus.flare.ui.compose.extra.Slideshow;
+import space.maxus.flare.ui.compose.Slideshow;
 import space.maxus.flare.ui.frames.PaginatingFrame;
 import space.maxus.flare.ui.page.PageFrame;
 import space.maxus.flare.ui.space.Slot;

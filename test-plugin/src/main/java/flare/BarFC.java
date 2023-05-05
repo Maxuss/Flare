@@ -9,7 +9,7 @@ import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.compose.FunctionComposable;
 import space.maxus.flare.ui.compose.complex.Composition;
-import space.maxus.flare.ui.compose.extra.ProgressBar;
+import space.maxus.flare.ui.compose.ProgressBar;
 import space.maxus.flare.ui.space.Rect;
 import space.maxus.flare.ui.space.Slot;
 

@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.util.FlareUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +31,22 @@ public class PlayerFrameStateManager implements Listener {
         }
     }
 
+    public static @Nullable Frame peekPrevious(@NotNull HumanEntity of) {
+        Validate.notNull(of, "Tried to restore previous frame snapshot from a null player");
+
+        if (!snapshots.containsKey(of.getUniqueId()))
+            return null;
+        List<Frame> list = snapshots.get(of.getUniqueId());
+        return FlareUtil.acquireCatching(() -> list.get(list.size() - 1));
+    }
+
     public static @Nullable Frame restoreSnapshot(@NotNull HumanEntity from) {
         Validate.notNull(from, "Tried to restore a frame snapshot from a null player");
 
         if (!snapshots.containsKey(from.getUniqueId()))
             return null;
         List<Frame> list = snapshots.get(from.getUniqueId());
-        return list.remove(list.size() - 1);
+        return FlareUtil.acquireCatching(() -> list.remove(list.size() - 1));
     }
 
     @EventHandler

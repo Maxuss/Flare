@@ -36,7 +36,9 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
                         builder -> builder.lore(description),
                         builder -> builder.addLoreLine("Current value: <green>%s".formatted(currentText)).addLore(description)
                 )
-                .addLoreLine(currentText.length() == 0 ? "<dark_gray>Click to input text" : "<dark_gray>Click to edit text");
+                .addLoreLine(currentText.length() == 0 ? "<dark_gray>Click to input text" : "<dark_gray>Click to edit text")
+                .hideAllFlags()
+                ;
     }
 
     static @NotNull ItemProvider inputItem(@NotNull ReactiveState<String> text, String name, String description) {

@@ -15,6 +15,7 @@ public interface Pagination<P> {
     void switchPage(Player viewer, int to);
     void open(Player player);
     void close();
+    Frame peekPrevious();
 
     default Frame createPage(@NotNull P props) {
         return this.createPage(nextPageIdx(), props);

@@ -1,4 +1,4 @@
-package space.maxus.flare.ui.compose.extra;
+package space.maxus.flare.ui.compose;
 
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.concurrent.Computable;
@@ -11,9 +11,6 @@ import space.maxus.flare.item.ItemStackBuilder;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
-import space.maxus.flare.ui.compose.Configurable;
-import space.maxus.flare.ui.compose.Disable;
-import space.maxus.flare.ui.compose.ProviderRendered;
 import space.maxus.flare.util.FlareUtil;
 
 import java.util.ArrayList;

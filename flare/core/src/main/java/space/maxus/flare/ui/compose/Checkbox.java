@@ -1,4 +1,4 @@
-package space.maxus.flare.ui.compose.extra;
+package space.maxus.flare.ui.compose;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -9,9 +9,6 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.ItemStackBuilder;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.react.ReactiveState;
-import space.maxus.flare.ui.compose.Configurable;
-import space.maxus.flare.ui.compose.Disable;
-import space.maxus.flare.ui.compose.ProviderRendered;
 
 public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkbox> {
 

@@ -5,7 +5,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
-import space.maxus.flare.ui.compose.extra.Checkbox;
 
 import java.util.function.BiConsumer;
 

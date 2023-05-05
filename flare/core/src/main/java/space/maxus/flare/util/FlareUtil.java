@@ -13,11 +13,13 @@ import org.apache.commons.lang3.concurrent.Memoizer;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -114,5 +116,13 @@ public class FlareUtil {
         String dashedPart = dotted ? "<green>%s<gray>%s".formatted(dashesFull, dashesEmpty) : "<strikethrough><green>%s<gray>%s</strikethrough>".formatted(dashesFull, dashesEmpty);
         String numberPart = "<yellow>%s%%<gold>/<yellow>100%%".formatted(formatFloat(ratio * 100f));
         return MINI_MESSAGE.deserialize("%s %s".formatted(dashedPart, numberPart)).decoration(TextDecoration.ITALIC, false);
+    }
+
+    public <V> @Nullable V acquireCatching(Callable<V> producer) {
+        try {
+            return producer.call();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -2,6 +2,7 @@ package space.maxus.flare.ui.page;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
 
@@ -100,5 +101,10 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
     @Override
     public void close() {
         pages.forEach(Frame::close);
+    }
+
+    @Override
+    public @Nullable Frame peekPrevious() {
+        return this.currentPage() == 0 ? null : this.getPage(this.currentPage() - 1);
     }
 }

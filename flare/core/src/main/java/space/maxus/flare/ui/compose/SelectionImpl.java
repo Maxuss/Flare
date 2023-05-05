@@ -1,4 +1,4 @@
-package space.maxus.flare.ui.compose.extra;
+package space.maxus.flare.ui.compose;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import space.maxus.flare.Flare;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
-import space.maxus.flare.ui.compose.RootReferencing;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

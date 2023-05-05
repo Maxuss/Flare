@@ -6,11 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.Items;
-import space.maxus.flare.ui.compose.Button;
-import space.maxus.flare.ui.compose.Placeholder;
-import space.maxus.flare.ui.compose.extra.Checkbox;
-import space.maxus.flare.ui.compose.extra.Selection;
-import space.maxus.flare.ui.compose.extra.Slideshow;
+import space.maxus.flare.ui.compose.*;
 import space.maxus.flare.ui.frames.ParamFrame;
 import space.maxus.flare.ui.space.Rect;
 import space.maxus.flare.ui.space.Slot;
@@ -76,13 +72,7 @@ public class MockFrame extends ParamFrame<Player> {
                         20
                 ).inside(Slot.ROW_FIVE_SLOT_ONE)
         );
-        this.compose(
-                Button.create(
-                        Items.builder(Material.DIAMOND),
-                        Button.ClickHandler.cancelling((btn, e) -> this.goBack(e.getWhoClicked()))
-                )
-                        .inside(Slot.ROW_ONE_SLOT_ONE)
-        );
+        this.compose(GoBackButton.create().inside(Slot.ROW_ONE_SLOT_ONE));
     }
 
     public record Context(Player player) {
