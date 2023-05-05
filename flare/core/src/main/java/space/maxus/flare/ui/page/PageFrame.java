@@ -8,7 +8,9 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.frames.ParamFrame;
+import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
 
 import java.util.Map;
@@ -65,10 +67,11 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
     }
 
     void load() {
+        this.composeAll(this.props.initData);
         this.props.initializer.accept(this);
     }
 
-    record Props(int page, Consumer<PageFrame> initializer) { }
+    record Props(int page, Map<ComposableSpace, Composable> initData, Consumer<PageFrame> initializer) { }
 
     @Override
     public void genericClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {

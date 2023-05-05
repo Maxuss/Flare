@@ -126,6 +126,8 @@ public abstract class Frame implements ReactivityProvider {
         final ItemStack[] contents = new ItemStack[inventory.getSize()];
         composed.forEach((key, value) -> {
             for (Slot slot : key.slots()) {
+                if(slot.rawSlot() >= inventory.getSize())
+                    return;
                 ItemStack rendered = value.renderAt(slot);
                 if (rendered != null)
                     contents[slot.rawSlot()] = rendered;
@@ -146,6 +148,17 @@ public abstract class Frame implements ReactivityProvider {
 
         element.injectRoot(this);
         this.composed.put(space, element);
+
+        writeLock.unlock();
+    }
+
+    public void composeAll(@NotNull Map<ComposableSpace, Composable> elements) {
+        if(elements.isEmpty())
+            return; // no need to lock
+        Lock writeLock = this.renderLock.writeLock();
+        writeLock.lock();
+
+        elements.forEach(this::compose);
 
         writeLock.unlock();
     }

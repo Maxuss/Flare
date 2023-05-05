@@ -20,7 +20,7 @@ import space.maxus.flare.ui.space.Slot;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public abstract class PaginatingFrame extends Frame implements PaginationProxy  {
+public abstract class PaginatedFrame extends Frame implements PaginationProxy  {
     @Getter
     protected final @NotNull Dimensions dimensions;
     @Getter @Setter
@@ -28,11 +28,11 @@ public abstract class PaginatingFrame extends Frame implements PaginationProxy  
     @Getter
     protected final @NotNull Pagination<Consumer<PageFrame>> pagination;
 
-    public PaginatingFrame() {
+    public PaginatedFrame() {
         this(Dimensions.SIX_BY_NINE);
     }
 
-    public PaginatingFrame(Dimensions dimensions) {
+    public PaginatedFrame(Dimensions dimensions) {
         this.dimensions = Dimensions.SIX_BY_NINE;
         this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
         this.pagination = new DefaultPagination(0);

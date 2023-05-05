@@ -14,7 +14,7 @@ import space.maxus.flare.ui.page.PaginationProxy;
 
 import java.util.function.Consumer;
 
-public abstract class ParamPaginatingFrame<P> extends Frame implements PaginationProxy {
+public abstract class ParamPaginatedFrame<P> extends Frame implements PaginationProxy {
     @Getter @Setter
     protected Dimensions dimensions;
     protected final @NotNull ReactiveInventoryHolder holder;
@@ -22,7 +22,7 @@ public abstract class ParamPaginatingFrame<P> extends Frame implements Paginatio
     protected final @NotNull Pagination<Consumer<PageFrame>> pagination;
     protected final @NotNull P props;
 
-    public ParamPaginatingFrame(@NotNull P props, @NotNull Dimensions dimensions) {
+    public ParamPaginatedFrame(@NotNull P props, @NotNull Dimensions dimensions) {
         this.props = props;
         this.dimensions = dimensions;
         this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
@@ -35,7 +35,7 @@ public abstract class ParamPaginatingFrame<P> extends Frame implements Paginatio
 
     }
 
-    public ParamPaginatingFrame(@NotNull P props) {
+    public ParamPaginatedFrame(@NotNull P props) {
         this(props, Dimensions.SIX_BY_NINE);
     }
 

@@ -7,31 +7,33 @@ import space.maxus.flare.item.Items;
 import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.Placeholder;
 import space.maxus.flare.ui.compose.Slideshow;
-import space.maxus.flare.ui.frames.PaginatingFrame;
-import space.maxus.flare.ui.page.PageFrame;
+import space.maxus.flare.ui.frames.PaginatedFrame;
 import space.maxus.flare.ui.space.Slot;
 
 import java.util.List;
 
-public class MockPagedFrame extends PaginatingFrame {
+public class MockPagedFrame extends PaginatedFrame {
     @Override
     public void init() {
+        pagination.composeShared(Placeholder.of(Items.builder(Material.GRAY_STAINED_GLASS_PANE)).inside(Slot.ALL));
+        pagination.composeShared(
+                Button
+                        .builder(Items.builder(Material.ARROW))
+                        .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.previousPage((Player) e.getWhoClicked())))
+                        .build()
+                        .inside(Slot.ROW_ONE_SLOT_ONE)
+        );
+        pagination.composeShared(
+                Button
+                        .builder(Items.builder(Material.ARROW))
+                        .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.nextPage((Player) e.getWhoClicked())))
+                        .build()
+                        .inside(Slot.ROW_ONE_SLOT_NINE)
+        );
+
         createPage(page ->
         {
             page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 1"));
-            page.compose(Placeholder.of(Items.builder(Material.GRAY_STAINED_GLASS_PANE)).inside(Slot.ALL));
-            page.compose(Button
-                    .builder(Items.builder(Material.ARROW))
-                    .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.previousPage((Player) e.getWhoClicked())))
-                    .build()
-                    .inside(Slot.ROW_ONE_SLOT_ONE)
-            );
-            page.compose(Button
-                    .builder(Items.builder(Material.ARROW))
-                    .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.nextPage((Player) e.getWhoClicked())))
-                    .build()
-                    .inside(Slot.ROW_ONE_SLOT_NINE)
-            );
             page.compose(Slideshow
                     .create(
                             List.of(
@@ -57,8 +59,6 @@ public class MockPagedFrame extends PaginatingFrame {
         createPage(page ->
         {
             page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 2"));
-            page.compose(Placeholder.of(Items.builder(Material.YELLOW_STAINED_GLASS_PANE)).inside(Slot.ALL));
-            setupMockPage(page);
             page.compose(Slideshow
                     .create(
                             List.of(
@@ -77,8 +77,6 @@ public class MockPagedFrame extends PaginatingFrame {
         pagination.createPage(page ->
         {
             page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 3"));
-            page.compose(Placeholder.of(Items.builder(Material.GREEN_STAINED_GLASS_PANE)).inside(Slot.ALL));
-            setupMockPage(page);
             page.compose(Slideshow
                     .create(
                             List.of(
@@ -97,8 +95,6 @@ public class MockPagedFrame extends PaginatingFrame {
         pagination.createPage(page ->
         {
             page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 4"));
-            page.compose(Placeholder.of(Items.builder(Material.BLUE_STAINED_GLASS_PANE)).inside(Slot.ALL));
-            setupMockPage(page);
             page.compose(Slideshow
                     .create(
                             List.of(
@@ -113,20 +109,5 @@ public class MockPagedFrame extends PaginatingFrame {
                     .inside(Slot.ROW_ONE_SLOT_FIVE)
             );
         });
-    }
-
-    private void setupMockPage(PageFrame page) {
-        page.compose(Button
-                .builder(Items.builder(Material.ARROW))
-                .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.previousPage((Player) e.getWhoClicked())))
-                .build()
-                .inside(Slot.ROW_ONE_SLOT_ONE)
-        );
-        page.compose(Button
-                .builder(Items.builder(Material.ARROW))
-                .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.nextPage((Player) e.getWhoClicked())))
-                .build()
-                .inside(Slot.ROW_ONE_SLOT_NINE)
-        );
     }
 }

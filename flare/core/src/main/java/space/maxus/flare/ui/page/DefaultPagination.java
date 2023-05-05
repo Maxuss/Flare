@@ -3,12 +3,12 @@ package space.maxus.flare.ui.page;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
+import space.maxus.flare.ui.space.ComposableSpace;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -19,6 +19,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
     private final AtomicInteger pageCount = new AtomicInteger(0);
     private final List<PageFrame> pages = new ArrayList<>();
     private final AtomicInteger currentPage;
+    private final Map<ComposableSpace, Composable> sharedData = new LinkedHashMap<>();
     private final ReadWriteLock pageLock = new ReentrantReadWriteLock();
 
     public DefaultPagination(int defaultPage) {
@@ -27,7 +28,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
 
     @Override
     public @NotNull Frame createPage(int page, @NotNull Consumer<PageFrame> props) {
-        PageFrame frame = new PageFrame(new PageFrame.Props(page, props));
+        PageFrame frame = new PageFrame(new PageFrame.Props(page, sharedData, props));
         Lock lock = pageLock.writeLock();
         lock.lock();
         pages.add(frame);
@@ -106,5 +107,21 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
     @Override
     public @Nullable Frame peekPrevious() {
         return this.currentPage() == 0 ? null : this.getPage(this.currentPage() - 1);
+    }
+
+    @Override
+    public void addSharedData(Map<ComposableSpace, Composable> packed) {
+        Lock lock = pageLock.writeLock();
+        lock.lock();
+        sharedData.putAll(packed);
+        lock.unlock();
+    }
+
+    @Override
+    public void composeShared(@NotNull ComposableSpace space, @NotNull Composable composable) {
+        Lock lock = pageLock.writeLock();
+        lock.lock();
+        sharedData.put(space, composable);
+        lock.unlock();
     }
 }
