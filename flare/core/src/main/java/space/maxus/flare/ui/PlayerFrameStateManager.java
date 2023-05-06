@@ -51,11 +51,11 @@ public class PlayerFrameStateManager implements Listener {
 
     @EventHandler
     void onClose(@NotNull InventoryCloseEvent e) {
-        if(!(e.getInventory().getHolder() instanceof ReactiveInventoryHolder flare))
+        if (!(e.getInventory().getHolder() instanceof ReactiveInventoryHolder flare))
             return;
-        if(e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
+        if (e.getReason() != InventoryCloseEvent.Reason.TELEPORT) {
             flare.getFrame().close();
-            if(e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW)
+            if (e.getReason() == InventoryCloseEvent.Reason.OPEN_NEW)
                 saveSnapshot(e.getPlayer(), flare.getFrame()); // saving snapshot in case player wants to return back
             else
                 snapshots.remove(e.getPlayer().getUniqueId()); // player left UI, we clear the snapshots

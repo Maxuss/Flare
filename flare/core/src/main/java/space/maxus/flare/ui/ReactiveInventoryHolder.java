@@ -7,11 +7,14 @@ import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.util.FlareUtil;
 
-@ToString @EqualsAndHashCode
+@ToString
+@EqualsAndHashCode
 public class ReactiveInventoryHolder implements InventoryHolder {
-    @Getter @Setter
+    @Getter
+    @Setter
     private @NotNull Frame frame;
-    @Getter(AccessLevel.NONE) @Setter
+    @Getter(AccessLevel.NONE)
+    @Setter
     private @NotNull Inventory inventory;
     @Getter
     private int size;

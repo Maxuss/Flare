@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 final class SlideshowImpl extends RootReferencing implements Slideshow {
     private final ReactiveState<Boolean> disabledState;
     @Getter
@@ -40,7 +41,7 @@ final class SlideshowImpl extends RootReferencing implements Slideshow {
             this.currentSlide.set(slides.get(newIdx));
         });
         this.disabledState.subscribe(disabled -> {
-            if(Objects.requireNonNullElse(disabled, false))
+            if (Objects.requireNonNullElse(disabled, false))
                 this.task.pause();
             else
                 this.task.resume();

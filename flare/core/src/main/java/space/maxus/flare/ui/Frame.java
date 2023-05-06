@@ -36,30 +36,36 @@ public abstract class Frame implements ReactivityProvider {
     private Player viewer;
 
     public abstract void init();
+
     public abstract @NotNull Inventory selfInventory();
+
     public abstract @NotNull Dimensions getDimensions();
+
     public abstract @NotNull ReactiveInventoryHolder getHolder();
+
     protected abstract void setHolder(ReactiveInventoryHolder holder);
 
     @Override
     public <V> ReactiveState<V> useState(@Nullable V initial) {
         return new ReactiveState<>(initial);
     }
+
     public <T> void useContext(@Nullable T context) {
         this.context = context;
     }
+
     public void setTitle(Player viewer, String title) {
         Flare.getNms().sendPacket(Flare.getNms().obtainConnection(viewer), Flare.getNms().buildTitlePacket(viewer, FlareUtil.text(title)));
     }
 
     public final void bindViewer(Player viewer) {
-        if(this.viewer != null)
+        if (this.viewer != null)
             return;
         this.viewer = viewer;
     }
 
     public void switchFrame(Frame other) {
-        if(other.getDimensions() != this.getDimensions()) {
+        if (other.getDimensions() != this.getDimensions()) {
             // we need to reopen inventory
             other.bindViewer(viewer);
             other.render();
@@ -81,10 +87,10 @@ public abstract class Frame implements ReactivityProvider {
 
     public void goBack() {
         Frame other = PlayerFrameStateManager.restoreSnapshot(viewer);
-        if(other == null)
+        if (other == null)
             return;
 
-        if(other.getDimensions() != this.getDimensions()) {
+        if (other.getDimensions() != this.getDimensions()) {
             // we need to reopen inventory
             other.bindViewer(viewer);
             other.render();
@@ -134,7 +140,7 @@ public abstract class Frame implements ReactivityProvider {
         final ItemStack[] contents = new ItemStack[inventory.getSize()];
         composed.forEach((key, value) -> {
             for (Slot slot : key.slots()) {
-                if(slot.rawSlot() >= inventory.getSize())
+                if (slot.rawSlot() >= inventory.getSize())
                     return;
                 ItemStack rendered = value.renderAt(slot);
                 if (rendered != null)
@@ -156,10 +162,10 @@ public abstract class Frame implements ReactivityProvider {
         composed.forEach((key, value) -> {
             Set<Slot> slotsMut = new HashSet<>(slots);
             slotsMut.retainAll(key.slots());
-            if(slotsMut.isEmpty())
+            if (slotsMut.isEmpty())
                 return;
             for (Slot slot : slotsMut) {
-                if(slot.rawSlot() >= inventory.getSize())
+                if (slot.rawSlot() >= inventory.getSize())
                     return;
                 ItemStack rendered = value.renderAt(slot);
                 if (rendered != null)
@@ -187,7 +193,7 @@ public abstract class Frame implements ReactivityProvider {
     }
 
     public void composeAll(@NotNull Map<ComposableSpace, Composable> elements) {
-        if(elements.isEmpty())
+        if (elements.isEmpty())
             return; // no need to lock
         Lock writeLock = this.renderLock.writeLock();
         writeLock.lock();
@@ -203,15 +209,15 @@ public abstract class Frame implements ReactivityProvider {
 
     public void markDirty(@NotNull ComposableSpace space) {
         this.toRender.add(space);
-        if(this.isDirty.get())
+        if (this.isDirty.get())
             return;
         this.isDirty.setRelease(true);
         Bukkit.getScheduler().runTaskLaterAsynchronously(
                 Flare.getHook(),
                 () -> {
-                    if(!this.isDirty.get())
+                    if (!this.isDirty.get())
                         return;
-                    for(ComposableSpace renderSpace : this.toRender) {
+                    for (ComposableSpace renderSpace : this.toRender) {
                         this.renderPart(renderSpace);
                     }
                     this.toRender.clear();
@@ -223,7 +229,7 @@ public abstract class Frame implements ReactivityProvider {
 
     public void markDirty(@NotNull Composable source) {
         ComposableSpace space = FlareUtil.keyFromValue(composed, source);
-        if(space == null)
+        if (space == null)
             return;
         this.markDirty(space);
     }

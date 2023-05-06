@@ -23,7 +23,8 @@ import space.maxus.flare.util.SafeComputable;
 
 import java.util.List;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 final class TabulationImpl extends RootReferencing implements Tabulation {
     private final Pagination<?> pagination;
     private final ReactiveState<Integer> currentIdx;
@@ -55,7 +56,7 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
     @Override
     public ItemStack renderAt(Slot slot) {
         int idx = this.allocatedSpace.indexOf(slot);
-        if(currentIdx.get() == idx)
+        if (currentIdx.get() == idx)
             return this.selected.safeCompute(Pair.of(idx, pagination.getPage(idx)));
         return this.unselected.safeCompute(Pair.of(idx, pagination.getPage(idx)));
     }
@@ -92,7 +93,7 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
     public void click(@NotNull InventoryClickEvent e) {
         e.setCancelled(true);
         int idx = this.allocatedSpace.indexOf(Slot.ofRaw(e.getSlot()));
-        if(currentIdx.get() == idx) return;
+        if (currentIdx.get() == idx) return;
         currentIdx.set(idx);
         currentPage.set(pagination.getPage(idx));
         pagination.switchPage((Player) e.getWhoClicked(), idx);

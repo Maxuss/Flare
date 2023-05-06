@@ -50,7 +50,9 @@ public interface Tabulation extends Composable, Configurable<Tabulation> {
     }
 
     Pagination<?> getPagination();
+
     ReactiveState<Integer> selectedIndex();
+
     ReactiveState<Frame> selectedFrame();
 
     default void switchPage(int page) {

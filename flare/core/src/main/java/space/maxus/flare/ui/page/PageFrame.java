@@ -17,7 +17,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class PageFrame extends ParamFrame<PageFrame.Props> {
     private @Nullable ClickHandlerWrapper generic;
     private @Nullable ClickHandlerWrapper right;
@@ -71,53 +72,38 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
         this.props.initializer.accept(this);
     }
 
-    record Props(int page, Map<ComposableSpace, Composable> initData, Consumer<PageFrame> initializer) { }
-
     @Override
     public void genericClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {
-        if(this.generic != null)
+        if (this.generic != null)
             this.generic.click(slot, e);
     }
 
     @Override
     public boolean shiftClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {
-        if(this.shift != null)
+        if (this.shift != null)
             return this.shift.click(slot, e);
         return true;
     }
 
     @Override
     public boolean leftClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {
-        if(this.left != null)
+        if (this.left != null)
             return this.left.click(slot, e);
         return true;
     }
 
     @Override
     public boolean rightClick(@NotNull Slot slot, @NotNull InventoryClickEvent e) {
-        if(this.right != null)
+        if (this.right != null)
             return this.right.click(slot, e);
         return true;
     }
 
     @Override
     public boolean drag(@NotNull Map<Slot, ItemStack> newItems, @NotNull InventoryDragEvent e) {
-        if(this.drag != null)
+        if (this.drag != null)
             return this.drag.drag(newItems, e);
         return true;
-    }
-
-    @RequiredArgsConstructor
-    static final class ClickHandlerWrapper {
-        private final @Nullable SimpleClickHandler simple;
-        private final @Nullable BooleanReturningClickHandler bool;
-
-        public boolean click(Slot slot, InventoryClickEvent e) {
-            if(simple == null)
-                return Objects.requireNonNull(bool).click(slot, e);
-            simple.click(slot, e);
-            return true;
-        }
     }
 
     public interface DragHandler {
@@ -130,5 +116,21 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
 
     public interface BooleanReturningClickHandler {
         boolean click(Slot slot, InventoryClickEvent e);
+    }
+
+    record Props(int page, Map<ComposableSpace, Composable> initData, Consumer<PageFrame> initializer) {
+    }
+
+    @RequiredArgsConstructor
+    static final class ClickHandlerWrapper {
+        private final @Nullable SimpleClickHandler simple;
+        private final @Nullable BooleanReturningClickHandler bool;
+
+        public boolean click(Slot slot, InventoryClickEvent e) {
+            if (simple == null)
+                return Objects.requireNonNull(bool).click(slot, e);
+            simple.click(slot, e);
+            return true;
+        }
     }
 }

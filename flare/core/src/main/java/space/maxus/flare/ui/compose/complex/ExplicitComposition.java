@@ -84,7 +84,7 @@ class ExplicitComposition extends RootReferencing implements Composition {
     @Override
     public void markDirty() {
         Frame root = root();
-        for(PackedComposable packed: composed) {
+        for (PackedComposable packed : composed) {
             root.markDirty(packed.getSpace());
         }
         super.markDirty();

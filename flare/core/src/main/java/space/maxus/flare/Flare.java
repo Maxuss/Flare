@@ -49,7 +49,7 @@ public class Flare {
 
     private void initNms() {
         NmsHelper helper = NmsHelper.getInstance();
-        if(helper.getVersion() == NmsVersion.UNKNOWN || helper instanceof ReflectingNmsHelper) {
+        if (helper.getVersion() == NmsVersion.UNKNOWN || helper instanceof ReflectingNmsHelper) {
             Flare.LOGGER.warn("Could not find a suitable dedicated NMS version, using fallback mode...");
             Flare.LOGGER.warn("This may cause issues with some features.");
             Flare.LOGGER.warn("Possibly resolution: update to a newer version of Flare that supports NMS {}", ReflectionHelper.NMS_VERSION.name());

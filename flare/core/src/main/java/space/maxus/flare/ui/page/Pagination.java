@@ -12,19 +12,33 @@ import java.util.concurrent.Callable;
 
 public interface Pagination<P> {
     Frame createPage(int page, @NotNull P props);
+
     Frame getPage(int page);
+
     void setPage(int page);
+
     int nextPageIdx();
+
     int pageCount();
+
     int currentPage();
+
     void enable(Frame currentFrame);
+
     void switchPage(Player viewer, int to);
+
     void open(Player player);
+
     void close();
+
     Frame peekPrevious();
+
     void addSharedData(Map<ComposableSpace, Composable> packed);
+
     void composeShared(@NotNull ComposableSpace space, @NotNull Composable composable);
+
     void composePrioritizedShared(@NotNull Callable<PackedComposable> packed);
+
     void commit();
 
     default Frame createPage(@NotNull P props) {

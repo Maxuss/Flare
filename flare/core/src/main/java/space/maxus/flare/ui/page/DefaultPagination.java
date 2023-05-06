@@ -79,7 +79,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
 
     @Override
     public void switchPage(Player viewer, int to) {
-        if(to + 1 > pageCount.get() || to <= -1)
+        if (to + 1 > pageCount.get() || to <= -1)
             return;
         // Closing current page
         PageFrame previous = (PageFrame) getPage(currentPage.get());

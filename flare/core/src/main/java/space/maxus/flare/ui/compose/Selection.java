@@ -24,13 +24,13 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
                 .stream()
                 .map(v -> {
                     try {
-                        if(v.equals(selected)) {
+                        if (v.equals(selected)) {
                             return FlareUtil.text("<green>▶ %s".formatted(mapper.compute(v)));
                         } else {
                             return FlareUtil.text("<gray>⏺ %s".formatted(mapper.compute(v)));
                         }
                     } catch (InterruptedException e) {
-                        if(e.getCause() instanceof ThreadDeath) {
+                        if (e.getCause() instanceof ThreadDeath) {
                             Thread.currentThread().interrupt();
                         } else {
                             Flare.LOGGER.error("Error while mapping selector", e);
@@ -55,6 +55,7 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
                 .build()
         );
     }
+
     static <E> @NotNull ItemStackBuilder selectorBuilder(String name, String description, List<E> enumeration, E value, Computable<E, String> mapper) {
         return Items
                 .builder(Material.PLAYER_HEAD)
@@ -72,7 +73,7 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
     }
 
     static <E> @NotNull Selection<E> create(Collection<E> enumeration, ItemProvider provider, int selected) {
-        return  new SelectionImpl<>(provider, enumeration, selected, false, null);
+        return new SelectionImpl<>(provider, enumeration, selected, false, null);
     }
 
     @Contract("_, _, _ -> new")
@@ -89,16 +90,24 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
     }
 
     List<E> enumeration();
+
     @NotNull E getSelected();
+
     void setSelected(int index);
+
     void setSelected(E value);
+
     @NotNull ReactiveState<E> selectedState();
 
     interface Builder<E> {
         Builder<E> item(ItemProvider provider);
+
         Builder<E> selected(int index);
+
         Builder<E> selectedItem(E item);
+
         Builder<E> isDisabled(boolean isDisabled);
+
         Builder<E> formatter(Computable<E, String> mapper);
 
         Selection<E> build();

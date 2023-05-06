@@ -31,7 +31,7 @@ public abstract class RootReferencing implements Composable {
 
     @Override
     public void markDirty() {
-        if(attachedSpace == null)
+        if (attachedSpace == null)
             Composable.super.markDirty();
         else
             root().markDirty(attachedSpace);

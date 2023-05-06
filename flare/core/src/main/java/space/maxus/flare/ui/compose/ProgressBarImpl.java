@@ -13,7 +13,8 @@ import space.maxus.flare.ui.space.Slot;
 
 import java.util.List;
 
-@ToString @EqualsAndHashCode(callSuper = false)
+@ToString
+@EqualsAndHashCode(callSuper = false)
 final class ProgressBarImpl extends RootReferencing implements ProgressBar {
     private final ReactiveState<Float> progress;
     private final ItemProvider filledProvider;
@@ -32,7 +33,7 @@ final class ProgressBarImpl extends RootReferencing implements ProgressBar {
     public ItemStack renderAt(Slot slot) {
         int idx = this.allocatedSpace.indexOf(slot) + 1;
         float requiredProgress = (float) idx / (float) totalSize;
-        if(getProgress() < requiredProgress) {
+        if (getProgress() < requiredProgress) {
             return emptyProvider.provide();
         } else {
             return filledProvider.provide();

@@ -20,13 +20,14 @@ import space.maxus.flare.ui.space.Slot;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public abstract class PaginatedFrame extends Frame implements PaginationProxy  {
+public abstract class PaginatedFrame extends Frame implements PaginationProxy {
     @Getter
     protected final @NotNull Dimensions dimensions;
-    @Getter @Setter
-    protected @NotNull ReactiveInventoryHolder holder;
     @Getter
     protected final @NotNull Pagination<Consumer<PageFrame>> pagination;
+    @Getter
+    @Setter
+    protected @NotNull ReactiveInventoryHolder holder;
 
     public PaginatedFrame() {
         this(Dimensions.SIX_BY_NINE);

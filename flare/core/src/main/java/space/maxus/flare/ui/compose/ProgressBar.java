@@ -48,6 +48,7 @@ public interface ProgressBar extends Composable, Configurable<ProgressBar> {
     default float getProgress() {
         return progressState().get();
     }
+
     default float setProgress(float newProgress) {
         return progressState().get();
     }

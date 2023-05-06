@@ -14,7 +14,9 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.ComposableReactiveState;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ToString
@@ -28,7 +30,7 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
 
     SelectionImpl(@Nullable ItemProvider provider, Collection<E> values, int origin, boolean isDisabled, @Nullable Computable<E, String> mapper) {
         this.values = values instanceof ArrayList<E> valuesList ? valuesList : new ArrayList<>(values);
-        if(this.values.size() > 12)
+        if (this.values.size() > 12)
             Flare.LOGGER.warn("Selection is too big. Clients may experience rendering issues. ({} > {})", this.values.size(), 12);
         this.selectedIdx = new AtomicInteger(origin);
         this.selected = new ComposableReactiveState<>(this.values.get(origin), this);
@@ -71,7 +73,7 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
     @Override
     public void setSelected(E value) {
         int idx = values.indexOf(value);
-        if(idx == -1)
+        if (idx == -1)
             throw new IllegalArgumentException("Value not in list");
         selectedIdx.set(idx);
         selected.set(value);
@@ -84,7 +86,7 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
 
     @Override
     public boolean leftClick(@NotNull InventoryClickEvent e) {
-        if(e.getClick() == ClickType.DOUBLE_CLICK || this.isDisabled())
+        if (e.getClick() == ClickType.DOUBLE_CLICK || this.isDisabled())
             return true; // ignoring double clicks
         int idx = selectedIdx.get();
         int newIdx = idx + 1 >= values.size() ? 0 : idx + 1;
@@ -104,12 +106,11 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
 
     @RequiredArgsConstructor
     static class Builder<E> implements Selection.Builder<E> {
+        private final ArrayList<E> enumeration;
         private @Nullable ItemProvider provider = null;
         private @Nullable Computable<E, String> formatter = null;
         private int selection = 0;
         private boolean disabled;
-
-        private final ArrayList<E> enumeration;
 
         @Override
         public Selection.Builder<E> item(ItemProvider provider) {
@@ -126,7 +127,7 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
         @Override
         public Selection.Builder<E> selectedItem(E item) {
             int idx = enumeration.indexOf(item);
-            if(idx == -1)
+            if (idx == -1)
                 throw new IllegalArgumentException("Item not in list");
             this.selection = idx;
             return this;

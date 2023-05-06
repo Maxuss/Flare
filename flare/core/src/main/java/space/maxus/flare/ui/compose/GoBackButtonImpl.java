@@ -11,7 +11,8 @@ import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.PlayerFrameStateManager;
 import space.maxus.flare.ui.space.Slot;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 final class GoBackButtonImpl extends RootReferencing implements GoBackButton {
     private final ReactiveState<Boolean> disabled;
     private final @Nullable ItemProvider itemProvider;

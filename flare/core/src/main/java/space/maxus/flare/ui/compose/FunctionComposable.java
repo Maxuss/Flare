@@ -54,7 +54,7 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
     @Override
     public void markDirty() {
         ComposableSpace space = FlareUtil.keyFromValue(root().composableMap(), this);
-        if(this.composed != null && space != null) {
+        if (this.composed != null && space != null) {
             root().markDirty(space); // FCs are not inlined, so we must mark space specifically as dirty
         }
     }

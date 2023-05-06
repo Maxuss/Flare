@@ -8,16 +8,16 @@ import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.Flare;
 
 public interface SafeComputable<I, O> extends Computable<I, O> {
+    @Contract("_ -> new")
+    static <I, O> @NotNull SafeComputable<I, O> wrap(Computable<I, O> c) {
+        return new Wrapper<>(c);
+    }
+
     O safeCompute(I input);
 
     @Override
     default O compute(I arg) {
         return safeCompute(arg);
-    }
-
-    @Contract("_ -> new")
-    static <I, O> @NotNull SafeComputable<I, O> wrap(Computable<I, O> c) {
-        return new Wrapper<>(c);
     }
 
     @Data
@@ -30,7 +30,7 @@ public interface SafeComputable<I, O> extends Computable<I, O> {
                 return computable.compute(input);
             } catch (InterruptedException e) {
                 Flare.LOGGER.error("Thread was interrupted while calling SafeComputable!", e);
-                if(e.getCause() instanceof ThreadDeath) {
+                if (e.getCause() instanceof ThreadDeath) {
                     Thread.currentThread().interrupt();
                 }
                 throw new ComputeInterruptionException(e);

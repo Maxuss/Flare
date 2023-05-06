@@ -58,12 +58,15 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
     static @NotNull Builder builder(@Nullable ItemProvider provider) {
         return new TextInputImpl.Builder(provider, null, null);
     }
+
     static @NotNull Builder builder(@Nullable String name, @Nullable String description) {
         return new TextInputImpl.Builder(null, name, description);
     }
+
     static @NotNull Builder builder() {
         return new TextInputImpl.Builder(null, "Text Input", "");
     }
+
     default @NotNull String getText() {
         return onTextChange().get();
     }
@@ -83,6 +86,7 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
     ReactiveState<String> onTextChange();
 
     ReactiveState<String> promptState();
+
     @Nullable Validator getValidator();
 
     @Override

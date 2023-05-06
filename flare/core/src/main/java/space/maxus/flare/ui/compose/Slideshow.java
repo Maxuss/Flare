@@ -17,6 +17,8 @@ public interface Slideshow extends Disable, Composable, Configurable<Slideshow> 
     }
 
     List<ItemProvider> getSlides();
+
     ReactiveState<ItemProvider> itemState();
+
     int getPeriod();
 }

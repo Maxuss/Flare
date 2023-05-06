@@ -6,7 +6,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@RequiredArgsConstructor @ToString
+@RequiredArgsConstructor
+@ToString
 public class PausingTask extends BukkitRunnable {
     private final Runnable executor;
     private final AtomicBoolean paused = new AtomicBoolean(false);
@@ -21,7 +22,7 @@ public class PausingTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if(!paused.get())
+        if (!paused.get())
             executor.run();
     }
 

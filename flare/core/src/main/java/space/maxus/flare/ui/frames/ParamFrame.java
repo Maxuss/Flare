@@ -11,9 +11,10 @@ import space.maxus.flare.ui.ReactiveInventoryHolder;
 public abstract class ParamFrame<P> extends Frame {
     @Getter
     protected final @NotNull Dimensions dimensions;
-    @Getter @Setter
-    protected @NotNull ReactiveInventoryHolder holder;
     protected final @NotNull P props;
+    @Getter
+    @Setter
+    protected @NotNull ReactiveInventoryHolder holder;
 
     protected ParamFrame(@NotNull P params) {
         this.dimensions = Dimensions.SIX_BY_NINE;

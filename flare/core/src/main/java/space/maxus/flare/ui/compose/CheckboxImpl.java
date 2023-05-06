@@ -13,21 +13,11 @@ import space.maxus.flare.ui.ComposableReactiveState;
 @ToString
 @EqualsAndHashCode(callSuper = true)
 final class CheckboxImpl extends RootReferencing implements Checkbox {
-    @Override
-    public void click(@NotNull InventoryClickEvent e) {
-        if (e.getClick() == ClickType.DOUBLE_CLICK || isDisabled())
-            return; // ignoring double clicks
-        this.toggle();
-        e.setCancelled(true);
-    }
-
     private final ItemProvider checkedProvider;
     private final ItemProvider uncheckedProvider;
     private final ReactiveState<Boolean> disabledState;
     private final ReactiveState<Boolean> checkedState;
-
     private final ItemProvider branchingProvider;
-
 
     public CheckboxImpl(@Nullable ItemProvider checkedItem, @Nullable ItemProvider uncheckedItem, boolean isChecked, boolean isDisabled) {
         this.checkedProvider = checkedItem == null ? Checkbox.checkedItem("Checkbox", "") : checkedItem;
@@ -35,6 +25,14 @@ final class CheckboxImpl extends RootReferencing implements Checkbox {
         this.disabledState = new ComposableReactiveState<>(isDisabled, this);
         this.checkedState = new ComposableReactiveState<>(isChecked, this);
         this.branchingProvider = () -> this.checkedState.get() ? this.checkedProvider.provide() : this.uncheckedProvider.provide();
+    }
+
+    @Override
+    public void click(@NotNull InventoryClickEvent e) {
+        if (e.getClick() == ClickType.DOUBLE_CLICK || isDisabled())
+            return; // ignoring double clicks
+        this.toggle();
+        e.setCancelled(true);
     }
 
     @Override
