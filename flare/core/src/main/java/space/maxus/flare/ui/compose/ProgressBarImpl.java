@@ -13,7 +13,7 @@ import space.maxus.flare.ui.space.Slot;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true) @ToString
+@ToString @EqualsAndHashCode(callSuper = false)
 final class ProgressBarImpl extends RootReferencing implements ProgressBar {
     private final ReactiveState<Float> progress;
     private final ItemProvider filledProvider;

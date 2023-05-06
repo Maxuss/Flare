@@ -37,6 +37,7 @@ public abstract class PaginatedFrame extends Frame implements PaginationProxy  {
         this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
         this.pagination = new DefaultPagination(0);
         this.init();
+        this.pagination.commit();
     }
 
     @Override

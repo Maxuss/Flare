@@ -2,7 +2,6 @@ package space.maxus.flare.ui.compose;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -24,11 +23,8 @@ final class GoBackButtonImpl extends RootReferencing implements GoBackButton {
 
     @Override
     public @Nullable ItemStack renderAt(Slot slot) {
-        HumanEntity player = root().getHolder().getInventoryNoRender().getViewers().stream().findFirst().orElse(null);
-        if(player == null) // the frame was the first to be opened
-            return null;
-        ItemStack rendered = itemProvider == null ? GoBackButton.goBackItem(player).provide() : itemProvider.provide();
-        return PlayerFrameStateManager.peekPrevious(player) == null ? null : rendered;
+        ItemStack rendered = itemProvider == null ? GoBackButton.goBackItem(viewer()).provide() : itemProvider.provide();
+        return PlayerFrameStateManager.peekPrevious(viewer()) == null ? null : rendered;
     }
 
     @Override
@@ -45,6 +41,6 @@ final class GoBackButtonImpl extends RootReferencing implements GoBackButton {
     @Override
     public void click(@NotNull InventoryClickEvent e) {
         e.setCancelled(true);
-        root().goBack(e.getWhoClicked());
+        root().goBack();
     }
 }

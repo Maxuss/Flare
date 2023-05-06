@@ -8,6 +8,7 @@ import space.maxus.flare.ui.PackedComposable;
 import space.maxus.flare.ui.space.ComposableSpace;
 
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public interface Pagination<P> {
     Frame createPage(int page, @NotNull P props);
@@ -23,6 +24,8 @@ public interface Pagination<P> {
     Frame peekPrevious();
     void addSharedData(Map<ComposableSpace, Composable> packed);
     void composeShared(@NotNull ComposableSpace space, @NotNull Composable composable);
+    void composePrioritizedShared(@NotNull Callable<PackedComposable> packed);
+    void commit();
 
     default Frame createPage(@NotNull P props) {
         return this.createPage(nextPageIdx(), props);

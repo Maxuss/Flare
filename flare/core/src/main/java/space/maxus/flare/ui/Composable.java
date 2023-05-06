@@ -1,6 +1,7 @@
 package space.maxus.flare.ui;
 
 import lombok.SneakyThrows;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,7 +62,7 @@ public interface Composable {
     }
 
     default void markDirty() {
-        root().markDirty();
+        root().markDirty(this);
     }
 
     /**
@@ -100,5 +101,9 @@ public interface Composable {
 
     default <T> @Nullable T contextOrNull() {
         return root().contextOrNull();
+    }
+
+    default Player viewer() {
+        return root().getViewer();
     }
 }

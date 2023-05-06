@@ -29,6 +29,7 @@ public abstract class ParamPaginatedFrame<P> extends Frame implements Pagination
         this.pagination = new DefaultPagination(0);
         this.preInit(props);
         this.init();
+        this.pagination.commit();
     }
 
     public void preInit(P props) {

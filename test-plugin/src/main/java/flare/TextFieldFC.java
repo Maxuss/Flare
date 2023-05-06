@@ -17,6 +17,7 @@ public class TextFieldFC extends FunctionComposable<String> {
                 .builder("Input number", null)
                 .prompt("<gold>%s".formatted(props))
                 .validate(Validators.INTEGER)
-                .build();
+                .build()
+                ;
     }
 }

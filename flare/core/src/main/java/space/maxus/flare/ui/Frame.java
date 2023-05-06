@@ -1,9 +1,9 @@
 package space.maxus.flare.ui;
 
 import com.google.common.collect.Sets;
+import lombok.Getter;
 import lombok.experimental.StandardException;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -19,10 +19,8 @@ import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.FlareUtil;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -31,8 +29,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public abstract class Frame implements ReactivityProvider {
     protected final @NotNull Map<@NotNull ComposableSpace, @NotNull Composable> composed = new LinkedHashMap<>();
     protected final AtomicBoolean isDirty = new AtomicBoolean(false);
+    private final ConcurrentLinkedQueue<ComposableSpace> toRender = new ConcurrentLinkedQueue<>();
     private final ReadWriteLock renderLock = new ReentrantReadWriteLock();
     private @Nullable Object context = null;
+    @Getter
+    private Player viewer;
 
     public abstract void init();
     public abstract @NotNull Inventory selfInventory();
@@ -50,49 +51,56 @@ public abstract class Frame implements ReactivityProvider {
     public void setTitle(Player viewer, String title) {
         Flare.getNms().sendPacket(Flare.getNms().obtainConnection(viewer), Flare.getNms().buildTitlePacket(viewer, FlareUtil.text(title)));
     }
-    public void switchFrame(HumanEntity viewer, Frame other) {
-        if(!(viewer instanceof Player player))
+
+    public final void bindViewer(Player viewer) {
+        if(this.viewer != null)
             return;
+        this.viewer = viewer;
+    }
+
+    public void switchFrame(Frame other) {
         if(other.getDimensions() != this.getDimensions()) {
             // we need to reopen inventory
+            other.bindViewer(viewer);
             other.render();
             viewer.closeInventory(InventoryCloseEvent.Reason.OPEN_NEW);
             viewer.openInventory(other.selfInventory());
-            other.open(player);
+            other.open(viewer);
         } else {
             // we need to simply re-render inventory
             PlayerFrameStateManager.saveSnapshot(viewer, this);
             this.close();
             other.getHolder().inherit(this.getHolder());
             this.getHolder().setFrame(other);
-            other.setTitle(player, other.getTitle());
+            other.setTitle(viewer, other.getTitle());
+            other.bindViewer(viewer);
             other.render();
-            other.open(player);
+            other.open(viewer);
         }
     }
 
-    public void goBack(HumanEntity viewer) {
-        if(!(viewer instanceof Player player))
-            return;
+    public void goBack() {
         Frame other = PlayerFrameStateManager.restoreSnapshot(viewer);
         if(other == null)
             return;
 
         if(other.getDimensions() != this.getDimensions()) {
             // we need to reopen inventory
+            other.bindViewer(viewer);
             other.render();
             viewer.closeInventory(InventoryCloseEvent.Reason.TELEPORT);
             viewer.openInventory(other.selfInventory());
-            other.restorePreviousState(player);
+            other.restorePreviousState(viewer);
         } else {
             // we need to simply re-render inventory
             // not saving snapshots here
             this.close();
             // we don't need to change inventory reference here, since it was restored
             other.getHolder().setFrame(other); // looks weird, but it is basically setting the frame reference to the frame we just restored
+            other.bindViewer(viewer);
             other.render();
-            other.setTitle(player, other.getTitle());
-            other.restorePreviousState(player);
+            other.setTitle(viewer, other.getTitle());
+            other.restorePreviousState(viewer);
         }
     }
 
@@ -138,6 +146,31 @@ public abstract class Frame implements ReactivityProvider {
         readLock.unlock();
     }
 
+    protected void renderPart(@NotNull ComposableSpace toUpdate) {
+        Lock readLock = renderLock.readLock();
+        readLock.lock();
+
+        Inventory inventory = this.selfInventory();
+        final ItemStack[] contents = inventory.getContents();
+        Set<Slot> slots = toUpdate.slots();
+        composed.forEach((key, value) -> {
+            Set<Slot> slotsMut = new HashSet<>(slots);
+            slotsMut.retainAll(key.slots());
+            if(slotsMut.isEmpty())
+                return;
+            for (Slot slot : slotsMut) {
+                if(slot.rawSlot() >= inventory.getSize())
+                    return;
+                ItemStack rendered = value.renderAt(slot);
+                if (rendered != null)
+                    contents[slot.rawSlot()] = rendered;
+            }
+        });
+        inventory.setContents(contents);
+
+        readLock.unlock();
+    }
+
     public @NotNull Map<ComposableSpace, Composable> composableMap() {
         return composed;
     }
@@ -146,6 +179,7 @@ public abstract class Frame implements ReactivityProvider {
         Lock writeLock = this.renderLock.writeLock();
         writeLock.lock();
 
+        element.inside(space); // some (most actually) composable elements depend on this
         element.injectRoot(this);
         this.composed.put(space, element);
 
@@ -165,6 +199,33 @@ public abstract class Frame implements ReactivityProvider {
 
     public void compose(@NotNull PackedComposable packed) {
         this.compose(packed.getSpace(), packed.getComposable());
+    }
+
+    public void markDirty(@NotNull ComposableSpace space) {
+        this.toRender.add(space);
+        if(this.isDirty.get())
+            return;
+        this.isDirty.setRelease(true);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(
+                Flare.getHook(),
+                () -> {
+                    if(!this.isDirty.get())
+                        return;
+                    for(ComposableSpace renderSpace : this.toRender) {
+                        this.renderPart(renderSpace);
+                    }
+                    this.toRender.clear();
+                    this.isDirty.setRelease(false);
+                },
+                1L
+        );
+    }
+
+    public void markDirty(@NotNull Composable source) {
+        ComposableSpace space = FlareUtil.keyFromValue(composed, source);
+        if(space == null)
+            return;
+        this.markDirty(space);
     }
 
     public void markDirty() {

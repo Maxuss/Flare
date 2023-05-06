@@ -1,5 +1,6 @@
 package space.maxus.flare.ui.compose;
 
+import lombok.Getter;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -13,10 +14,14 @@ import space.maxus.flare.ui.PackedComposable;
 import space.maxus.flare.ui.compose.complex.Composition;
 import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
+import space.maxus.flare.util.FlareUtil;
+
+import java.util.Objects;
 
 public abstract class FunctionComposable<P> implements Composable, ReactivityProvider {
     protected P props;
-    private Composable composed;
+    @Getter
+    private @Nullable Composable composed;
 
     public FunctionComposable(P props) {
         this.props = props;
@@ -30,7 +35,7 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public Frame root() {
-        return this.composed.root();
+        return Objects.requireNonNull(this.composed).root();
     }
 
     @Override
@@ -43,13 +48,15 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public ItemStack renderAt(Slot slot) {
-        return composed.renderAt(slot);
+        return Objects.requireNonNull(composed).renderAt(slot);
     }
 
     @Override
     public void markDirty() {
-        if (this.composed != null)
-            this.composed.markDirty(); // catching edge-case here, when a reactive state is set before composition
+        ComposableSpace space = FlareUtil.keyFromValue(root().composableMap(), this);
+        if(this.composed != null && space != null) {
+            root().markDirty(space); // FCs are not inlined, so we must mark space specifically as dirty
+        }
     }
 
     @Override
@@ -58,6 +65,8 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
             this.activate();
         if (this.composed instanceof Composition composition)
             composition.fitIn(space);
+        else
+            composed.inside(space);
         return new PackedComposable(space, this);
     }
 
@@ -83,28 +92,28 @@ public abstract class FunctionComposable<P> implements Composable, ReactivityPro
 
     @Override
     public final boolean shiftFrom(@NotNull InventoryClickEvent e) {
-        return this.handleShiftFrom(e) && this.composed.shiftFrom(e);
+        return this.handleShiftFrom(e) && Objects.requireNonNull(this.composed).shiftFrom(e);
     }
 
     @Override
     public boolean shiftInto(@NotNull ItemStack stack, @NotNull InventoryClickEvent e) {
-        return this.handleShiftInto(stack, e) && this.composed.shiftInto(stack, e);
+        return this.handleShiftInto(stack, e) && Objects.requireNonNull(this.composed).shiftInto(stack, e);
     }
 
     @Override
     public boolean leftClick(@NotNull InventoryClickEvent e) {
-        return this.handleLeftClick(e) && this.composed.leftClick(e);
+        return this.handleLeftClick(e) && Objects.requireNonNull(this.composed).leftClick(e);
     }
 
     @Override
     public boolean rightClick(@NotNull InventoryClickEvent e) {
-        return this.handleRightClick(e) && this.composed.rightClick(e);
+        return this.handleRightClick(e) && Objects.requireNonNull(this.composed).rightClick(e);
     }
 
     @Override
     public void click(@NotNull InventoryClickEvent e) {
         this.handleClick(e);
-        this.composed.click(e);
+        Objects.requireNonNull(this.composed).click(e);
     }
 
     @Override

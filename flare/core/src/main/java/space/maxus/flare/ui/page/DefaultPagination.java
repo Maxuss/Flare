@@ -3,12 +3,16 @@ package space.maxus.flare.ui.page;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
 import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.Frame;
+import space.maxus.flare.ui.PackedComposable;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
 import space.maxus.flare.ui.space.ComposableSpace;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -20,6 +24,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
     private final List<PageFrame> pages = new ArrayList<>();
     private final AtomicInteger currentPage;
     private final Map<ComposableSpace, Composable> sharedData = new LinkedHashMap<>();
+    private final ConcurrentLinkedQueue<Callable<PackedComposable>> prioritizedSharedData = new ConcurrentLinkedQueue<>();
     private final ReadWriteLock pageLock = new ReentrantReadWriteLock();
 
     public DefaultPagination(int defaultPage) {
@@ -122,6 +127,31 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
         Lock lock = pageLock.writeLock();
         lock.lock();
         sharedData.put(space, composable);
+        lock.unlock();
+    }
+
+    @Override
+    public void composePrioritizedShared(@NotNull Callable<PackedComposable> packed) {
+        Lock lock = pageLock.writeLock();
+        lock.lock();
+        prioritizedSharedData.add(packed);
+        lock.unlock();
+
+    }
+
+    @Override
+    public void commit() {
+        Lock lock = pageLock.writeLock();
+        lock.lock();
+        prioritizedSharedData.forEach(c -> {
+            try {
+                PackedComposable value = c.call();
+                sharedData.put(value.getSpace(), value.getComposable());
+            } catch (Exception e) {
+                Flare.LOGGER.error("Error while committing shared data", e);
+            }
+        });
+        prioritizedSharedData.clear();
         lock.unlock();
     }
 }

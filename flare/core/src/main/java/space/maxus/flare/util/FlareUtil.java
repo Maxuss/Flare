@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.ui.Composable;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -124,5 +125,29 @@ public class FlareUtil {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public <K, V> @Nullable K keyFromValue(@NotNull Map<K, V> map, @NotNull V value) {
+        K key = null;
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                key = entry.getKey();
+                break;
+            }
+        }
+
+        return key;
+    }
+
+    public <K> @Nullable K keyFromComposable(@NotNull Map<K, Composable> map, @NotNull Composable value) {
+        K key = null;
+        for (Map.Entry<K, Composable> entry : map.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                key = entry.getKey();
+                break;
+            }
+        }
+
+        return key;
     }
 }

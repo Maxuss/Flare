@@ -1,6 +1,6 @@
 package space.maxus.flare.ui.compose.complex;
 
-import lombok.EqualsAndHashCode;
+import com.google.common.base.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.tuple.Pair;
@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ToString
-@EqualsAndHashCode(callSuper = true)
 class ExplicitComposition extends RootReferencing implements Composition {
     private final List<PackedComposable> toCompose;
     private List<PackedComposable> composed;
@@ -67,5 +66,27 @@ class ExplicitComposition extends RootReferencing implements Composition {
     @Override
     public List<PackedComposable> children() {
         return this.composed == null ? Collections.emptyList() : this.composed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExplicitComposition that = (ExplicitComposition) o;
+        return Objects.equal(composed, that.composed);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(composed);
+    }
+
+    @Override
+    public void markDirty() {
+        Frame root = root();
+        for(PackedComposable packed: composed) {
+            root.markDirty(packed.getSpace());
+        }
+        super.markDirty();
     }
 }

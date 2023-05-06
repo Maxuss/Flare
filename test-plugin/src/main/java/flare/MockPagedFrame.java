@@ -8,6 +8,7 @@ import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.Placeholder;
 import space.maxus.flare.ui.compose.Slideshow;
 import space.maxus.flare.ui.frames.PaginatedFrame;
+import space.maxus.flare.ui.space.Rect;
 import space.maxus.flare.ui.space.Slot;
 
 import java.util.List;
@@ -15,21 +16,9 @@ import java.util.List;
 public class MockPagedFrame extends PaginatedFrame {
     @Override
     public void init() {
+        useTabulation(Rect.of(Slot.ROW_THREE_SLOT_THREE, Slot.ROW_THREE_SLOT_SIX));
+
         pagination.composeShared(Placeholder.of(Items.builder(Material.GRAY_STAINED_GLASS_PANE)).inside(Slot.ALL));
-        pagination.composeShared(
-                Button
-                        .builder(Items.builder(Material.ARROW))
-                        .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.previousPage((Player) e.getWhoClicked())))
-                        .build()
-                        .inside(Slot.ROW_ONE_SLOT_ONE)
-        );
-        pagination.composeShared(
-                Button
-                        .builder(Items.builder(Material.ARROW))
-                        .onClick(Button.ClickHandler.cancelling((btn, e) -> pagination.nextPage((Player) e.getWhoClicked())))
-                        .build()
-                        .inside(Slot.ROW_ONE_SLOT_NINE)
-        );
 
         createPage(page ->
         {
@@ -50,7 +39,7 @@ public class MockPagedFrame extends PaginatedFrame {
             page.compose(Button
                     .create(
                             Items.builder(Material.DIAMOND),
-                            Button.ClickHandler.cancelling((btn, e) -> this.switchFrame(e.getWhoClicked(), new MockFrame((Player) e.getWhoClicked())))
+                            Button.ClickHandler.cancelling((btn, e) -> this.switchFrame(new MockFrame((Player) e.getWhoClicked())))
                     )
                     .inside(Slot.ROW_SIX_SLOT_FIVE)
             );
@@ -74,7 +63,7 @@ public class MockPagedFrame extends PaginatedFrame {
             );
         });
 
-        pagination.createPage(page ->
+        createPage(page ->
         {
             page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 3"));
             page.compose(Slideshow
@@ -92,7 +81,7 @@ public class MockPagedFrame extends PaginatedFrame {
             );
         });
 
-        pagination.createPage(page ->
+        createPage(page ->
         {
             page.cancellingOnLeftClick((slot, e) -> Flare.LOGGER.info("LEFT 4"));
             page.compose(Slideshow

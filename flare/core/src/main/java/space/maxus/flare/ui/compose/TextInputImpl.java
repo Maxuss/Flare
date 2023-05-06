@@ -1,6 +1,6 @@
 package space.maxus.flare.ui.compose;
 
-import lombok.EqualsAndHashCode;
+import com.google.common.base.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -12,7 +12,6 @@ import space.maxus.flare.ui.ComposableReactiveState;
 import space.maxus.flare.util.Validator;
 
 @ToString
-@EqualsAndHashCode(callSuper = true)
 final class TextInputImpl extends RootReferencing implements TextInput {
     @Getter
     private final ItemProvider provider;
@@ -49,6 +48,19 @@ final class TextInputImpl extends RootReferencing implements TextInput {
     @Override
     public ReactiveState<Boolean> disabledState() {
         return disabledState;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TextInputImpl textInput = (TextInputImpl) o;
+        return Objects.equal(textState, textInput.textState) && Objects.equal(promptState, textInput.promptState) && Objects.equal(disabledState, textInput.disabledState);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(textState, promptState, disabledState);
     }
 
     @RequiredArgsConstructor
