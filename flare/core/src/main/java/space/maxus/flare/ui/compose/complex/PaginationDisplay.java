@@ -20,14 +20,14 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
         return Items.builder(Material.PLAYER_HEAD)
                 .name("<gray>Next Pages <dark_gray>[→]")
                 .branch(disabled,
-                    builder -> builder
-                            .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjMyY2E2NjA1NmI3Mjg2M2U5OGY3ZjMyYmQ3ZDk0YzdhMGQ3OTZhZjY5MWM5YWMzYTkxMzYzMzEzNTIyODhmOSJ9fX0=")
-                            .padLore()
-                            .addLoreLine("<dark_gray>Last page reached!"),
-                    builder -> builder
-                            .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU2YTM2MTg0NTllNDNiMjg3YjIyYjdlMjM1ZWM2OTk1OTQ1NDZjNmZjZDZkYzg0YmZjYTRjZjMwYWI5MzExIn19fQ==")
-                            .padLore()
-                            .addLoreLine("<dark_gray>Click to show next pages")
+                        builder -> builder
+                                .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjMyY2E2NjA1NmI3Mjg2M2U5OGY3ZjMyYmQ3ZDk0YzdhMGQ3OTZhZjY5MWM5YWMzYTkxMzYzMzEzNTIyODhmOSJ9fX0=")
+                                .padLore()
+                                .addLoreLine("<dark_gray>Last page reached!"),
+                        builder -> builder
+                                .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU2YTM2MTg0NTllNDNiMjg3YjIyYjdlMjM1ZWM2OTk1OTQ1NDZjNmZjZDZkYzg0YmZjYTRjZjMwYWI5MzExIn19fQ==")
+                                .padLore()
+                                .addLoreLine("<dark_gray>Click to show next pages")
                 );
     }
 
@@ -61,7 +61,7 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
                                 .addLoreLine("<gray>Go to <green>%s".formatted(frame.getTitle()))
                                 .padLore()
                                 .addLoreLine("<dark_gray>Click to select page")
-                        );
+                );
     }
 
     static @NotNull PaginationDisplay create(Pagination<?> pagination) {
@@ -88,9 +88,13 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
 
     interface Builder {
         @NotNull Builder selectedIndex(int index);
+
         @NotNull Builder backButton(@Nullable ItemProvider back);
+
         @NotNull Builder forwardButton(@Nullable ItemProvider forward);
+
         @NotNull Builder selectedPage(@Nullable SafeComputable<Pair<Integer, Frame>, ItemStack> page);
+
         @NotNull Builder unselectedPage(@Nullable SafeComputable<Pair<Integer, Frame>, ItemStack> page);
 
         @NotNull PaginationDisplay build();

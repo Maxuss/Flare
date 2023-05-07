@@ -9,16 +9,11 @@ import space.maxus.flare.nms.generic.ReflectionHelper;
 import java.lang.reflect.InvocationTargetException;
 
 public interface NmsHelper {
-    NmsVersion getVersion();
-    Object obtainConnection(Player player);
-    Object buildTitlePacket(Player player, Component newTitle);
-    void sendPacket(Object connection, Object packet);
-
     static @NotNull NmsHelper getInstance() {
         NmsVersion version = ReflectionHelper.NMS_VERSION;
-        if(version == NmsVersion.UNKNOWN || version == NmsVersion.UNPREFIXED) // currently don't have an implementation for unprefixed NMS
+        if (version == NmsVersion.UNKNOWN || version == NmsVersion.UNPREFIXED) // currently don't have an implementation for unprefixed NMS
             return new ReflectingNmsHelper();
-        if(ReflectionHelper.hasClass("space.maxus.flare.nms.%s.NmsHelperImpl".formatted(version.name()))) {
+        if (ReflectionHelper.hasClass("space.maxus.flare.nms.%s.NmsHelperImpl".formatted(version.name()))) {
             try {
                 return (NmsHelper) ReflectionHelper.classOrThrow("space.maxus.flare.nms.%s.NmsHelperImpl".formatted(version.name())).getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
@@ -28,4 +23,12 @@ public interface NmsHelper {
         }
         return new ReflectingNmsHelper();
     }
+
+    NmsVersion getVersion();
+
+    Object obtainConnection(Player player);
+
+    Object buildTitlePacket(Player player, Component newTitle);
+
+    void sendPacket(Object connection, Object packet);
 }

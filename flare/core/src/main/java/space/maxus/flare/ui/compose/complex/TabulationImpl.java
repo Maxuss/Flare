@@ -57,7 +57,7 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
     @Override
     public ItemStack renderAt(Slot slot) {
         int idx = this.allocatedSpace.indexOf(slot);
-        if(idx == -1) // Probably exceeded allocated space
+        if (idx == -1) // Probably exceeded allocated space
             return null;
 
         if (currentIdx.get() == idx)

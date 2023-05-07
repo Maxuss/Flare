@@ -12,30 +12,26 @@ import java.util.Objects;
 // Uses portions of code from adventure-platform, licensed under MIT License
 // https://github.com/KyoriPowered/adventure-platform
 public class ReflectionHelper {
-    private ReflectionHelper() { }
-
+    public static final boolean IS_LEGACY_BUKKIT;
+    public static final boolean IS_LEGACY_NMS;
+    public static final NmsVersion NMS_VERSION;
     private static final Logger log = LoggerFactory.getLogger("Flare-Reflect");
-
     private static final String NM_PREFIX = "net.minecraft";
     private static final String NMS_PREFIX = "net.minecraft.server";
     private static final String BUKKIT_CRAFT_SERVER_NAME = "CraftServer";
     private static final String CB_PREFIX = "org.bukkit.craftbukkit";
     private static final String FLARE_PREFIX = "space.maxus.flare.nms";
     private static final @Nullable String CURRENT_VERSION;
-    public static final boolean IS_LEGACY_BUKKIT;
-    public static final boolean IS_LEGACY_NMS;
-
-    public static final NmsVersion NMS_VERSION;
 
     static {
         Class<?> bukkitClass = Bukkit.getServer().getClass();
-        if(!bukkitClass.getSimpleName().equals(BUKKIT_CRAFT_SERVER_NAME)) {
+        if (!bukkitClass.getSimpleName().equals(BUKKIT_CRAFT_SERVER_NAME)) {
             log.error("Flare is currently not compatible with a server implementation {}", bukkitClass.getSimpleName());
             CURRENT_VERSION = ".";
             NMS_VERSION = NmsVersion.UNPREFIXED;
             IS_LEGACY_BUKKIT = false;
             IS_LEGACY_NMS = false;
-        } else if(bukkitClass.getCanonicalName().equals("%s.%s".formatted(CB_PREFIX, BUKKIT_CRAFT_SERVER_NAME))) {
+        } else if (bukkitClass.getCanonicalName().equals("%s.%s".formatted(CB_PREFIX, BUKKIT_CRAFT_SERVER_NAME))) {
             CURRENT_VERSION = ".";
             NMS_VERSION = NmsVersion.UNPREFIXED;
             IS_LEGACY_BUKKIT = false;
@@ -55,6 +51,9 @@ public class ReflectionHelper {
         }
     }
 
+    private ReflectionHelper() {
+    }
+
     public static @Nullable Class<?> findClass(String className) {
         try {
             return Class.forName(className);
@@ -63,10 +62,10 @@ public class ReflectionHelper {
         }
     }
 
-    public static @Nullable Class<?> findFirstClass(String @NotNull ...classNames) {
-        for(String className : classNames) {
+    public static @Nullable Class<?> findFirstClass(String @NotNull ... classNames) {
+        for (String className : classNames) {
             Class<?> cls = findClass(className);
-            if(cls != null) return cls;
+            if (cls != null) return cls;
         }
         return null;
     }
@@ -83,10 +82,10 @@ public class ReflectionHelper {
         return Objects.requireNonNull(findClass(className), "Could not find required class %s".formatted(className));
     }
 
-    public static @NotNull Class<?> anyClassOrThrow(String @NotNull ...classNames) {
-        for(String className : classNames) {
+    public static @NotNull Class<?> anyClassOrThrow(String @NotNull ... classNames) {
+        for (String className : classNames) {
             Class<?> cls = findClass(className);
-            if(cls != null) return cls;
+            if (cls != null) return cls;
         }
         throw new IllegalArgumentException("Could not find any of the required classes");
     }

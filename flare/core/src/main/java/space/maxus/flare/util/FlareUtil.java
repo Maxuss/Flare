@@ -161,5 +161,6 @@ public class FlareUtil {
     }
 
     @StandardException
-    public static class AcquiringException extends RuntimeException { }
+    public static class AcquiringException extends RuntimeException {
+    }
 }

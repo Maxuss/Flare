@@ -30,7 +30,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 final class PaginationDisplayImpl extends RootReferencing implements PaginationDisplay {
     private final Pagination<?> pagination;
     private final ReactiveState<Integer> currentIdx;
@@ -39,11 +40,10 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
     private final ItemProvider forwardProvider;
     private final SafeComputable<Pair<Integer, Frame>, ItemStack> selectedPage;
     private final SafeComputable<Pair<Integer, Frame>, ItemStack> unselectedPage;
-
+    private final Map<Slot, Integer> activeSlots = new ConcurrentHashMap<>();
     private Slot buttonBack = Slot.ROW_ONE_SLOT_ONE;
     private Slot buttonForward = Slot.ROW_ONE_SLOT_ONE;
     private List<Slot> allocatedSpace = List.of();
-    private final Map<Slot, Integer> activeSlots = new ConcurrentHashMap<>();
 
     PaginationDisplayImpl(
             @NotNull Pagination<?> pagination,
@@ -65,7 +65,7 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
                 () -> PaginationDisplay.arrowForwardButton(FlareUtil.acquireThrowing(isLastSelected)).build() :
                 forward;
         this.selectedPage = selectedPage == null ?
-                pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), true).build()  :
+                pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), true).build() :
                 selectedPage;
         this.unselectedPage = unselectedPage == null ?
                 pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), false).build() :
@@ -84,13 +84,13 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
 
     @Override
     public @Nullable ItemStack renderAt(Slot slot) {
-        if(slot == buttonBack) {
+        if (slot == buttonBack) {
             return backProvider.provide();
-        } else if(slot == buttonForward) {
+        } else if (slot == buttonForward) {
             return forwardProvider.provide();
         } else {
             Integer frameIdx = activeSlots.get(slot); // specifically not unboxing value here
-            if(frameIdx == null)
+            if (frameIdx == null)
                 return null; // should not happen usually
             Pair<Integer, Frame> pair = Pair.of(frameIdx, currentPage.get());
             return frameIdx.equals(selectedIndex().get()) ?
@@ -124,15 +124,15 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
     @Override
     public @NotNull PackedComposable inside(@NotNull ComposableSpace space) {
         this.allocatedSpace = space.slots().stream().sorted().toList();
-        if(this.allocatedSpace.size() < 3)
+        if (this.allocatedSpace.size() < 3)
             throw new DisplaySizeException("PaginationDisplay expected to have at least 3 slots available, but got only %s slots!".formatted(allocatedSpace));
         this.buttonBack = allocatedSpace.get(0);
         this.buttonForward = allocatedSpace.get(allocatedSpace.size() - 1);
-        if(!this.activeSlots.isEmpty())
+        if (!this.activeSlots.isEmpty())
             return super.inside(space);
         AtomicInteger idx = new AtomicInteger();
         this.allocatedSpace.stream().forEachOrdered(slot -> {
-            if(slot != buttonBack && slot != buttonForward)
+            if (slot != buttonBack && slot != buttonForward)
                 this.activeSlots.put(slot, idx.getAndIncrement());
         });
         return super.inside(space);
@@ -144,8 +144,8 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
         Slot slot = Slot.ofRaw(e.getSlot());
         int idx = this.allocatedSpace.indexOf(slot);
         if (idx == -1) return; // invalid click?
-        if(slot.equals(buttonBack)) {
-            if(Iterables.getFirst(this.activeSlots.values(), 0) == 0)
+        if (slot.equals(buttonBack)) {
+            if (Iterables.getFirst(this.activeSlots.values(), 0) == 0)
                 return;
             // shifting active values by one backward
             Map<Slot, Integer> temp = new HashMap<>(this.activeSlots);
@@ -155,8 +155,8 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
             this.markDirty();
             return;
         }
-        if(slot.equals(buttonForward)) {
-            if(Iterables.getLast(this.activeSlots.values(), 0) == pagination.pageCount() - 1)
+        if (slot.equals(buttonForward)) {
+            if (Iterables.getLast(this.activeSlots.values(), 0) == pagination.pageCount() - 1)
                 return;
             // shifting active values by one forward
             Map<Slot, Integer> temp = new HashMap<>(this.activeSlots);
@@ -223,5 +223,6 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
     }
 
     @StandardException
-    static final class DisplaySizeException extends RuntimeException { }
+    static final class DisplaySizeException extends RuntimeException {
+    }
 }

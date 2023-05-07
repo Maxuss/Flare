@@ -72,7 +72,7 @@ tasks {
     signing {
         val signingPassword: String? by project
         val signingKey = providers.environmentVariable("IN_MEMORY_KEY").forUseAtConfigurationTime()
-        if(signingKey.isPresent) {
+        if (signingKey.isPresent) {
             useInMemoryPgpKeys(signingKey.get(), signingPassword)
             sign(publishing.publications)
         }
