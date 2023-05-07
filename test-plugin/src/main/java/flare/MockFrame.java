@@ -6,9 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.Items;
-import space.maxus.flare.ui.Dimensions;
 import space.maxus.flare.ui.compose.*;
-import space.maxus.flare.ui.compose.complex.Modal;
+import space.maxus.flare.ui.compose.complex.Modals;
 import space.maxus.flare.ui.frames.ParamFrame;
 import space.maxus.flare.ui.space.Rect;
 import space.maxus.flare.ui.space.Slot;
@@ -76,38 +75,14 @@ public class MockFrame extends ParamFrame<Player> {
         );
         this.compose(GoBackButton.create().inside(Slot.ROW_ONE_SLOT_ONE));
         this.compose(
-                Modal.builder(Items.builder(Material.EMERALD))
-                        .dimensions(Dimensions.THREE_BY_NINE)
-                        .initializer(modal -> {
-                            modal.compose(
-                                    Placeholder.of(Items.builder(Material.GRAY_STAINED_GLASS_PANE)).inside(Slot.ALL)
-                            );
-                            modal.compose(
-                                    GoBackButton.create().inside(Slot.ROW_THREE_SLOT_FIVE)
-                            );
-                            modal.compose(
-                                    Button.create(
-                                            Items.builder(Material.DIAMOND_BLOCK),
-                                            Button.ClickHandler.cancelling((btn, e) -> e.getWhoClicked().sendMessage(FlareUtil.text("hi")))
-                                    ).inside(Slot.ROW_TWO_SLOT_FIVE)
-                            );
-                            modal.compose(
-                                    Slideshow.create(
-                                            List.of(
-                                                    Items.builder(Material.DIAMOND_SWORD),
-                                                    Items.builder(Material.DIAMOND_PICKAXE),
-                                                    Items.builder(Material.DIAMOND_AXE),
-                                                    Items.builder(Material.DIAMOND_HOE),
-                                                    Items.builder(Material.DIAMOND_SHOVEL)
-                                            ),
-                                            20
-                                    ).inside(Slot.ROW_ONE_SLOT_FOUR)
-                            );
-                            modal.compose(Placeholder.of(Items.builder(Material.EMERALD).name("You can't see me!")).inside(Slot.ROW_SIX_SLOT_EIGHT));
-                            modal.compose(
-                                    Button.create(Items.builder(Material.EMERALD_BLOCK), Button.ClickHandler.cancelling((btn, e) -> e.getWhoClicked().closeInventory())).inside(Slot.ROW_ONE_SLOT_NINE)
-                            );
-                        })
+                Modals.YesNoModal.builder()
+                        .name("Yes/No Modal")
+                        .onAccept(() -> getViewer().sendMessage(FlareUtil.text("<gold>Accepted!")))
+                        .onDecline(() -> getViewer().sendMessage(FlareUtil.text("<gold>Declined!")))
+                        .declineName("Decline This")
+                        .acceptName("Accept This")
+                        .extraInformation("Click button to the right to accept, or click the button on the left to decline.")
+                        .description("Try testing yes/no stuff")
                         .build()
                         .inside(Slot.ROW_ONE_SLOT_TWO)
         );

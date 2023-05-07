@@ -18,7 +18,7 @@ public interface Button extends Disable, ProviderRendered, Configurable<Button> 
         return new ButtonImpl.ButtonBuilderImpl(item);
     }
 
-    static Button create(ItemProvider item, ClickHandler onClick) {
+    static Button of(ItemProvider item, ClickHandler onClick) {
         return new ButtonImpl.ButtonBuilderImpl(item).onClick(onClick).build();
     }
 

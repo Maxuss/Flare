@@ -35,7 +35,7 @@ public class MockFC extends FunctionComposable<Material> {
         return Composition.list(
                 Placeholder.of(ItemProvider.still(new ItemStack(Material.EMERALD)))
                         .inside(Rect.of(Slot.ROW_ONE_SLOT_FOUR, Slot.ROW_FOUR_SLOT_FIVE)),
-                Button.create(
+                Button.of(
                         item,
                         Button.ClickHandler.cancelling((btn, e) -> counter.set(counter.get() + 1))
                 ).into(button).inside(Rect.of(Slot.ROW_ONE_SLOT_ONE, Slot.ROW_THREE_SLOT_THREE)),

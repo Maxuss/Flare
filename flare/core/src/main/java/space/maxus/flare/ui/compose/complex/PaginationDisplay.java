@@ -18,6 +18,7 @@ import space.maxus.flare.util.SafeComputable;
 public interface PaginationDisplay extends Composable, Configurable<PaginationDisplay> {
     static @NotNull ItemStackBuilder arrowForwardButton(boolean disabled) {
         return Items.builder(Material.PLAYER_HEAD)
+                .hideAllFlags()
                 .name("<gray>Next Pages <dark_gray>[→]")
                 .branch(disabled,
                         builder -> builder
@@ -33,6 +34,7 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
 
     static @NotNull ItemStackBuilder arrowBackwardButton(boolean disabled) {
         return Items.builder(Material.PLAYER_HEAD)
+                .hideAllFlags()
                 .name("<gray>Previous Pages <dark_gray>[←]")
                 .branch(disabled,
                         builder -> builder
@@ -48,6 +50,7 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
 
     static @NotNull ItemStackBuilder pageNumber(Frame frame, int page, boolean selected) {
         return Items.builder(Material.PLAYER_HEAD)
+                .hideAllFlags()
                 .branch(selected,
                         builder -> builder
                                 .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTFhYTU5YjkyZGFhZTA2YjZlNjBhMDg3YzBkOTk1NjFiMjc3MjFiOTZhODk0NWVmZTQzOGUzMWM1OWY0ZWY3In19fQ==")

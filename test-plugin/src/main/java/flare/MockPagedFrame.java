@@ -46,7 +46,7 @@ public class MockPagedFrame extends PaginatedFrame {
                     .inside(Slot.ROW_ONE_SLOT_FIVE)
             );
             page.compose(Button
-                    .create(
+                    .of(
                             Items.builder(Material.DIAMOND),
                             Button.ClickHandler.cancelling((btn, e) -> this.switchFrame(new MockFrame((Player) e.getWhoClicked())))
                     )

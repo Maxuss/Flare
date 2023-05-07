@@ -13,7 +13,7 @@ import space.maxus.flare.ui.space.Slot;
 
 import java.util.Map;
 
-public interface Composable {
+public interface Composable extends ComposableLike {
     Frame root();
 
     void injectRoot(Frame root);
@@ -28,6 +28,7 @@ public interface Composable {
         // No state restoration logic by default
     }
 
+    @Override
     default @NotNull PackedComposable inside(@NotNull ComposableSpace space) {
         return new PackedComposable(space, this);
     }
@@ -105,5 +106,10 @@ public interface Composable {
 
     default Player viewer() {
         return root().getViewer();
+    }
+
+    @Override
+    default Composable asComposable() {
+        return this;
     }
 }

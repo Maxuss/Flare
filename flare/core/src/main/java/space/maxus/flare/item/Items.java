@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.util.FlareUtil;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 @UtilityClass
@@ -73,10 +75,14 @@ public class Items {
     }
 
     private void applyLore(@NotNull ItemMeta meta, String lore) {
-        meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).toList());
+        meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).filter(cmp -> cmp != Component.empty()).toList());
     }
 
+    public static ItemStack empty(Material material) {
+        return Items.builder(material).name("").lore(List.of()).hideAllFlags().build();
+    }
 
-
-
+    public static ItemStack empty() {
+        return empty(Material.GRAY_STAINED_GLASS_PANE);
+    }
 }
