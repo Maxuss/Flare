@@ -105,7 +105,7 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
     }
 
     @RequiredArgsConstructor
-    static class Builder<E> implements Selection.Builder<E> {
+    static final class Builder<E> implements Selection.Builder<E> {
         private final ArrayList<E> enumeration;
         private @Nullable ItemProvider provider = null;
         private @Nullable Computable<E, String> formatter = null;

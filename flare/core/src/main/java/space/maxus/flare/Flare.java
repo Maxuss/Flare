@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.handlers.ClickHandler;
+import space.maxus.flare.handlers.ModalHandler;
 import space.maxus.flare.nms.NmsHelper;
 import space.maxus.flare.nms.NmsVersion;
 import space.maxus.flare.nms.generic.ReflectingNmsHelper;
@@ -35,6 +36,7 @@ public class Flare {
 
         Bukkit.getPluginManager().registerEvents(new ClickHandler(), hook);
         Bukkit.getPluginManager().registerEvents(new PlayerFrameStateManager(), hook);
+        Bukkit.getPluginManager().registerEvents(new ModalHandler(), hook);
 
         initNms();
     }

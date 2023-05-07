@@ -3,6 +3,7 @@ package space.maxus.flare.ui;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -49,7 +50,7 @@ public class PlayerFrameStateManager implements Listener {
         return FlareUtil.acquireCatching(() -> list.remove(list.size() - 1));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     void onClose(@NotNull InventoryCloseEvent e) {
         if (!(e.getInventory().getHolder() instanceof ReactiveInventoryHolder flare))
             return;

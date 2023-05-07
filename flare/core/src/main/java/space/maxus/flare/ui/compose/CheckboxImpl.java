@@ -56,7 +56,7 @@ final class CheckboxImpl extends RootReferencing implements Checkbox {
         return this;
     }
 
-    public static class Builder implements Checkbox.Builder {
+    public static final class Builder implements Checkbox.Builder {
         private @Nullable ItemProvider checkedItem;
         private @Nullable ItemProvider uncheckedItem;
         private boolean isChecked;

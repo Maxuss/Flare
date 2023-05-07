@@ -60,7 +60,7 @@ final class ButtonImpl extends RootReferencing implements Button {
     }
 
     @RequiredArgsConstructor
-    static class ButtonBuilderImpl implements Button.Builder {
+    static final class ButtonBuilderImpl implements Button.Builder {
         private final ItemProvider provider;
 
         private boolean disabled = false;

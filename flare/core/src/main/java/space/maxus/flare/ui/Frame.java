@@ -145,7 +145,7 @@ public abstract class Frame implements ReactivityProvider {
         composed.forEach((key, value) -> {
             for (Slot slot : key.slots()) {
                 if (slot.rawSlot() >= inventory.getSize())
-                    return;
+                    continue;
                 ItemStack rendered = value.renderAt(slot);
                 if (rendered != null)
                     contents[slot.rawSlot()] = rendered;
@@ -170,7 +170,7 @@ public abstract class Frame implements ReactivityProvider {
                 return;
             for (Slot slot : slotsMut) {
                 if (slot.rawSlot() >= inventory.getSize())
-                    return;
+                    continue;
                 ItemStack rendered = value.renderAt(slot);
                 if (rendered != null)
                     contents[slot.rawSlot()] = rendered;
@@ -312,7 +312,7 @@ public abstract class Frame implements ReactivityProvider {
         this.onOpen(player);
     }
 
-    public final void close() {
+    public void close() {
         this.onClose();
         this.composed.values().forEach(Composable::destroy);
     }

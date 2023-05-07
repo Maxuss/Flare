@@ -4,10 +4,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
-import space.maxus.flare.ui.Composable;
-import space.maxus.flare.ui.Frame;
-import space.maxus.flare.ui.PackedComposable;
-import space.maxus.flare.ui.ReactiveInventoryHolder;
+import space.maxus.flare.ui.*;
 import space.maxus.flare.ui.space.ComposableSpace;
 
 import java.util.*;
@@ -33,7 +30,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
 
     @Override
     public @NotNull Frame createPage(int page, @NotNull Consumer<PageFrame> props) {
-        PageFrame frame = new PageFrame(new PageFrame.Props(page, sharedData, props));
+        PageFrame frame = new PageFrame(new PageFrame.Props(page, Dimensions.SIX_BY_NINE, sharedData, props));
         Lock lock = pageLock.writeLock();
         lock.lock();
         pages.add(frame);

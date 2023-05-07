@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.Dimensions;
 import space.maxus.flare.ui.frames.ParamFrame;
 import space.maxus.flare.ui.space.ComposableSpace;
 import space.maxus.flare.ui.space.Slot;
@@ -29,7 +30,7 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
     private @Nullable String titleText;
 
     protected PageFrame(@NotNull Props params) {
-        super(params);
+        super(params, params.dim);
     }
 
     public void onClick(SimpleClickHandler simple) {
@@ -73,7 +74,7 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
         // initializer should be called lazily, on-demand, and not eagerly in `init`
     }
 
-    void load() {
+    public void load() {
         this.composeAll(this.props.initData);
         this.props.initializer.accept(this);
     }
@@ -135,7 +136,7 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
         boolean click(Slot slot, InventoryClickEvent e);
     }
 
-    record Props(int page, Map<ComposableSpace, Composable> initData, Consumer<PageFrame> initializer) {
+    public record Props(int page, Dimensions dim, Map<ComposableSpace, Composable> initData, Consumer<PageFrame> initializer) {
     }
 
     @RequiredArgsConstructor

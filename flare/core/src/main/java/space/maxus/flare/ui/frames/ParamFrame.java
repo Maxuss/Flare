@@ -17,11 +17,7 @@ public abstract class ParamFrame<P> extends Frame {
     protected @NotNull ReactiveInventoryHolder holder;
 
     protected ParamFrame(@NotNull P params) {
-        this.dimensions = Dimensions.SIX_BY_NINE;
-        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
-        this.props = params;
-        this.preInit(params);
-        this.init();
+        this(params, Dimensions.SIX_BY_NINE);
     }
 
     public ParamFrame(@NotNull P params, @NotNull Dimensions dimensions) {
