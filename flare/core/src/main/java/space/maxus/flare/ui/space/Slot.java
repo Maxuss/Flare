@@ -109,4 +109,9 @@ public class Slot implements Comparable<Slot>, ComposableSpace {
     public Pair<Slot, Slot> points() {
         return Pair.of(this, this);
     }
+
+    @Override
+    public String toString() {
+        return "(" + row + ", " + column + ")";
+    }
 }

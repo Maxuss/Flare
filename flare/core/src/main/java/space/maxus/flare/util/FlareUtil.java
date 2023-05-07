@@ -4,6 +4,7 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.experimental.StandardException;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -127,6 +128,14 @@ public class FlareUtil {
         }
     }
 
+    public <V> @NotNull V acquireThrowing(Callable<V> producer) {
+        try {
+            return producer.call();
+        } catch (Exception e) {
+            throw new AcquiringException(e);
+        }
+    }
+
     public <K, V> @Nullable K keyFromValue(@NotNull Map<K, V> map, @NotNull V value) {
         K key = null;
         for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -150,4 +159,7 @@ public class FlareUtil {
 
         return key;
     }
+
+    @StandardException
+    public static class AcquiringException extends RuntimeException { }
 }

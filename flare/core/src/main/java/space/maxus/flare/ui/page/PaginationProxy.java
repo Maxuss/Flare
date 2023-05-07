@@ -2,6 +2,7 @@ package space.maxus.flare.ui.page;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import space.maxus.flare.ui.compose.complex.PaginationDisplay;
 import space.maxus.flare.ui.compose.complex.Tabulation;
 import space.maxus.flare.ui.space.ComposableSpace;
 
@@ -31,7 +32,15 @@ public interface PaginationProxy {
         getPagination().composePrioritizedShared(() -> Tabulation.create(getPagination()).inside(space));
     }
 
-    default void useTabulation(@NotNull Callable<Tabulation> tabulation, ComposableSpace space) {
+    default void useTabulation(ComposableSpace space, @NotNull Callable<Tabulation> tabulation) {
         getPagination().composePrioritizedShared(() -> tabulation.call().inside(space));
+    }
+
+    default void usePaginationDisplay(ComposableSpace space) {
+        getPagination().composePrioritizedShared(() -> PaginationDisplay.create(getPagination()).inside(space));
+    }
+
+    default void usePaginationDisplay(ComposableSpace space, @NotNull Callable<PaginationDisplay> paginationDisplay) {
+        getPagination().composePrioritizedShared(() -> paginationDisplay.call().inside(space));
     }
 }

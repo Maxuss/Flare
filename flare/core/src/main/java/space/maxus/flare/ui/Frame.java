@@ -58,6 +58,10 @@ public abstract class Frame implements ReactivityProvider {
         Flare.getNms().sendPacket(Flare.getNms().obtainConnection(viewer), Flare.getNms().buildTitlePacket(viewer, FlareUtil.text(title)));
     }
 
+    public void refreshTitle() {
+        this.setTitle(viewer, this.getTitle());
+    }
+
     public final void bindViewer(Player viewer) {
         if (this.viewer != null)
             return;

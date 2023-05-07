@@ -3,6 +3,7 @@ package space.maxus.flare.ui.page;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,6 +26,7 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
     private @Nullable ClickHandlerWrapper left;
     private @Nullable ClickHandlerWrapper shift;
     private @Nullable DragHandler drag;
+    private @Nullable String titleText;
 
     protected PageFrame(@NotNull Props params) {
         super(params);
@@ -60,6 +62,10 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
 
     public void onDrag(DragHandler drag) {
         this.drag = drag;
+    }
+
+    public void useTitle(@Nullable String title) {
+        this.titleText = title;
     }
 
     @Override
@@ -104,6 +110,17 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
         if (this.drag != null)
             return this.drag.drag(newItems, e);
         return true;
+    }
+
+    @Override
+    public void setTitle(Player viewer, String title) {
+        this.titleText = title;
+        super.setTitle(viewer, title);
+    }
+
+    @Override
+    public String getTitle() {
+        return titleText == null ? "A Flare Page" : titleText;
     }
 
     public interface DragHandler {

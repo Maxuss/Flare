@@ -48,7 +48,8 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
             pg = new ComposableReactiveState<>(pagination.getPage(currentIdx), this);
         } catch (IndexOutOfBoundsException e) {
             Flare.LOGGER.error("Tried to initialize Tabulation with invalid index");
-            pg = new ComposableReactiveState<>(null, this);
+            this.currentPage = new ComposableReactiveState<>(null, this);
+            return;
         }
         this.currentPage = pg;
     }
@@ -56,6 +57,9 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
     @Override
     public ItemStack renderAt(Slot slot) {
         int idx = this.allocatedSpace.indexOf(slot);
+        if(idx == -1) // Probably exceeded allocated space
+            return null;
+
         if (currentIdx.get() == idx)
             return this.selected.safeCompute(Pair.of(idx, pagination.getPage(idx)));
         return this.unselected.safeCompute(Pair.of(idx, pagination.getPage(idx)));
@@ -93,7 +97,7 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
     public void click(@NotNull InventoryClickEvent e) {
         e.setCancelled(true);
         int idx = this.allocatedSpace.indexOf(Slot.ofRaw(e.getSlot()));
-        if (currentIdx.get() == idx) return;
+        if (idx == -1 || currentIdx.get() == idx) return;
         currentIdx.set(idx);
         currentPage.set(pagination.getPage(idx));
         pagination.switchPage((Player) e.getWhoClicked(), idx);
