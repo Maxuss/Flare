@@ -25,9 +25,11 @@ public class Modals {
         @Builder.Default
         private final String acceptName = "Accept";
         @Builder.Default
-        private final Runnable onAccept = () -> { };
+        private final Runnable onAccept = () -> {
+        };
         @Builder.Default
-        private final Runnable onDecline = () -> { };
+        private final Runnable onDecline = () -> {
+        };
         @Builder.Default
         private final @Nullable String extraInformation = null;
 
@@ -104,7 +106,7 @@ public class Modals {
                                         }))
                                         .build().inside(Slot.ROW_TWO_SLOT_SEVEN)
                         );
-                        if(extraInformation != null) {
+                        if (extraInformation != null) {
                             modal.compose(
                                     Placeholder.of(ItemProvider.still(
                                             Items.builder(Material.OAK_SIGN)

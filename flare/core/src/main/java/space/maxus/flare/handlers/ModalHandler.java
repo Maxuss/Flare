@@ -16,9 +16,9 @@ import space.maxus.flare.ui.compose.complex.Modal;
 public class ModalHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     void onModalClose(@NotNull InventoryCloseEvent e) {
-        if(!(e.getInventory().getHolder() instanceof ReactiveInventoryHolder holder) || !(holder.getFrame() instanceof Modal.ModalFrame modal))
+        if (!(e.getInventory().getHolder() instanceof ReactiveInventoryHolder holder) || !(holder.getFrame() instanceof Modal.ModalFrame modal))
             return;
-        if(modal.getIsClosing().get())
+        if (modal.getIsClosing().get())
             return;
         modal.getIsClosing().setRelease(true);
         Frame root = modal.getParent().root();

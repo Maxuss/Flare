@@ -29,28 +29,32 @@ public interface Modal extends ProviderRendered, Configurable<Modal>, Disable {
 
     interface Builder {
         @NotNull Builder title(@NotNull String title);
+
         @NotNull Builder dimensions(@NotNull Dimensions dimensions);
+
         @NotNull Builder initializer(@NotNull Consumer<ModalFrame> initializer);
+
         @NotNull Builder disabled(boolean disabled);
 
         @NotNull Modal build();
     }
 
-    @EqualsAndHashCode(callSuper = true) @ToString
+    @EqualsAndHashCode(callSuper = true)
+    @ToString
     abstract class ModalFrame extends PageFrame {
         @Getter
         protected final AtomicBoolean isClosing = new AtomicBoolean(false);
         @Getter
         protected Modal parent;
 
-        @Override
-        public void close() {
-            this.composed.values().forEach(Composable::destroy);
-        }
-
         protected ModalFrame(@NotNull ModalProps props) {
             super(new PageFrame.Props(0, props.dimensions, Collections.emptyMap(), frame -> props.initializer.accept((ModalFrame) frame)));
             this.parent = props.self;
+        }
+
+        @Override
+        public void close() {
+            this.composed.values().forEach(Composable::destroy);
         }
     }
 

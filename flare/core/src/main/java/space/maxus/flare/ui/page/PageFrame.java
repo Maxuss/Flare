@@ -136,7 +136,8 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
         boolean click(Slot slot, InventoryClickEvent e);
     }
 
-    public record Props(int page, Dimensions dim, Map<ComposableSpace, Composable> initData, Consumer<PageFrame> initializer) {
+    public record Props(int page, Dimensions dim, Map<ComposableSpace, Composable> initData,
+                        Consumer<PageFrame> initializer) {
     }
 
     @RequiredArgsConstructor

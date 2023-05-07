@@ -48,7 +48,7 @@ final class ModalImpl extends RootReferencing implements Modal {
 
     @Override
     public void click(@NotNull InventoryClickEvent e) {
-        if(isDisabled())
+        if (isDisabled())
             return;
         e.setCancelled(true);
         ModalFrame frame = getFrame();
@@ -92,7 +92,8 @@ final class ModalImpl extends RootReferencing implements Modal {
 
         @Override
         public @NotNull Modal build() {
-            return new ModalImpl(item, title, initializer == null ? modal -> { } : initializer, dimensions == null ? Dimensions.SIX_BY_NINE : dimensions, disabled);
+            return new ModalImpl(item, title, initializer == null ? modal -> {
+            } : initializer, dimensions == null ? Dimensions.SIX_BY_NINE : dimensions, disabled);
         }
     }
 
