@@ -32,7 +32,7 @@ public class MockFC extends FunctionComposable<Material> {
                 count -> Items.withMeta(this.props,
                         meta -> meta.displayName(FlareUtil.text("<gold>You clicked <light_purple>%s".formatted(count)))
                 ));
-        return Composition.list(
+        return Composition.of(
                 Placeholder.of(ItemProvider.still(new ItemStack(Material.EMERALD)))
                         .inside(Rect.of(Slot.ROW_ONE_SLOT_FOUR, Slot.ROW_FOUR_SLOT_FIVE)),
                 Button.of(

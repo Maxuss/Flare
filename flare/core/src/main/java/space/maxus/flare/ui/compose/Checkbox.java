@@ -49,12 +49,12 @@ public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkb
     }
 
     @Contract("_, _ -> new")
-    static @NotNull Checkbox create(ItemProvider checkedProvider, ItemProvider uncheckedProvider) {
+    static @NotNull Checkbox of(ItemProvider checkedProvider, ItemProvider uncheckedProvider) {
         return new CheckboxImpl(checkedProvider, uncheckedProvider, false, false);
     }
 
     @Contract("_, _, _ -> new")
-    static @NotNull Checkbox create(ItemProvider checkedProvider, ItemProvider uncheckedProvider, boolean isChecked) {
+    static @NotNull Checkbox of(ItemProvider checkedProvider, ItemProvider uncheckedProvider, boolean isChecked) {
         return new CheckboxImpl(checkedProvider, uncheckedProvider, isChecked, false);
     }
 

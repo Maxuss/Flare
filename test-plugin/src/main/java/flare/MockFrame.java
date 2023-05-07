@@ -53,7 +53,7 @@ public class MockFrame extends ParamFrame<Player> {
         );
         this.compose(
                 Selection
-                        .create(Arrays.stream(ExampleEnumeration.values()).toList(), ExampleEnumeration::toString)
+                        .of(Arrays.stream(ExampleEnumeration.values()).toList(), ExampleEnumeration::toString)
                         .configure(select -> select.selectedState().subscribe(now -> {
                             assert now != null;
                             ctx.player.sendMessage(FlareUtil.text("<green>Selected: %s!".formatted(now)));
@@ -62,7 +62,7 @@ public class MockFrame extends ParamFrame<Player> {
         );
         this.compose(new BarFC(.2f).inside(Rect.of(Slot.ROW_FIVE_SLOT_ONE, Slot.ROW_SIX_SLOT_NINE)));
         this.compose(
-                Slideshow.create(
+                Slideshow.of(
                         List.of(
                                 Items.builder(Material.DIAMOND_SWORD),
                                 Items.builder(Material.DIAMOND_PICKAXE),

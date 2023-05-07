@@ -46,12 +46,12 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
     }
 
     @Contract("_ -> new")
-    static @NotNull TextInput text(ItemProvider provider) {
+    static @NotNull TextInput of(ItemProvider provider) {
         return new TextInputImpl(provider, false);
     }
 
     @Contract("_, _ -> new")
-    static @NotNull TextInput text(ItemProvider provider, boolean disabled) {
+    static @NotNull TextInput of(ItemProvider provider, boolean disabled) {
         return new TextInputImpl(provider, disabled);
     }
 

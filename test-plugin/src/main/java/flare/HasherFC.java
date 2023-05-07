@@ -37,7 +37,7 @@ public class HasherFC extends FunctionComposable<Void> {
 
     @Override
     public @NotNull Composable compose() {
-        return Composition.list(
+        return Composition.of(
                 Placeholder.of(Reactive.item(rawBytes, stackComputable)).inside(Slot.ROW_ONE_SLOT_ONE),
                 Button.of(ItemProvider.still(new ItemStack(Material.DIAMOND_SWORD)), (btn, e) -> {
                     byte[] bytes = new byte[16];

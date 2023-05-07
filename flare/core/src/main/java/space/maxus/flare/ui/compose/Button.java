@@ -23,11 +23,11 @@ public interface Button extends Disable, ProviderRendered, Configurable<Button> 
     }
 
     static @NotNull Checkbox checkbox(ItemProvider whenChecked, ItemProvider whenUnchecked) {
-        return Checkbox.create(whenChecked, whenUnchecked);
+        return Checkbox.of(whenChecked, whenUnchecked);
     }
 
     static @NotNull Checkbox checkbox(ItemProvider whenChecked, ItemProvider whenUnchecked, boolean checked) {
-        return Checkbox.create(whenChecked, whenUnchecked, checked);
+        return Checkbox.of(whenChecked, whenUnchecked, checked);
     }
 
     static @NotNull Checkbox.Builder checkbox() {

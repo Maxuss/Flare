@@ -24,9 +24,9 @@ public class BarFC extends FunctionComposable<Float> {
     public @NotNull Composable compose() {
         ReactiveState<Float> bar = useState(props);
         barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getHook(), () -> bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f), 5L, 5L);
-        return Composition.list(
+        return Composition.of(
                 ProgressBar
-                        .create(
+                        .of(
                                 ProgressBar.fullProvider(bar, Material.GREEN_STAINED_GLASS_PANE, true),
                                 ProgressBar.emptyProvider(bar, Material.RED_STAINED_GLASS_PANE, true)
                         )

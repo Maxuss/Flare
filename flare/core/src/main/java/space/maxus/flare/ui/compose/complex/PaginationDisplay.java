@@ -67,11 +67,11 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
                 );
     }
 
-    static @NotNull PaginationDisplay create(Pagination<?> pagination) {
+    static @NotNull PaginationDisplay of(Pagination<?> pagination) {
         return new PaginationDisplayImpl(pagination, 0, null, null, null, null);
     }
 
-    static @NotNull PaginationDisplay create(Pagination<?> pagination, int idx) {
+    static @NotNull PaginationDisplay of(Pagination<?> pagination, int idx) {
         return new PaginationDisplayImpl(pagination, 0, null, null, null, null);
     }
 

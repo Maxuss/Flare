@@ -32,15 +32,15 @@ public interface Tabulation extends Composable, Configurable<Tabulation> {
                 .hideAllFlags();
     }
 
-    static @NotNull Tabulation create(Pagination<?> pagination) {
+    static @NotNull Tabulation of(Pagination<?> pagination) {
         return new TabulationImpl(pagination, null, null, 0);
     }
 
-    static @NotNull Tabulation create(Pagination<?> pagination, int idx) {
+    static @NotNull Tabulation of(Pagination<?> pagination, int idx) {
         return new TabulationImpl(pagination, null, null, idx);
     }
 
-    static @NotNull Tabulation create(
+    static @NotNull Tabulation of(
             Pagination<?> pagination,
             @Nullable Computable<Pair<Integer, Frame>, ItemStack> selected,
             @Nullable Computable<Pair<Integer, Frame>, ItemStack> unselected,

@@ -17,7 +17,7 @@ import java.util.*;
 
 public interface Composition extends Composable, Configurable<Composition> {
     @Contract("_ -> new")
-    static @NotNull Composition list(PackedComposable... comps) {
+    static @NotNull Composition of(PackedComposable... comps) {
         return new ExplicitComposition(Arrays.asList(comps));
     }
 

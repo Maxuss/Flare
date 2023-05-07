@@ -34,7 +34,7 @@ public class MockPagedFrame extends PaginatedFrame {
         {
             page.useTitle("Some page");
             page.compose(Slideshow
-                    .create(
+                    .of(
                             List.of(
                                     Items.builder(Material.DIAMOND_SWORD),
                                     Items.builder(Material.DIAMOND_SHOVEL),
@@ -58,7 +58,7 @@ public class MockPagedFrame extends PaginatedFrame {
         {
             page.useTitle("Another page");
             page.compose(Slideshow
-                    .create(
+                    .of(
                             List.of(
                                     Items.builder(Material.IRON_SWORD),
                                     Items.builder(Material.IRON_SHOVEL),
@@ -75,7 +75,7 @@ public class MockPagedFrame extends PaginatedFrame {
         {
             page.useTitle("Third page");
             page.compose(Slideshow
-                    .create(
+                    .of(
                             List.of(
                                     Items.builder(Material.GOLDEN_SWORD),
                                     Items.builder(Material.GOLDEN_SHOVEL),
@@ -92,7 +92,7 @@ public class MockPagedFrame extends PaginatedFrame {
         {
             page.useTitle("Final page");
             page.compose(Slideshow
-                    .create(
+                    .of(
                             List.of(
                                     Items.builder(Material.NETHERITE_SWORD),
                                     Items.builder(Material.NETHERITE_SHOVEL),

@@ -68,20 +68,20 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
                 .hideAllFlags();
     }
 
-    static <E> @NotNull Selection<E> create(Collection<E> enumeration, ItemProvider provider) {
+    static <E> @NotNull Selection<E> of(Collection<E> enumeration, ItemProvider provider) {
         return new SelectionImpl<>(provider, enumeration, 0, false, null);
     }
 
-    static <E> @NotNull Selection<E> create(Collection<E> enumeration, ItemProvider provider, int selected) {
+    static <E> @NotNull Selection<E> of(Collection<E> enumeration, ItemProvider provider, int selected) {
         return new SelectionImpl<>(provider, enumeration, selected, false, null);
     }
 
     @Contract("_, _, _ -> new")
-    static <E> @NotNull Selection<E> create(@NotNull Collection<E> enumeration, ItemProvider provider, E selected) {
+    static <E> @NotNull Selection<E> of(@NotNull Collection<E> enumeration, ItemProvider provider, E selected) {
         return new SelectionImpl<>(provider, enumeration, enumeration.stream().toList().indexOf(selected), false, null);
     }
 
-    static <E> @NotNull Selection<E> create(Collection<E> enumeration, Computable<E, String> formatter) {
+    static <E> @NotNull Selection<E> of(Collection<E> enumeration, Computable<E, String> formatter) {
         return new SelectionImpl<>(null, enumeration, 0, false, formatter);
     }
 

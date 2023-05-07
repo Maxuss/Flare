@@ -35,11 +35,11 @@ public interface ProgressBar extends Composable, Configurable<ProgressBar> {
         return Reactive.item(state, progress -> emptyBuilder(material, Objects.requireNonNullElse(progress, .0f), dotted).build());
     }
 
-    static @NotNull ProgressBar create(ItemProvider full, ItemProvider empty) {
-        return create(full, empty, 0f);
+    static @NotNull ProgressBar of(ItemProvider full, ItemProvider empty) {
+        return of(full, empty, 0f);
     }
 
-    static @NotNull ProgressBar create(ItemProvider full, ItemProvider empty, float progress) {
+    static @NotNull ProgressBar of(ItemProvider full, ItemProvider empty, float progress) {
         return new ProgressBarImpl(progress, full, empty);
     }
 

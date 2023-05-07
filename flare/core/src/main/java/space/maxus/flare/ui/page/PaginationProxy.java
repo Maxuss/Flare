@@ -29,7 +29,7 @@ public interface PaginationProxy {
     }
 
     default void useTabulation(ComposableSpace space) {
-        getPagination().composePrioritizedShared(() -> Tabulation.create(getPagination()).inside(space));
+        getPagination().composePrioritizedShared(() -> Tabulation.of(getPagination()).inside(space));
     }
 
     default void useTabulation(ComposableSpace space, @NotNull Callable<Tabulation> tabulation) {
@@ -37,7 +37,7 @@ public interface PaginationProxy {
     }
 
     default void usePaginationDisplay(ComposableSpace space) {
-        getPagination().composePrioritizedShared(() -> PaginationDisplay.create(getPagination()).inside(space));
+        getPagination().composePrioritizedShared(() -> PaginationDisplay.of(getPagination()).inside(space));
     }
 
     default void usePaginationDisplay(ComposableSpace space, @NotNull Callable<PaginationDisplay> paginationDisplay) {
