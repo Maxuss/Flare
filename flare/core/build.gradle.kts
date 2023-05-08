@@ -82,16 +82,11 @@ tasks {
         repositories {
             maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 name = "ossrh"
-                credentials(PasswordCredentials::class)
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_PASSWORD")
+                }
             }
-
-//            maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-//                name = "ossrh"
-//                credentials(PasswordCredentials::class)
-//                mavenContent {
-//                    snapshotsOnly()
-//                }
-//            }
         }
 
         publications {
