@@ -12,6 +12,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apache.commons.lang3.concurrent.Computable;
 import org.apache.commons.lang3.concurrent.Memoizer;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -158,6 +159,11 @@ public class FlareUtil {
         }
 
         return key;
+    }
+
+    @Contract(value = "null -> true", pure = true)
+    public boolean isNullOrAir(@Nullable ItemStack stack) {
+        return stack == null || stack.getType().isAir();
     }
 
     @StandardException

@@ -287,7 +287,7 @@ public abstract class Frame implements ReactivityProvider {
                 .filter(entry -> entry.getKey().slots().contains(slot))
                 .reduce((a, b) -> b)
                 .map(entry -> entry.getValue().shiftFrom(e))
-                .orElse(true) || res;
+                .orElse(true) && res;
     }
 
     public final boolean fireShiftRequest(@NotNull ItemStack shifting, @NotNull InventoryClickEvent e) {

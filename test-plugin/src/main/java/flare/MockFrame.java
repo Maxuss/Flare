@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import space.maxus.flare.Flare;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.ui.compose.*;
@@ -85,6 +86,12 @@ public class MockFrame extends ParamFrame<Player> {
                         .description("Try testing yes/no stuff")
                         .build()
                         .inside(Slot.ROW_ONE_SLOT_TWO)
+        );
+        this.compose(
+                ContainerSlot.builder()
+                        .onPut((item, e) -> Flare.LOGGER.info("PUTTING {}", item))
+                        .onTake((item, e) -> Flare.LOGGER.info("TAKING {}", item))
+                        .inside(Slot.ROW_ONE_SLOT_THREE)
         );
     }
 

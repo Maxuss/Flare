@@ -9,6 +9,8 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.ItemStackBuilder;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.react.ReactiveState;
+import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableLike;
 
 public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkbox> {
 
@@ -77,7 +79,7 @@ public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkb
 
     ReactiveState<Boolean> checkedState();
 
-    interface Builder {
+    interface Builder extends ComposableLike {
         Builder checkedItem(@Nullable ItemProvider checkedItem);
 
         Builder uncheckedItem(@Nullable ItemProvider uncheckedItem);
@@ -87,5 +89,10 @@ public interface Checkbox extends Disable, ProviderRendered, Configurable<Checkb
         Builder isDisabled(boolean isDisabled);
 
         Checkbox build();
+
+        @Override
+        default Composable asComposable() {
+            return build();
+        }
     }
 }

@@ -75,6 +75,8 @@ public class Items {
     }
 
     private void applyLore(@NotNull ItemMeta meta, String lore) {
+        if(lore.isEmpty())
+            return;
         meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).filter(cmp -> cmp != Component.empty()).toList());
     }
 

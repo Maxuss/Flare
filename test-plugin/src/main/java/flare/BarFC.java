@@ -15,6 +15,7 @@ import space.maxus.flare.ui.space.Slot;
 
 public class BarFC extends FunctionComposable<Float> {
     private BukkitTask barTask;
+    private final ReactiveState<Float> bar = useState(props);
 
     public BarFC(Float props) {
         super(props);
@@ -22,8 +23,7 @@ public class BarFC extends FunctionComposable<Float> {
 
     @Override
     public @NotNull Composable compose() {
-        ReactiveState<Float> bar = useState(props);
-        barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getHook(), () -> bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f), 5L, 5L);
+        setupBarTask();
         return Composition.of(
                 ProgressBar
                         .of(
@@ -35,9 +35,18 @@ public class BarFC extends FunctionComposable<Float> {
         );
     }
 
+    private void setupBarTask() {
+        this.barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getHook(), () -> bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f), 5L, 5L);
+    }
+
     @Override
     public void destroy() {
         if(barTask != null)
             barTask.cancel();
+    }
+
+    @Override
+    public void restore() {
+        setupBarTask();
     }
 }

@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableLike;
 import space.maxus.flare.ui.Dimensions;
 import space.maxus.flare.ui.compose.Configurable;
 import space.maxus.flare.ui.compose.Disable;
@@ -27,7 +28,7 @@ public interface Modal extends ProviderRendered, Configurable<Modal>, Disable {
 
     ModalFrame getFrame();
 
-    interface Builder {
+    interface Builder extends ComposableLike {
         @NotNull Builder title(@NotNull String title);
 
         @NotNull Builder dimensions(@NotNull Dimensions dimensions);
@@ -37,6 +38,11 @@ public interface Modal extends ProviderRendered, Configurable<Modal>, Disable {
         @NotNull Builder disabled(boolean disabled);
 
         @NotNull Modal build();
+
+        @Override
+        default Composable asComposable() {
+            return build();
+        }
     }
 
     @EqualsAndHashCode(callSuper = true)

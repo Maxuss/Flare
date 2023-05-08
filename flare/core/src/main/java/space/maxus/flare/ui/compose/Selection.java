@@ -11,6 +11,8 @@ import space.maxus.flare.item.ItemStackBuilder;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
+import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableLike;
 import space.maxus.flare.util.FlareUtil;
 
 import java.util.ArrayList;
@@ -99,7 +101,7 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
 
     @NotNull ReactiveState<E> selectedState();
 
-    interface Builder<E> {
+    interface Builder<E> extends ComposableLike {
         Builder<E> item(ItemProvider provider);
 
         Builder<E> selected(int index);
@@ -111,5 +113,10 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
         Builder<E> formatter(Computable<E, String> mapper);
 
         Selection<E> build();
+
+        @Override
+        default Composable asComposable() {
+            return build();
+        }
     }
 }

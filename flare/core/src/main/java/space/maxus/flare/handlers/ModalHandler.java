@@ -27,10 +27,9 @@ public class ModalHandler implements Listener {
         Bukkit.getScheduler().runTaskLater(
                 Flare.getHook(),
                 () -> {
-                    root.restorePreviousState(player);
                     root.render();
                     player.openInventory(root.selfInventory());
-                    root.open(player);
+                    root.restorePreviousState(player);
                     PlayerFrameStateManager.restoreSnapshot(e.getPlayer()); // voiding snapshot
                 },
                 1L

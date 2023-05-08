@@ -10,6 +10,7 @@ import space.maxus.flare.item.ItemStackBuilder;
 import space.maxus.flare.item.Items;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableLike;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.compose.Configurable;
 import space.maxus.flare.ui.page.Pagination;
@@ -89,7 +90,7 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
         getPagination().switchPage(viewer(), page);
     }
 
-    interface Builder {
+    interface Builder extends ComposableLike {
         @NotNull Builder selectedIndex(int index);
 
         @NotNull Builder backButton(@Nullable ItemProvider back);
@@ -101,5 +102,10 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
         @NotNull Builder unselectedPage(@Nullable SafeComputable<Pair<Integer, Frame>, ItemStack> page);
 
         @NotNull PaginationDisplay build();
+
+        @Override
+        default Composable asComposable() {
+            return build();
+        }
     }
 }

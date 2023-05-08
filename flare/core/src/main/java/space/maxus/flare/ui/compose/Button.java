@@ -5,6 +5,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.item.ItemProvider;
+import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableLike;
 
 import java.util.function.BiConsumer;
 
@@ -61,7 +63,7 @@ public interface Button extends Disable, ProviderRendered, Configurable<Button> 
         }
     }
 
-    interface Builder {
+    interface Builder extends ComposableLike {
         Button build();
 
         Builder disabled(boolean disabled);
@@ -73,5 +75,10 @@ public interface Button extends Disable, ProviderRendered, Configurable<Button> 
         Builder onLeftClick(ClickHandler handler);
 
         Builder onShiftClick(ClickHandler handler);
+
+        @Override
+        default Composable asComposable() {
+            return build();
+        }
     }
 }

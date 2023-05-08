@@ -18,6 +18,8 @@ import space.maxus.flare.item.Items;
 import space.maxus.flare.react.Reactive;
 import space.maxus.flare.react.ReactiveState;
 import space.maxus.flare.react.ReactiveSubscriber;
+import space.maxus.flare.ui.Composable;
+import space.maxus.flare.ui.ComposableLike;
 import space.maxus.flare.util.SimpleInvBoundPrompt;
 import space.maxus.flare.util.ValidatingInvBoundPrompt;
 import space.maxus.flare.util.Validator;
@@ -115,7 +117,7 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
         conv.begin();
     }
 
-    interface Builder {
+    interface Builder extends ComposableLike {
         TextInput build();
 
         Builder disabled(boolean disabled);
@@ -125,5 +127,10 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
         Builder initialText(String initialText);
 
         Builder validate(Validator validator);
+
+        @Override
+        default Composable asComposable() {
+            return build();
+        }
     }
 }
