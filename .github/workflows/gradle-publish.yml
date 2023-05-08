@@ -8,8 +8,9 @@
 name: Gradle Package
 
 on:
+#  push:
   release:
-    types: [created]
+    types: [created, released, prereleased]
 
 jobs:
   build:
@@ -32,15 +33,14 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        arguments: :flare:corebuild
+        arguments: :flare:core:build
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
     - name: Publish to GitHub Packages
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: :flare:core:publish
+      run: ./gradlew :flare:core:publish
       env:
         MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-        IN_MEMORY_KEY: ${{ secrets.IN_MEMORY_KEY }}
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
