@@ -91,6 +91,13 @@ tasks {
                     password = System.getenv("MAVEN_PASSWORD")
                 }
             }
+            maven("https://maven.pkg.github.com/Maxuss/Flare") {
+                name = "github"
+                credentials {
+                    username = "Maxuss"
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
         }
 
         publications {
