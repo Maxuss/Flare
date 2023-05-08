@@ -73,6 +73,8 @@ tasks {
         val signingPassword = providers.environmentVariable("SIGNING_PASSWORD").forUseAtConfigurationTime()
         val signingKey = providers.environmentVariable("SIGNING_KEY").forUseAtConfigurationTime()
         if (signingKey.isPresent && signingPassword.isPresent) {
+            println(signingKey.get())
+            println(signingPassword.get())
             useInMemoryPgpKeys(signingKey.get(), signingPassword.get())
             sign(publishing.publications)
         }
