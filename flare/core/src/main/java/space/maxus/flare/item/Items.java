@@ -48,11 +48,7 @@ public class Items {
         }
         item.setItemMeta(meta);
         return item;
-    }    @Getter
-    private final ItemStack genericErrorItem = head(
-            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBlZTI4YjNkZjBkMDI1MGUyNDE2ZTJhNjJkN2RkY2Y5ZjJjOWNjODIzNjkwNDQ2OWZhMWY5MWYyYTk1OTVmZiJ9fX0=",
-            loreMeta("An <red>unknown error</red> occurred when building this item.")
-    );
+    }
 
     public ItemStack withMeta(Material material, @NotNull Consumer<ItemMeta> configurator) {
         ItemStack item = new ItemStack(material);
@@ -60,7 +56,11 @@ public class Items {
         configurator.accept(meta);
         item.setItemMeta(meta);
         return item;
-    }
+    }    @Getter
+    private final ItemStack genericErrorItem = head(
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBlZTI4YjNkZjBkMDI1MGUyNDE2ZTJhNjJkN2RkY2Y5ZjJjOWNjODIzNjkwNDQ2OWZhMWY5MWYyYTk1OTVmZiJ9fX0=",
+            loreMeta("An <red>unknown error</red> occurred when building this item.")
+    );
 
     public ItemStack withLore(Material material, @NotNull String lore) {
         return withMeta(material, meta -> applyLore(meta, lore));
@@ -75,7 +75,7 @@ public class Items {
     }
 
     private void applyLore(@NotNull ItemMeta meta, String lore) {
-        if(lore.isEmpty())
+        if (lore.isEmpty())
             return;
         meta.lore(FlareUtil.partitionString(lore).stream().map(part -> FlareUtil.text("<gray>%s".formatted(part))).filter(cmp -> cmp != Component.empty()).toList());
     }
@@ -87,6 +87,8 @@ public class Items {
     public static ItemStack empty() {
         return empty(Material.GRAY_STAINED_GLASS_PANE);
     }
+
+
 
 
 }

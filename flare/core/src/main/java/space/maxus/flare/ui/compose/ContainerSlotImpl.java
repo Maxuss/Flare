@@ -13,7 +13,8 @@ import space.maxus.flare.ui.ComposableReactiveState;
 import space.maxus.flare.ui.space.Slot;
 import space.maxus.flare.util.FlareUtil;
 
-@ToString @EqualsAndHashCode(callSuper = true)
+@ToString
+@EqualsAndHashCode(callSuper = true)
 final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
     private final ReactiveState<ItemStack> currentItem;
     private final ReactiveState<Boolean> disabledState;
@@ -57,15 +58,15 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
 
     @Override
     public boolean shiftInto(@NotNull ItemStack stack, @NotNull InventoryClickEvent e) {
-        if(isDisabled())
+        if (isDisabled())
             return true;
         ItemStack current = currentItem.getOrNull();
-        if(current == null && checkPut.allow(stack, e)) {
+        if (current == null && checkPut.allow(stack, e)) {
             onPut.handle(stack, e);
             currentItem.set(stack.clone());
             stack.setAmount(0);
             return false;
-        } else if(current != null && current.isSimilar(stack) && checkPut.allow(stack, e)) {
+        } else if (current != null && current.isSimilar(stack) && checkPut.allow(stack, e)) {
             onPut.handle(stack, e);
             return mergeStacks(current, stack, stack.getAmount());
         }
@@ -74,10 +75,10 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
 
     @Override
     public boolean shiftFrom(@NotNull InventoryClickEvent e) {
-        if(isDisabled())
+        if (isDisabled())
             return true;
         ItemStack current = currentItem.getOrNull();
-        if(current == null || !checkTake.allow(current, e))
+        if (current == null || !checkTake.allow(current, e))
             return true;
         onTake.handle(current, e);
         currentItem.set(null);
@@ -87,33 +88,33 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
     @SuppressWarnings("deprecation")
     @Override
     public boolean leftClick(@NotNull InventoryClickEvent e) {
-        if(isDisabled())
+        if (isDisabled())
             return true;
         ItemStack current = currentItem.getOrNull();
         ItemStack cursor = e.getCursor();
-        if(current == null && FlareUtil.isNullOrAir(cursor)) {
+        if (current == null && FlareUtil.isNullOrAir(cursor)) {
             // current item is empty, cursor is empty,
             // so we don't do anything
             return true;
-        } else if(current == null && checkPut.allow(cursor, e)) {
+        } else if (current == null && checkPut.allow(cursor, e)) {
             // current item is empty, cursor is not empty,
             // so we put the cursor in the current item
             onPut.handle(cursor, e);
             currentItem.set(cursor.clone());
             e.setCursor(null);
             return true;
-        } else if(current != null && FlareUtil.isNullOrAir(cursor) && checkTake.allow(current, e)) {
+        } else if (current != null && FlareUtil.isNullOrAir(cursor) && checkTake.allow(current, e)) {
             // current item is not empty, cursor is empty,
             // so we take the current item and put it in the cursor
             onTake.handle(current, e);
             e.setCursor(current.clone());
             currentItem.set(null);
             return true;
-        } else if(!FlareUtil.isNullOrAir(cursor) && current != null) {
-            if(cursor.isSimilar(current) && checkPut.allow(cursor, e)) {
+        } else if (!FlareUtil.isNullOrAir(cursor) && current != null) {
+            if (cursor.isSimilar(current) && checkPut.allow(cursor, e)) {
                 // items are similar, so we are merging them
                 int maxAdd = current.getMaxStackSize() - current.getAmount();
-                if(cursor.getAmount() > maxAdd) {
+                if (cursor.getAmount() > maxAdd) {
                     cursor.setAmount(cursor.getAmount() - maxAdd);
                     current.setAmount(current.getMaxStackSize());
                     e.setCursor(cursor);
@@ -126,7 +127,7 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
                 }
                 onPut.handle(current, e);
                 return true;
-            } else if(checkTake.allow(current, e) && checkPut.allow(cursor, e)) {
+            } else if (checkTake.allow(current, e) && checkPut.allow(cursor, e)) {
                 // items are different, so we are swapping them
                 onTake.handle(current, e);
                 onPut.handle(cursor, e);
@@ -141,18 +142,18 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
     @SuppressWarnings("deprecation")
     @Override
     public boolean rightClick(@NotNull InventoryClickEvent e) {
-        if(isDisabled())
+        if (isDisabled())
             return true;
         ItemStack current = currentItem.getOrNull();
         ItemStack cursor = e.getCursor();
-        if(current == null)
+        if (current == null)
             return true;
-        if(!FlareUtil.isNullOrAir(cursor))
+        if (!FlareUtil.isNullOrAir(cursor))
             return true;
         int toTake = current.getAmount() / 2;
         ItemStack clone = current.clone();
         clone.setAmount(toTake);
-        if(!checkTake.allow(clone, e))
+        if (!checkTake.allow(clone, e))
             return true;
         onTake.handle(clone, e);
         e.setCursor(clone);
@@ -163,7 +164,7 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
 
     private boolean mergeStacks(@NotNull ItemStack current, ItemStack cursor, int amount) {
         int maxAdd = current.getMaxStackSize() - current.getAmount();
-        if(amount > maxAdd) {
+        if (amount > maxAdd) {
             cursor.setAmount(cursor.getAmount() - maxAdd);
             current.setAmount(current.getMaxStackSize());
             currentItem.set(current);
@@ -230,7 +231,9 @@ final class ContainerSlotImpl extends RootReferencing implements ContainerSlot {
         @Contract(" -> new")
         @Override
         public @NotNull ContainerSlot build() {
-            return new ContainerSlotImpl(item, empty == null ? ContainerSlot.emptyItem(null, null) : empty, disabled, checkPut == null ? (a, b) -> true : checkPut, checkTake == null ? (a, b) -> true : checkTake, onPut == null ? (a, b) -> { } : onPut, onTake == null ? (a, b) -> { } : onTake);
+            return new ContainerSlotImpl(item, empty == null ? ContainerSlot.emptyItem(null, null) : empty, disabled, checkPut == null ? (a, b) -> true : checkPut, checkTake == null ? (a, b) -> true : checkTake, onPut == null ? (a, b) -> {
+            } : onPut, onTake == null ? (a, b) -> {
+            } : onTake);
         }
     }
 }

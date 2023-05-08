@@ -37,20 +37,28 @@ public interface ContainerSlot extends Configurable<ContainerSlot>, Composable, 
     }
 
     ReactiveState<ItemStack> itemState();
+
     default @Nullable ItemStack getItem() {
         return itemState().get();
     }
+
     default void setItem(@Nullable ItemStack stack) {
         itemState().set(stack);
     }
 
     interface Builder extends ComposableLike {
         Builder disabled(boolean disabled);
+
         Builder empty(@Nullable ItemProvider provider);
+
         Builder item(@Nullable ItemStack item);
+
         Builder onPut(ContainerEvent put);
+
         Builder onTake(ContainerEvent take);
+
         Builder filterPut(ContainerPredicate put);
+
         Builder filterTake(ContainerPredicate take);
 
         ContainerSlot build();
