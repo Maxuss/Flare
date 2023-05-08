@@ -35,9 +35,9 @@ jobs:
         arguments: :flare:core:build
 
     - name: Publish to GitHub Packages
-      run: ./gradlew :flare:core:publish --stacktrace
+      run: ./gradlew :flare:core:publish
       env:
-        MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
-        MAVEN_PASSWORD: ${{ env.MAVEN_PASSWORD }}
-        SIGNING_KEY: ${{ env.SIGNING_KEY }}
-        SIGNING_PASSWORD: ${{ env.SIGNING_PASSWORD }}
+        MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
