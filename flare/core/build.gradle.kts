@@ -72,7 +72,9 @@ tasks {
     signing {
         val signingPassword = providers.environmentVariable("SIGNING_PASSWORD").forUseAtConfigurationTime()
         val signingKey = providers.environmentVariable("SIGNING_KEY").forUseAtConfigurationTime()
+        println("CONFIGURING SIGNING $signingPassword $signingKey")
         if (signingKey.isPresent && signingPassword.isPresent) {
+            println("Using signing key")
             println(signingKey.get())
             println(signingPassword.get())
             useInMemoryPgpKeys(signingKey.get(), signingPassword.get())
