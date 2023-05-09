@@ -1,3 +1,5 @@
+![Flare Logo](./images/logo.svg)
+
 # Flare UI
 
 A reactive Spigot Inventory UI library.

@@ -19,20 +19,39 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * An ItemStack Builder, which is a wrapper around an ItemStack that contains multiple convenience methods
+ * for constructing ItemStacks.
+ */
 public class ItemStackBuilder implements ItemProvider {
     private final ItemStack stack;
     private final @Nullable Player player;
 
+    /**
+     * Constructs a new ItemStackBuilder for the given Material.
+     * @param material Material of the Item
+     * @param player Used for PlaceholderAPI resolution. May be null.
+     */
     public ItemStackBuilder(Material material, @Nullable Player player) {
         this.stack = new ItemStack(material);
         this.player = player;
     }
 
+    /**
+     * Changes item type without fully wiping its meta
+     * @param type New item type
+     * @return This builder
+     */
     public ItemStackBuilder type(Material type) {
         this.stack.setType(type);
         return this;
     }
 
+    /**
+     * Sets the amount of items in this stack
+     * @param count New item count. Must be within 0 to 128, otherwise Bukkit errors may arise
+     * @return This builder
+     */
     public ItemStackBuilder count(@IntRange(from = 0, to = 128) int count) {
         this.stack.setAmount(count);
         return this;

@@ -44,6 +44,8 @@ tasks {
     }
 
     shadowJar {
+        relocate("net.kyori", "space.maxus.flare.dep.kyori")
+
         archiveFileName.set("flare-ui-${project.version}-all.jar")
     }
 
