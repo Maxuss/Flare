@@ -13,6 +13,9 @@ import space.maxus.flare.ui.PlayerFrameStateManager;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
 import space.maxus.flare.ui.compose.complex.Modal;
 
+/**
+ * Handles Modal-related logic for Flare
+ */
 public class ModalHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     void onModalClose(@NotNull InventoryCloseEvent e) {

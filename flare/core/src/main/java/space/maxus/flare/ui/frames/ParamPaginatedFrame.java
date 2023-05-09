@@ -26,7 +26,7 @@ public abstract class ParamPaginatedFrame<P> extends Frame implements Pagination
     public ParamPaginatedFrame(@NotNull P props, @NotNull Dimensions dimensions) {
         this.props = props;
         this.dimensions = dimensions;
-        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
+        this.holder = new ReactiveInventoryHolder(this, this::getViewer, dimensions.getTotalSize());
         this.pagination = new DefaultPagination(0);
         this.preInit(props);
         this.init();

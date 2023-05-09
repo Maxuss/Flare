@@ -18,13 +18,13 @@ public abstract class SimpleFrame extends Frame {
 
     protected SimpleFrame() {
         this.dimensions = Dimensions.SIX_BY_NINE;
-        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
+        this.holder = new ReactiveInventoryHolder(this, this::getViewer, dimensions.getTotalSize());
         this.init();
     }
 
     public SimpleFrame(@NotNull Dimensions dimensions) {
         this.dimensions = dimensions;
-        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
+        this.holder = new ReactiveInventoryHolder(this, this::getViewer, dimensions.getTotalSize());
         this.init();
     }
 

@@ -3,8 +3,10 @@ package space.maxus.flare.ui.compose;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.concurrent.Computable;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
 import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.ItemStackBuilder;
@@ -21,7 +23,7 @@ import java.util.List;
 
 
 public interface Selection<E> extends Disable, ProviderRendered, Configurable<Selection<E>> {
-    static <E> List<Component> selectorLore(List<E> enumeration, E selected, Computable<E, String> mapper) {
+    static <E> List<Component> selectorLore(@NotNull List<E> enumeration, E selected, Computable<E, String> mapper) {
         return enumeration
                 .stream()
                 .map(v -> {
@@ -69,6 +71,19 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
                 .lore("<dark_gray>Right Click → Backward")
                 .hideAllFlags();
     }
+
+    static <E> @NotNull ItemStackBuilder selectorBuilder(String name, String description, List<E> enumeration, E value, Computable<E, String> mapper, @Nullable Player player) {
+        return Items
+                .builder(Material.PLAYER_HEAD, player)
+                .headSkin("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIzZTYxOWRjYjc1MTFjZGMyNTJhNWRjYTg1NjViMTlkOTUyYWM5ZjgyZDQ2N2U2NmM1MjI0MmY5Y2Q4OGZhIn19fQ==")
+                .name("<gray>%s <dark_gray>[☰]".formatted(name))
+                .lore(description)
+                .addLore(selectorLore(enumeration, value, mapper))
+                .lore("<dark_gray>Left Click → Forward")
+                .lore("<dark_gray>Right Click → Backward")
+                .hideAllFlags();
+    }
+
 
     static <E> @NotNull Selection<E> of(Collection<E> enumeration, ItemProvider provider) {
         return new SelectionImpl<>(provider, enumeration, 0, false, null);

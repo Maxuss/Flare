@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
@@ -55,13 +56,14 @@ public abstract class Frame implements ReactivityProvider {
     }
 
     public void setTitle(Player viewer, String title) {
-        Flare.getNms().sendPacket(Flare.getNms().obtainConnection(viewer), Flare.getNms().buildTitlePacket(viewer, FlareUtil.text(title)));
+        Flare.getNms().sendPacket(Flare.getNms().obtainConnection(viewer), Flare.getNms().buildTitlePacket(viewer, FlareUtil.text(title, viewer)));
     }
 
     public void refreshTitle() {
         this.setTitle(viewer, this.getTitle());
     }
 
+    @ApiStatus.Internal
     public final void bindViewer(Player viewer) {
         if (this.viewer != null)
             return;
@@ -71,7 +73,7 @@ public abstract class Frame implements ReactivityProvider {
     public void switchFrame(Frame other) {
         if (other.getDimensions() != this.getDimensions()) {
             // we need to reopen inventory
-            other.bindViewer(viewer);
+            other.bindViewer(viewer); // always binding viewer before rendering, since lazy inventory initialization depends on it
             other.render();
             viewer.closeInventory(InventoryCloseEvent.Reason.OPEN_NEW);
             viewer.openInventory(other.selfInventory());
@@ -83,7 +85,7 @@ public abstract class Frame implements ReactivityProvider {
             other.getHolder().inherit(this.getHolder());
             this.getHolder().setFrame(other);
             other.setTitle(viewer, other.getTitle());
-            other.bindViewer(viewer);
+            other.bindViewer(viewer); // always binding viewer before rendering, since lazy inventory initialization depends on it
             other.render();
             other.open(viewer);
         }
@@ -96,7 +98,7 @@ public abstract class Frame implements ReactivityProvider {
 
         if (other.getDimensions() != this.getDimensions()) {
             // we need to reopen inventory
-            other.bindViewer(viewer);
+            other.bindViewer(viewer); // always binding viewer before rendering, since lazy inventory initialization depends on it
             other.render();
             viewer.closeInventory(InventoryCloseEvent.Reason.TELEPORT);
             viewer.openInventory(other.selfInventory());
@@ -107,7 +109,7 @@ public abstract class Frame implements ReactivityProvider {
             this.close();
             // we don't need to change inventory reference here, since it was restored
             other.getHolder().setFrame(other); // looks weird, but it is basically setting the frame reference to the frame we just restored
-            other.bindViewer(viewer);
+            other.bindViewer(viewer); // always binding viewer before rendering, since lazy inventory initialization depends on it
             other.render();
             other.setTitle(viewer, other.getTitle());
             other.restorePreviousState(viewer);

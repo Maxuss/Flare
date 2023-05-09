@@ -2,11 +2,15 @@ package space.maxus.flare;
 
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.apache.commons.lang3.concurrent.ConcurrentException;
+import org.apache.commons.lang3.concurrent.LazyInitializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.handlers.ClickHandler;
 import space.maxus.flare.handlers.ModalHandler;
@@ -17,10 +21,36 @@ import space.maxus.flare.nms.generic.ReflectionHelper;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.PlayerFrameStateManager;
 
+import java.lang.reflect.Method;
+
 @UtilityClass
 public class Flare {
     public final ComponentLogger LOGGER = ComponentLogger.logger("Flare");
     private boolean HOOKED = false;
+    private final LazyInitializer<Boolean> placeholderApiSupported = new LazyInitializer<>() {
+        @Override
+        protected @NotNull Boolean initialize() {
+            boolean enabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+            if(enabled)
+                LOGGER.info("Found PlaceholderAPI! Placeholder support enabled.");
+            return enabled;
+        }
+    };
+    private final LazyInitializer<Method> papiReplacerClass = new LazyInitializer<>() {
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Method initialize() {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+            if(plugin == null)
+                throw new IllegalStateException("PlaceholderAPI not found! Was it disabled?");
+            try {
+                Class<PlaceholderAPI> papiClass = (Class<PlaceholderAPI>) plugin.getClass().getClassLoader().loadClass(PlaceholderAPI.class.getCanonicalName());
+                return papiClass.getMethod("setPlaceholders", Player.class, String.class);
+            } catch (ClassNotFoundException | NoSuchMethodException e) {
+                throw new IllegalStateException("Could not load PlaceholderAPI!", e);
+            }
+        }
+    };
     @Getter
     private NmsHelper nms;
     @Getter
@@ -41,8 +71,26 @@ public class Flare {
         initNms();
     }
 
+    public boolean isPlaceholderApiSupported() {
+        try {
+            return placeholderApiSupported.get();
+        } catch (ConcurrentException e) {
+            return false;
+        }
+    }
+
+    @ApiStatus.Internal
+    public String papiReplacePlaceholders(Player player, String text) {
+        try {
+            return (String) papiReplacerClass.get().invoke(null, player, text);
+        } catch (Exception e) {
+            Flare.LOGGER.info("Failed to replace placeholders", e);
+            return "<red>Error! %s".formatted(e.getMessage());
+        }
+    }
+
     public Inventory open(@NotNull Frame frame, @NotNull Player player) {
-        frame.bindViewer(player);
+        frame.bindViewer(player); // always binding viewer before rendering, since lazy inventory initialization depends on it
         frame.render();
         player.openInventory(frame.selfInventory());
         frame.open(player);

@@ -86,7 +86,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
         PageFrame page = (PageFrame) getPage(to);
         setPage(to);
         page.getHolder().inherit(previous.getHolder());
-        page.bindViewer(viewer);
+        page.bindViewer(viewer); // always binding viewer before rendering, since lazy inventory initialization depends on it
         page.load();
         page.render();
         page.refreshTitle();
@@ -98,7 +98,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
         ReactiveInventoryHolder holder = (ReactiveInventoryHolder) player.getOpenInventory().getTopInventory().getHolder();
         assert holder != null;
         frame.getHolder().inherit(holder);
-        frame.bindViewer(player);
+        frame.bindViewer(player); // always binding viewer before rendering, since lazy inventory initialization depends on it
         frame.load();
         frame.render();
         frame.open(player);

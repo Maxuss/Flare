@@ -11,6 +11,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
 }
 
 group = "space.maxus.flare"
@@ -62,6 +63,7 @@ bukkit {
     main = "flare.TestPlugin"
     apiVersion = "1.19"
     authors = listOf("maxus")
+    depend = listOf("PlaceholderAPI") // PAPI support
 
     commands {
         register("component")

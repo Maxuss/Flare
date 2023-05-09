@@ -12,10 +12,12 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apache.commons.lang3.concurrent.Computable;
 import org.apache.commons.lang3.concurrent.Memoizer;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.Flare;
 import space.maxus.flare.ui.Composable;
 
 import java.math.BigDecimal;
@@ -47,6 +49,11 @@ public class FlareUtil {
 
     public Component text(String miniMessage) {
         return MINI_MESSAGE.deserialize(miniMessage).decoration(TextDecoration.ITALIC, false);
+    }
+
+    public Component text(String miniMessage, @Nullable Player player) {
+        String parsed = Flare.isPlaceholderApiSupported() && player != null ? Flare.papiReplacePlaceholders(player, miniMessage) : miniMessage;
+        return text(parsed);
     }
 
     @SuppressWarnings("unchecked")

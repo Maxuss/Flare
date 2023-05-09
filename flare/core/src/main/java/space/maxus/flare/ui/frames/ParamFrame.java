@@ -22,7 +22,7 @@ public abstract class ParamFrame<P> extends Frame {
 
     public ParamFrame(@NotNull P params, @NotNull Dimensions dimensions) {
         this.dimensions = dimensions;
-        this.holder = new ReactiveInventoryHolder(this, dimensions.getTotalSize());
+        this.holder = new ReactiveInventoryHolder(this, this::getViewer, dimensions.getTotalSize());
         this.props = params;
         this.preInit(params);
         this.init();

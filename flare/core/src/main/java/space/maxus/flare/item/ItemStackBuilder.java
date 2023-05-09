@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,9 +21,11 @@ import java.util.function.Consumer;
 
 public class ItemStackBuilder implements ItemProvider {
     private final ItemStack stack;
+    private final @Nullable Player player;
 
-    public ItemStackBuilder(Material material) {
+    public ItemStackBuilder(Material material, @Nullable Player player) {
         this.stack = new ItemStack(material);
+        this.player = player;
     }
 
     public ItemStackBuilder type(Material type) {
@@ -56,7 +59,7 @@ public class ItemStackBuilder implements ItemProvider {
     }
 
     public ItemStackBuilder lore(@NotNull String lore) {
-        this.stack.editMeta(Items.loreMeta(lore));
+        this.stack.editMeta(Items.loreMeta(lore, player));
         return this;
     }
 
@@ -68,7 +71,7 @@ public class ItemStackBuilder implements ItemProvider {
     public ItemStackBuilder addLore(@NotNull String lore) {
         this.stack.editMeta(meta -> {
             List<Component> currentLore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
-            currentLore.addAll(FlareUtil.partitionString(lore).stream().map(st -> FlareUtil.text("<gray>%s".formatted(st))).toList());
+            currentLore.addAll(FlareUtil.partitionString(lore).stream().map(st -> FlareUtil.text("<gray>%s".formatted(st), player)).toList());
             meta.lore(currentLore);
         });
         return this;
@@ -86,7 +89,7 @@ public class ItemStackBuilder implements ItemProvider {
     public ItemStackBuilder addLoreLine(@NotNull String line) {
         this.stack.editMeta(meta -> {
             List<Component> currentLore = Objects.requireNonNullElse(meta.lore(), new ArrayList<>());
-            currentLore.add(FlareUtil.text("<gray>%s".formatted(line)));
+            currentLore.add(FlareUtil.text("<gray>%s".formatted(line), player));
             meta.lore(currentLore);
         });
         return this;
@@ -106,7 +109,7 @@ public class ItemStackBuilder implements ItemProvider {
     }
 
     public ItemStackBuilder name(@NotNull String name) {
-        this.stack.editMeta(meta -> meta.displayName(FlareUtil.text(name)));
+        this.stack.editMeta(meta -> meta.displayName(FlareUtil.text(name, player)));
         return this;
     }
 

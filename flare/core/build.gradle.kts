@@ -18,8 +18,14 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
+repositories {
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
+}
+
 dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+
+    implementation("me.clip:placeholderapi:2.11.3") // PAPI support
 
     implementation(project(":flare:common"))
     runtimeOnly(project(":flare:nms"))
@@ -39,6 +45,11 @@ tasks {
     }
 
     shadowJar {
+        dependencies {
+            exclude { it.moduleGroup == "org.bstats" } // exclude bstats
+            exclude(dependency("me.clip:placeholderapi:2.11.3"))
+        }
+
         archiveFileName.set("flare-ui-${project.version}-all.jar")
     }
 

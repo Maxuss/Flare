@@ -17,6 +17,7 @@ public class ReactiveItemProvider<V> implements ItemProvider, ReactiveSubscriber
         return current;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onStateChange(@Nullable V state) {
         try {

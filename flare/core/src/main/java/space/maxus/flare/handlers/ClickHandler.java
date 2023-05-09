@@ -11,6 +11,9 @@ import space.maxus.flare.ui.space.Slot;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Handles (almost) all click events for Flare.
+ */
 public class ClickHandler implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {

@@ -32,7 +32,7 @@ public class MockPagedFrame extends PaginatedFrame {
 
         createPage(page ->
         {
-            page.useTitle("Some page");
+            page.useTitle("Hello %player_name%!"); // using PlaceholderAPI here!
             page.compose(Slideshow
                     .of(
                             List.of(
