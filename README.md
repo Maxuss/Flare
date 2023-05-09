@@ -1,5 +1,6 @@
-<p style="text-align:center">
-    <img src="./images/logo.svg" alt="Flare Logo" width="500"/>
+<!--suppress HtmlDeprecatedAttribute -->
+<p align="center">
+    <img src="./images/logo.svg" alt="Flare Logo" width="33%"/>
 </p>
 
 # Flare UI
