@@ -1,3 +1,59 @@
 site_name: Flare Docs
+site_description: Documentation of the FlareUI framework
+site_author: maxus
+repo_url: https://github.com/Maxuss/Flare
+repo_name: Maxuss/Flare
+
+nav:
+  - index.md
+  - setup.md
+  - basic.md
+
+plugins:
+  - search
+  - social:
+      cards_layout_options:
+        font_family: Inter
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - abbr
+  - admonition
+
 theme:
+  custom_dir: docs/overrides
+  features:
+    - navigation.footer
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  homepage: https://flare.maxus.space
+  language: en
+  font:
+    text: Roboto
+    code: JetBrains Mono
   name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: amber
+      accent: yellow
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: orange
+      accent: amber
+      toggle:
+        icon: material/brightness-3
+        name: Switch to dark theme

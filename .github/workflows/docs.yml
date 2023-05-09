@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-python@v4
 
       - name: Install Mkdocs
-        run: pip install mkdocs-material
+        run: pip install mkdocs-material cairosvg pillow
 
       - name: Build
         run: mkdocs build

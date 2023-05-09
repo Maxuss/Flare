@@ -1,17 +1,19 @@
-# Welcome to MkDocs
+---
+title: Home
+---
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+# FlareUI Documentation
 
-## Commands
+Welcome to the Flare documentation.
+Here you can learn to use the Flare Inventory UI Framework for Spigot
+and see example code! 
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## About
 
-## Project layout
+Flare is a reactive inventory UI framework for Bukkit, Spigot, Paper, etc.
+Flare was inspired by [React](https://react.dev/), so if you already know it, getting
+used to Flare will be easier!
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## Setup
+
+In order to get started follow the [setup guide](/setup)
