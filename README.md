@@ -1,4 +1,4 @@
-![Flare Logo](./images/logo.svg)
+<img src="./images/logo.svg" alt="Flare Logo" width="200"/>
 
 # Flare UI
 
