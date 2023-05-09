@@ -65,10 +65,10 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
                 () -> PaginationDisplay.arrowForwardButton(FlareUtil.acquireThrowing(isLastSelected)).build() :
                 forward;
         this.selectedPage = selectedPage == null ?
-                pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), true).build() :
+                pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), true, viewer()).build() :
                 selectedPage;
         this.unselectedPage = unselectedPage == null ?
-                pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), false).build() :
+                pair -> PaginationDisplay.pageNumber(pair.getRight(), pair.getLeft(), false, viewer()).build() :
                 unselectedPage;
         ReactiveState<Frame> pg;
         try {
@@ -92,7 +92,7 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
             Integer frameIdx = activeSlots.get(slot); // specifically not unboxing value here
             if (frameIdx == null)
                 return null; // should not happen usually
-            Pair<Integer, Frame> pair = Pair.of(frameIdx, currentPage.get());
+            Pair<Integer, Frame> pair = Pair.of(frameIdx, pagination.getPage(frameIdx));
             return frameIdx.equals(selectedIndex().get()) ?
                     selectedPage.compute(pair) :
                     unselectedPage.compute(pair);

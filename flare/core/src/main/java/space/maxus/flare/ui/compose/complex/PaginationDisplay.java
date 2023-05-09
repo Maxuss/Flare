@@ -2,6 +2,7 @@ package space.maxus.flare.ui.compose.complex;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,8 +50,8 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
                 );
     }
 
-    static @NotNull ItemStackBuilder pageNumber(Frame frame, int page, boolean selected) {
-        return Items.builder(Material.PLAYER_HEAD)
+    static @NotNull ItemStackBuilder pageNumber(Frame frame, int page, boolean selected, @Nullable Player player) {
+        return Items.builder(Material.PLAYER_HEAD, player)
                 .hideAllFlags()
                 .branch(selected,
                         builder -> builder

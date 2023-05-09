@@ -16,6 +16,10 @@ public interface PaginationProxy {
         getPagination().createPage(configurator);
     }
 
+    default void createPage(String title, Consumer<PageFrame> configurator) {
+        getPagination().createPage(title, configurator);
+    }
+
     default void switchPage(Player viewer, int to) {
         getPagination().switchPage(viewer, to);
     }

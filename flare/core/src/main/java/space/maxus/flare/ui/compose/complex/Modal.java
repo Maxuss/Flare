@@ -54,7 +54,7 @@ public interface Modal extends ProviderRendered, Configurable<Modal>, Disable {
         protected Modal parent;
 
         protected ModalFrame(@NotNull ModalProps props) {
-            super(new PageFrame.Props(0, props.dimensions, Collections.emptyMap(), frame -> props.initializer.accept((ModalFrame) frame)));
+            super(new PageFrame.Props(0, props.title, props.dimensions, Collections.emptyMap(), frame -> props.initializer.accept((ModalFrame) frame)));
             this.parent = props.self;
         }
 

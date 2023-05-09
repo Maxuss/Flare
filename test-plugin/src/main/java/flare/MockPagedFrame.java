@@ -22,17 +22,16 @@ public class MockPagedFrame extends PaginatedFrame {
                         .builder(pagination)
                         .backButton(PaginationDisplay.arrowBackwardButton(false).type(Material.ARROW))
                         .forwardButton(PaginationDisplay.arrowForwardButton(false).type(Material.ARROW))
-                        .selectedPage(pair -> PaginationDisplay.pageNumber(pair.getValue(), pair.getKey(), true).type(Material.GREEN_STAINED_GLASS_PANE).build())
-                        .unselectedPage(pair -> PaginationDisplay.pageNumber(pair.getValue(), pair.getKey(), false).type(Material.BLACK_STAINED_GLASS_PANE).build())
+                        .selectedPage(pair -> PaginationDisplay.pageNumber(pair.getValue(), pair.getKey(), true, getViewer()).type(Material.GREEN_STAINED_GLASS_PANE).build())
+                        .unselectedPage(pair -> PaginationDisplay.pageNumber(pair.getValue(), pair.getKey(), false, getViewer()).type(Material.BLACK_STAINED_GLASS_PANE).build())
                         .build()
 
         );
 
         pagination.composeShared(Placeholder.of(Items.builder(Material.GRAY_STAINED_GLASS_PANE)).inside(Slot.ALL));
 
-        createPage(page ->
+        createPage("Hello, %player_name%!", page ->
         {
-            page.useTitle("Hello %player_name%!"); // using PlaceholderAPI here!
             page.compose(Slideshow
                     .of(
                             List.of(
@@ -54,55 +53,46 @@ public class MockPagedFrame extends PaginatedFrame {
             );
         });
 
-        createPage(page ->
-        {
-            page.useTitle("Another page");
-            page.compose(Slideshow
-                    .of(
-                            List.of(
-                                    Items.builder(Material.IRON_SWORD),
-                                    Items.builder(Material.IRON_SHOVEL),
-                                    Items.builder(Material.IRON_AXE),
-                                    Items.builder(Material.IRON_BLOCK)
-                            ),
-                            10
-                    )
-                    .inside(Slot.ROW_ONE_SLOT_FIVE)
-            );
-        });
+        createPage("Another page", page ->
+                page.compose(Slideshow
+                        .of(
+                                List.of(
+                                        Items.builder(Material.IRON_SWORD),
+                                        Items.builder(Material.IRON_SHOVEL),
+                                        Items.builder(Material.IRON_AXE),
+                                        Items.builder(Material.IRON_BLOCK)
+                                ),
+                                10
+                        )
+                        .inside(Slot.ROW_ONE_SLOT_FIVE)
+                ));
 
-        createPage(page ->
-        {
-            page.useTitle("Third page");
-            page.compose(Slideshow
-                    .of(
-                            List.of(
-                                    Items.builder(Material.GOLDEN_SWORD),
-                                    Items.builder(Material.GOLDEN_SHOVEL),
-                                    Items.builder(Material.GOLDEN_AXE),
-                                    Items.builder(Material.GOLD_BLOCK)
-                            ),
-                            10
-                    )
-                    .inside(Slot.ROW_ONE_SLOT_FIVE)
-            );
-        });
+        createPage("Third Title", page ->
+                page.compose(Slideshow
+                        .of(
+                                List.of(
+                                        Items.builder(Material.GOLDEN_SWORD),
+                                        Items.builder(Material.GOLDEN_SHOVEL),
+                                        Items.builder(Material.GOLDEN_AXE),
+                                        Items.builder(Material.GOLD_BLOCK)
+                                ),
+                                10
+                        )
+                        .inside(Slot.ROW_ONE_SLOT_FIVE)
+                ));
 
-        createPage(page ->
-        {
-            page.useTitle("Final page");
-            page.compose(Slideshow
-                    .of(
-                            List.of(
-                                    Items.builder(Material.NETHERITE_SWORD),
-                                    Items.builder(Material.NETHERITE_SHOVEL),
-                                    Items.builder(Material.NETHERITE_AXE),
-                                    Items.builder(Material.NETHERITE_BLOCK)
-                            ),
-                            10
-                    )
-                    .inside(Slot.ROW_ONE_SLOT_FIVE)
-            );
-        });
+        createPage("Final page", page ->
+                page.compose(Slideshow
+                        .of(
+                                List.of(
+                                        Items.builder(Material.NETHERITE_SWORD),
+                                        Items.builder(Material.NETHERITE_SHOVEL),
+                                        Items.builder(Material.NETHERITE_AXE),
+                                        Items.builder(Material.NETHERITE_BLOCK)
+                                ),
+                                10
+                        )
+                        .inside(Slot.ROW_ONE_SLOT_FIVE)
+                ));
     }
 }

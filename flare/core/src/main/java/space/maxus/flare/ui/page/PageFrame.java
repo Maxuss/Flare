@@ -71,6 +71,7 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
 
     @Override
     public void init() {
+        this.titleText = this.props.initTitle == null ? "A Flare Page" : this.props.initTitle;
         // initializer should be called lazily, on-demand, and not eagerly in `init`
     }
 
@@ -136,7 +137,7 @@ public class PageFrame extends ParamFrame<PageFrame.Props> {
         boolean click(Slot slot, InventoryClickEvent e);
     }
 
-    public record Props(int page, Dimensions dim, Map<ComposableSpace, Composable> initData,
+    public record Props(int page, @Nullable String initTitle, Dimensions dim, Map<ComposableSpace, Composable> initData,
                         Consumer<PageFrame> initializer) {
     }
 

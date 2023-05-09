@@ -29,8 +29,8 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
     }
 
     @Override
-    public @NotNull Frame createPage(int page, @NotNull Consumer<PageFrame> props) {
-        PageFrame frame = new PageFrame(new PageFrame.Props(page, Dimensions.SIX_BY_NINE, sharedData, props));
+    public @NotNull Frame createPage(int page, @Nullable String title, @NotNull Consumer<PageFrame> props) {
+        PageFrame frame = new PageFrame(new PageFrame.Props(page, title, Dimensions.SIX_BY_NINE, sharedData, props));
         Lock lock = pageLock.writeLock();
         lock.lock();
         pages.add(frame);

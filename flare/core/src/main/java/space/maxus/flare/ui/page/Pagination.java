@@ -2,6 +2,7 @@ package space.maxus.flare.ui.page;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.ui.Composable;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.PackedComposable;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public interface Pagination<P> {
-    Frame createPage(int page, @NotNull P props);
+    Frame createPage(int page, @Nullable String title, @NotNull P props);
 
     Frame getPage(int page);
 
@@ -42,7 +43,11 @@ public interface Pagination<P> {
     void commit();
 
     default Frame createPage(@NotNull P props) {
-        return this.createPage(nextPageIdx(), props);
+        return this.createPage(nextPageIdx(), null, props);
+    }
+
+    default Frame createPage(@Nullable String title, @NotNull P props) {
+        return this.createPage(nextPageIdx(), title, props);
     }
 
     default void nextPage(Player viewer) {
