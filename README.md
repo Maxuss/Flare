@@ -5,6 +5,9 @@
 
 # Flare UI
 
+[![Gradle Package](https://github.com/Maxuss/Flare/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/Maxuss/Flare/actions/workflows/gradle-publish.yml)
+
+
 A reactive Spigot Inventory UI library.
 
 > :warning: **This library is still in development and is not suitable for production use**
