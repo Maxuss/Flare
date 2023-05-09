@@ -6,6 +6,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.experimental.StandardException;
 import lombok.experimental.UtilityClass;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -52,7 +53,7 @@ public class FlareUtil {
     }
 
     public Component text(String miniMessage, @Nullable Player player) {
-        String parsed = Flare.isPlaceholderApiSupported() && player != null ? Flare.papiReplacePlaceholders(player, miniMessage) : miniMessage;
+        String parsed = Flare.isPlaceholderApiSupported() && player != null ? PlaceholderAPI.setPlaceholders(player, miniMessage) : miniMessage;
         return text(parsed);
     }
 
