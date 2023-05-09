@@ -6,7 +6,6 @@ on:
       - docs/**
       - mkdocs.yml
       - .github/workflows/docs.yml
-  workflow_dispatch:
 
 jobs:
   build:
@@ -18,7 +17,8 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v4
 
-      # Install MkDocs, other dependencies, and do whatever else you need to do, then...
+      - name: Install Mkdocs
+        run: pip install mkdocs-material
 
       - name: Build
         run: mkdocs build
