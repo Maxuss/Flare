@@ -34,8 +34,10 @@ markdown_extensions:
   - tables
   - def_list
 
+extra_css:
+  - stylesheets/extra.css
+
 theme:
-  custom_dir: docs/overrides
   features:
     - navigation.footer
     - navigation.sections
