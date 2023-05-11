@@ -51,6 +51,13 @@ public abstract class Frame implements ReactivityProvider {
         return new ReactiveState<>(initial);
     }
 
+    @Override
+    public <V> ReactiveState<V> useBoundState(@Nullable V initial) {
+        ReactiveState<V> state = new ReactiveState<>(initial);
+        state.subscribe(change -> this.markDirty());
+        return state;
+    }
+
     public <T> void useContext(@Nullable T context) {
         this.context = context;
     }
@@ -310,7 +317,7 @@ public abstract class Frame implements ReactivityProvider {
                 }), (left, right) -> left || right) || res;
     }
 
-    public final void open(Player player) {
+    public void open(Player player) {
         this.onOpen(player);
     }
 
@@ -319,7 +326,7 @@ public abstract class Frame implements ReactivityProvider {
         this.composed.values().forEach(Composable::destroy);
     }
 
-    public final void restorePreviousState(Player player) {
+    public void restorePreviousState(Player player) {
         this.onOpen(player);
         this.composed.values().forEach(Composable::restore);
     }

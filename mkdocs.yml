@@ -8,6 +8,7 @@ nav:
   - index.md
   - setup.md
   - basic.md
+  - ui/overview.md
 
 plugins:
   - search
@@ -16,13 +17,22 @@ plugins:
         font_family: Inter
 
 markdown_extensions:
-  - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.inlinehilite
   - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - admonition
   - attr_list
   - md_in_html
-  - abbr
-  - admonition
+  - tables
+  - def_list
 
 theme:
   custom_dir: docs/overrides
@@ -30,8 +40,10 @@ theme:
     - navigation.footer
     - navigation.sections
     - navigation.expand
-    - content.code.copy
+    - content.tabs.link
     - content.code.annotate
+    - content.code.copy
+    - content.code.select
   icon:
     repo: fontawesome/brands/github
   logo: assets/logo.svg

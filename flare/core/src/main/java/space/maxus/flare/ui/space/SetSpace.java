@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode
-public class RawRect implements ComposableSpace {
+public class SetSpace implements ComposableSpace {
     private final Set<Slot> slots;
 
     @Override

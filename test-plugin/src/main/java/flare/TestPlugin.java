@@ -31,6 +31,8 @@ public class TestPlugin extends JavaPlugin implements CommandExecutor {
             Flare.open(new MockFrame((Player) sender), (Player) sender);
         } else if("open".equals(command.getName()) && args[0].equals("2")) {
             Flare.open(new MockPagedFrame(), (Player) sender);
+        } else if("open".equals(command.getName()) && args[0].equals("3")) {
+            Flare.open(new DocFrame(), (Player) sender);
         }
         return true;
     }

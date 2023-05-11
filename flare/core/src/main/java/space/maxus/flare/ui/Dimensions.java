@@ -10,8 +10,14 @@ public enum Dimensions {
 
     @Getter
     private final int totalSize;
+    @Getter
+    private final int rows;
+    @Getter
+    private final int columns;
 
     Dimensions(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
         this.totalSize = rows * columns;
     }
 }

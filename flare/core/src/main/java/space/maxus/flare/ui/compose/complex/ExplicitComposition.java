@@ -9,7 +9,7 @@ import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.PackedComposable;
 import space.maxus.flare.ui.compose.RootReferencing;
 import space.maxus.flare.ui.space.ComposableSpace;
-import space.maxus.flare.ui.space.RawRect;
+import space.maxus.flare.ui.space.SetSpace;
 import space.maxus.flare.ui.space.Slot;
 
 import java.util.Collections;
@@ -57,7 +57,7 @@ class ExplicitComposition extends RootReferencing implements Composition {
             Set<Slot> area = packed.getSpace().slots().stream().map(slot ->
                     new Slot(Math.min(origin.getRow() + slot.getRow(), max.getRow()), Math.min(origin.getColumn() + slot.getColumn(), max.getColumn()))
             ).collect(Collectors.toSet());
-            RawRect newSpace = new RawRect(area);
+            SetSpace newSpace = new SetSpace(area);
             return packed.getComposable().inside(newSpace);
         }).toList();
         return this.composed;

@@ -9,27 +9,27 @@ Replace `VERSION` with current latest version (without v):
 <br>
 ![Latest Flare Version](https://img.shields.io/github/v/release/Maxuss/Flare?label=latest%20version)
 
-### Maven
+=== "Maven"
 
-```xml title="pom.xml"
-<dependency>
-    <groupId>space.maxus</groupId>
-    <artifactId>flare</artifactId>
-    <version>VERSION</version>    
-</dependency>
-```
+    ```xml
+    <dependency>
+        <groupId>space.maxus</groupId>
+        <artifactId>flare</artifactId>
+        <version>VERSION</version>    
+    </dependency>
+    ```
 
-### Gradle (Kotlin)
+=== "Gradle (Kotlin)"
 
-```kotlin title="build.gradle.kts"
-implementation("space.maxus:flare:VERSION")
-```
+    ```kotlin
+    implementation("space.maxus:flare:VERSION")
+    ```
 
-### Gradle (Groovy)
+=== "Gradle (Groovy)"
 
-```groovy title="build.gradle"
-implementation 'space.maxus:flare:VERSION'
-```
+    ```groovy
+    implementation 'space.maxus:flare:VERSION'
+    ```
 
 ## Include Flare in plugin.yml
 

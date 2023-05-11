@@ -75,6 +75,14 @@ public class Slot implements Comparable<Slot>, ComposableSpace {
     public static final Slot ROW_SIX_SLOT_NINE = new Slot(5, 8);
     // Special
     public static final Rect ALL = new Rect(Slot.ROW_ONE_SLOT_ONE, Slot.ROW_SIX_SLOT_NINE);
+    // Rows
+    public static final Rect ROW_ONE = new Rect(Slot.ROW_ONE_SLOT_ONE, Slot.ROW_ONE_SLOT_NINE);
+    public static final Rect ROW_TWO = new Rect(Slot.ROW_TWO_SLOT_ONE, Slot.ROW_TWO_SLOT_NINE);
+    public static final Rect ROW_THREE = new Rect(Slot.ROW_THREE_SLOT_ONE, Slot.ROW_THREE_SLOT_NINE);
+    public static final Rect ROW_FOUR = new Rect(Slot.ROW_FOUR_SLOT_ONE, Slot.ROW_FOUR_SLOT_NINE);
+    public static final Rect ROW_FIVE = new Rect(Slot.ROW_FIVE_SLOT_ONE, Slot.ROW_FIVE_SLOT_NINE);
+    public static final Rect ROW_SIX = new Rect(Slot.ROW_SIX_SLOT_ONE, Slot.ROW_SIX_SLOT_NINE);
+
     private final int row;
     private final int column;
 

@@ -76,6 +76,22 @@ public interface Button extends Disable, ProviderRendered, Configurable<Button> 
 
         Builder onShiftClick(ClickHandler handler);
 
+        default Builder onClickCancelling(BiConsumer<Button, InventoryClickEvent> handler) {
+            return onClick(ClickHandler.cancelling(handler));
+        }
+
+        default Builder onRightClickCancelling(BiConsumer<Button, InventoryClickEvent> handler) {
+            return onRightClick(ClickHandler.cancelling(handler));
+        }
+
+        default Builder onLeftClickCancelling(BiConsumer<Button, InventoryClickEvent> handler) {
+            return onLeftClick(ClickHandler.cancelling(handler));
+        }
+
+        default Builder onShiftClickCancelling(BiConsumer<Button, InventoryClickEvent> handler) {
+            return onShiftClick(ClickHandler.cancelling(handler));
+        }
+
         @Override
         default Composable asComposable() {
             return build();
