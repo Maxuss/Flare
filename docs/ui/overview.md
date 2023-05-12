@@ -200,3 +200,46 @@ public void init() {
 Here is the result:
 
 ![UI Clicking Bound](../assets/screenshots/ui-clicking-bound.gif)
+
+### Frames with arguments
+
+You can't just pass arguments to normal Frames. 
+You should extend a `ParamFrame` instead.
+
+```java
+public class ParamDocFrame extends ParamFrame<ParamDocFrame.MyProps> {
+
+    protected ParamDocFrame(@NotNull MyProps params) {
+        super(params, Dimensions.THREE_BY_NINE);
+    }
+
+    @Override
+    public String getTitle() {
+        return "Hello, %s!".formatted(props.name);
+    }
+
+    @Override
+    public void init() {
+        this.compose(
+                Placeholder
+                        .of(
+                                Items.builder(Material.BLAZE_ROD)
+                                        .name("<gold>%s".formatted(props.message))
+                        )
+                        .inside(Slot.ALL)
+        );
+    }
+
+    public record MyProps(String name, String message) { }
+}
+```
+
+You can then open it this way:
+
+```java
+Flare.open(new ParamDocFrame(new ParamDocFrame.MyProps("maxus", "This is a frame!")), (Player) sender);
+```
+
+Which produces:
+
+![UI With Params](../assets/screenshots/ui-param.gif)
