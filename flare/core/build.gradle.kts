@@ -26,7 +26,9 @@ dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
 
     implementation(project(":flare:common"))
+
     runtimeOnly(project(":flare:nms"))
+
     compileOnly("me.clip:placeholderapi:2.11.3") // PAPI support
 
     testImplementation(platform("org.junit:junit-bom:5.9.2"))
@@ -44,7 +46,7 @@ tasks {
     }
 
     shadowJar {
-        relocate("net.kyori", "space.maxus.flare.dep.kyori")
+//        relocate("net.kyori", "space.maxus.flare.dep.kyori")
 
         archiveFileName.set("flare-ui-${project.version}-all.jar")
     }
@@ -69,6 +71,16 @@ tasks {
     }
     processResources {
         filteringCharset = Charsets.UTF_8.name() // We want UTF-8 for everything
+        val props = mapOf(
+            "name" to "Flare",
+            "version" to project.version,
+            "description" to project.description,
+            "apiVersion" to "1.19"
+        )
+        inputs.properties(props)
+        filesMatching("plugin.yml") {
+            expand(props)
+        }
     }
 
     java {

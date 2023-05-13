@@ -110,7 +110,7 @@ public interface TextInput extends Disable, ProviderRendered, Configurable<TextI
         Player conversible = (Player) e.getWhoClicked();
         conversible.closeInventory(InventoryCloseEvent.Reason.TELEPORT);
         Conversation conv =
-                new ConversationFactory(Flare.getHook())
+                new ConversationFactory(Flare.getInstance())
                         .withLocalEcho(false)
                         .withFirstPrompt(prompt)
                         .buildConversation(conversible);

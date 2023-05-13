@@ -34,7 +34,7 @@ public class ReactiveItemProvider<V> implements ItemProvider, ReactiveSubscriber
                 Thread.currentThread().interrupt();
             else {
                 this.current = Items.getGenericErrorItem();
-                Flare.LOGGER.error("Error while computing reactive item", e);
+                Flare.logger().error("Error while computing reactive item", e);
             }
         }
     }

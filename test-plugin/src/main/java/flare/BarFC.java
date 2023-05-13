@@ -36,7 +36,7 @@ public class BarFC extends FunctionComposable<Float> {
     }
 
     private void setupBarTask() {
-        this.barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getHook(), () -> bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f), 5L, 5L);
+        this.barTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getInstance(), () -> bar.set(bar.get() >= 1f ? 0f : bar.get() + .05f), 5L, 5L);
     }
 
     @Override

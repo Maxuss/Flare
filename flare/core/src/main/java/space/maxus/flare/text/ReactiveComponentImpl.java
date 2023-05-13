@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import space.maxus.flare.Flare;
-import space.maxus.flare.util.FlareUtil;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -52,7 +51,7 @@ final class ReactiveComponentImpl<V> implements ReactiveComponent<V> {
         try {
             parentRef.setRelease(producer.compute(state));
         } catch (InterruptedException e) {
-            Flare.LOGGER.error(FlareUtil.text("<gold>InterruptedException<red> during ReactiveComponent state change handler!"), e);
+            Flare.logger().error("InterruptedException during ReactiveComponent state change handler!");
             Thread.currentThread().interrupt();
         }
     }

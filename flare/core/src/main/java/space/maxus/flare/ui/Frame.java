@@ -226,7 +226,7 @@ public abstract class Frame implements ReactivityProvider {
             return;
         this.isDirty.setRelease(true);
         Bukkit.getScheduler().runTaskLaterAsynchronously(
-                Flare.getHook(),
+                Flare.getInstance(),
                 () -> {
                     if (!this.isDirty.get())
                         return;
@@ -253,7 +253,7 @@ public abstract class Frame implements ReactivityProvider {
         this.isDirty.setRelease(true);
         // Only render next tick
         Bukkit.getScheduler().runTaskLaterAsynchronously(
-                Flare.getHook(),
+                Flare.getInstance(),
                 () -> {
                     if (!this.isDirty.get())
                         return;

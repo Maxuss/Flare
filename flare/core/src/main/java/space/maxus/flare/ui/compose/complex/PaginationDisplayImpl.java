@@ -74,7 +74,7 @@ final class PaginationDisplayImpl extends RootReferencing implements PaginationD
         try {
             pg = new ComposableReactiveState<>(pagination.getPage(currentIdx), this);
         } catch (IndexOutOfBoundsException e) {
-            Flare.LOGGER.error("Tried to initialize PaginationDisplay with invalid index");
+            Flare.logger().error("Tried to initialize PaginationDisplay with invalid index");
             this.currentPage = new ComposableReactiveState<>(null, this);
             return;
         }

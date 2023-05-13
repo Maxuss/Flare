@@ -26,7 +26,7 @@ java {
 dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
 
-    implementation(project(":flare:core"))
+    compileOnly(project(":flare:core"))
 }
 
 tasks {
@@ -48,7 +48,13 @@ tasks {
     processResources {
         filteringCharset = Charsets.UTF_8.name() // We want UTF-8 for everything
     }
+    runServer {
+        dependsOn(":flare:core:reobfJar")
+        pluginJars(project(":flare:core").tasks.getByName("reobfJar").outputs.files.singleFile)
+    }
+
 }
+
 
 // Configure plugin.yml generation
 bukkit {
@@ -56,8 +62,7 @@ bukkit {
     main = "flare.TestPlugin"
     apiVersion = "1.19"
     authors = listOf("maxus")
-    depend = listOf("PlaceholderAPI") // PAPI support
-
+    depend = listOf("PlaceholderAPI", "Flare") // PAPI support
     commands {
         register("component")
         register("modify")

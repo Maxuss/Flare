@@ -58,7 +58,7 @@ public class ReactiveInventoryHolder implements InventoryHolder {
         try {
             return inventory.get();
         } catch (ConcurrentException e) {
-            Flare.LOGGER.error("Failed to get inventory lazily");
+            Flare.logger().error("Failed to get inventory lazily");
             throw new InventoryInitException(e.getCause());
         }
     }

@@ -1,0 +1,16 @@
+name: $name
+version: $version
+main: space.maxus.flare.Flare
+description: $description
+load: STARTUP
+authors:
+  - maxus
+api-version: $apiVersion
+softdepend: [ PlaceholderAPI ]
+permissions:
+  flare.open:
+    default: op
+    description: Allows to use the `/flare open` command, opening new Flare frames
+  flare.reload:
+    default: op
+    description: Allows to use the `/flare reload` command, reloading all Flare frame configurations

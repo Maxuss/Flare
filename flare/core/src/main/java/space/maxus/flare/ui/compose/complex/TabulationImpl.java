@@ -47,7 +47,7 @@ final class TabulationImpl extends RootReferencing implements Tabulation {
         try {
             pg = new ComposableReactiveState<>(pagination.getPage(currentIdx), this);
         } catch (IndexOutOfBoundsException e) {
-            Flare.LOGGER.error("Tried to initialize Tabulation with invalid index");
+            Flare.logger().error("Tried to initialize Tabulation with invalid index");
             this.currentPage = new ComposableReactiveState<>(null, this);
             return;
         }

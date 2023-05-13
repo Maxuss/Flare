@@ -149,7 +149,7 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
                 PackedComposable value = c.call();
                 sharedData.put(value.getSpace(), value.getComposable());
             } catch (Exception e) {
-                Flare.LOGGER.error("Error while committing shared data", e);
+                Flare.logger().error("Error while committing shared data", e);
             }
         });
         prioritizedSharedData.clear();

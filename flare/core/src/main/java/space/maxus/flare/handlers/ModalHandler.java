@@ -28,7 +28,7 @@ public class ModalHandler implements Listener {
         Player player = (Player) e.getPlayer();
 
         Bukkit.getScheduler().runTaskLater(
-                Flare.getHook(),
+                Flare.getInstance(),
                 () -> {
                     root.render();
                     player.openInventory(root.selfInventory());

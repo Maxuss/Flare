@@ -31,7 +31,7 @@ final class SelectionImpl<E> extends RootReferencing implements Selection<E> {
     SelectionImpl(@Nullable ItemProvider provider, Collection<E> values, int origin, boolean isDisabled, @Nullable Computable<E, String> mapper) {
         this.values = values instanceof ArrayList<E> valuesList ? valuesList : new ArrayList<>(values);
         if (this.values.size() > 12)
-            Flare.LOGGER.warn("Selection is too big. Clients may experience rendering issues. ({} > {})", this.values.size(), 12);
+            Flare.logger().warn("Selection is too big. Clients may experience rendering issues. ({} > {})", this.values.size(), 12);
         this.selectedIdx = new AtomicInteger(origin);
         this.selected = new ComposableReactiveState<>(this.values.get(origin), this);
         this.disabledState = new ComposableReactiveState<>(isDisabled, this);

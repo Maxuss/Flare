@@ -24,7 +24,7 @@ public class Reactive {
         try {
             component.onStateChange(state.getOrNull());
         } catch (ReactiveException e) {
-            Flare.LOGGER.error("Error while populating reactive component", e);
+            Flare.logger().error("Error while populating reactive component", e);
         }
 
         return component;

@@ -1,7 +1,7 @@
 package space.maxus.flare.react;
 
 import com.google.common.base.MoreObjects;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.Flare;
@@ -31,7 +31,7 @@ public class SubscriberList<V> {
             try {
                 subscriber.onStateChange(changedState);
             } catch (ReactiveException e) {
-                Flare.LOGGER.error("Error while notifying subscriber", e);
+                Flare.logger().error("Error while notifying subscriber", e);
             }
         }
     }

@@ -37,7 +37,7 @@ public interface Selection<E> extends Disable, ProviderRendered, Configurable<Se
                         if (e.getCause() instanceof ThreadDeath) {
                             Thread.currentThread().interrupt();
                         } else {
-                            Flare.LOGGER.error("Error while mapping selector", e);
+                            Flare.logger().error("Error while mapping selector", e);
                         }
                         return FlareUtil.text("<red>✘ Error: %s".formatted(v));
                     }

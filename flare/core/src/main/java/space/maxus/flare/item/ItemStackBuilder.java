@@ -1,7 +1,7 @@
 package space.maxus.flare.item;
 
 import net.kyori.adventure.text.Component;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

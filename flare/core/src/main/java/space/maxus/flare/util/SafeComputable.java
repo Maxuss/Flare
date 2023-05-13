@@ -29,7 +29,7 @@ public interface SafeComputable<I, O> extends Computable<I, O> {
             try {
                 return computable.compute(input);
             } catch (InterruptedException e) {
-                Flare.LOGGER.error("Thread was interrupted while calling SafeComputable!", e);
+                Flare.logger().error("Thread was interrupted while calling SafeComputable!", e);
                 if (e.getCause() instanceof ThreadDeath) {
                     Thread.currentThread().interrupt();
                 }

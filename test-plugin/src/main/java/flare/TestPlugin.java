@@ -15,7 +15,6 @@ import space.maxus.flare.text.ReactiveComponent;
 public class TestPlugin extends JavaPlugin implements CommandExecutor {
     @Override
     public void onEnable() {
-        Flare.hook(this);
         mutableState.set("Nothing");
     }
 

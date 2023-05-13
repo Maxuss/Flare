@@ -52,7 +52,7 @@ final class SlideshowImpl extends RootReferencing implements Slideshow {
     public void injectRoot(Frame root) {
         super.injectRoot(root);
         // starting task only on root injection
-        this.task.runTaskTimerAsynchronously(Flare.getHook(), period, period);
+        this.task.runTaskTimerAsynchronously(Flare.getInstance(), period, period);
     }
 
     @Override
@@ -84,6 +84,6 @@ final class SlideshowImpl extends RootReferencing implements Slideshow {
     @Override
     public void restore() {
         this.task = this.task.copy();
-        this.task.runTaskTimerAsynchronously(Flare.getHook(), period, period);
+        this.task.runTaskTimerAsynchronously(Flare.getInstance(), period, period);
     }
 }

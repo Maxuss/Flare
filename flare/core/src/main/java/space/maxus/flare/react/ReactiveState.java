@@ -46,7 +46,7 @@ public class ReactiveState<V> implements ReactiveNotifier<V> {
         try {
             subscriber.onStateChange(this.value.get());
         } catch (ReactiveException e) {
-            Flare.LOGGER.error("Error while populating a subscriber", e);
+            Flare.logger().error("Error while populating a subscriber", e);
         }
     }
 

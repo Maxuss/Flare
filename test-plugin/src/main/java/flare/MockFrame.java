@@ -89,8 +89,8 @@ public class MockFrame extends ParamFrame<Player> {
         );
         this.compose(
                 ContainerSlot.builder()
-                        .onPut((item, e) -> Flare.LOGGER.info("PUTTING {}", item))
-                        .onTake((item, e) -> Flare.LOGGER.info("TAKING {}", item))
+                        .onPut((item, e) -> Flare.logger().info("PUTTING {}", item))
+                        .onTake((item, e) -> Flare.logger().info("TAKING {}", item))
                         .inside(Slot.ROW_ONE_SLOT_THREE)
         );
     }
