@@ -1,11 +1,13 @@
 package space.maxus.flare;
 
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.handlers.ClickHandler;
 import space.maxus.flare.handlers.ModalHandler;
 import space.maxus.flare.nms.NmsHelper;
@@ -22,6 +24,8 @@ public class Flare extends JavaPlugin {
     private static NmsHelper nms;
     @Getter
     private static Flare instance;
+    @Getter
+    private static @Nullable Metrics metrics;
 
     public static @NotNull org.slf4j.Logger logger() {
         return getInstance().getSLF4JLogger();
@@ -30,6 +34,14 @@ public class Flare extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        this.saveDefaultConfig();
+        this.reloadConfig();
+
+        if(getConfig().getBoolean("bstats.enabled")) {
+            logger().info("Enabling metrics");
+            metrics = new Metrics(this, 18411);
+        }
 
         placeholderApiSupported = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
         if(placeholderApiSupported)
@@ -40,6 +52,12 @@ public class Flare extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ModalHandler(), instance);
 
         initNms();
+    }
+
+    @Override
+    public void onDisable() {
+        if(metrics != null)
+            metrics.shutdown();
     }
 
     public static @NotNull Inventory open(@NotNull Frame frame, @NotNull Player player) {

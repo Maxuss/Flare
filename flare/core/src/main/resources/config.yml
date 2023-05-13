@@ -1,0 +1,2 @@
+bstats:
+  enabled: true # set to false in order to disable anonymous metrics

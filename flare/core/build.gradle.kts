@@ -26,6 +26,7 @@ dependencies {
     paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
 
     implementation(project(":flare:common"))
+    implementation("org.bstats:bstats-bukkit:3.0.2")
 
     runtimeOnly(project(":flare:nms"))
 
@@ -46,7 +47,7 @@ tasks {
     }
 
     shadowJar {
-//        relocate("net.kyori", "space.maxus.flare.dep.kyori")
+        relocate("org.bstats", "space.maxus.flare.metrics")
 
         archiveFileName.set("flare-ui-${project.version}-all.jar")
     }
