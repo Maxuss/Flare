@@ -137,7 +137,6 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
         lock.lock();
         prioritizedSharedData.add(packed);
         lock.unlock();
-
     }
 
     @Override

@@ -243,3 +243,75 @@ Flare.open(new ParamDocFrame(new ParamDocFrame.MyProps("maxus", "This is a frame
 Which produces:
 
 ![UI With Params](../assets/screenshots/ui-param.gif)
+
+
+### Pagination
+
+You can add different pages to frames too! Check this out:
+
+```java
+public class DocPagedFrame extends PaginatedFrame {
+    @Override
+    public void init() {
+        createPage("First page", page /* (1)! */ -> {
+            page.compose(Placeholder
+                    .of(Items.empty(Material.BLACK_STAINED_GLASS_PANE))
+                    .inside(Slot.ALL)
+            );
+        });
+        createPage("Second page", page -> {
+            page.compose(Placeholder
+                    .of(Items.empty(Material.GREEN_STAINED_GLASS_PANE))
+                    .inside(Slot.ALL)
+            );
+        });
+        createPage("Third page", page -> {
+            page.compose(Placeholder
+                    .of(Items.empty(Material.YELLOW_STAINED_GLASS_PANE))
+                    .inside(Slot.ALL)
+            );
+        });
+    }
+}
+```
+
+1. The page parameter here works exactly as a Frame instance. You can compose, add listeners, and use hooks just like with normal frame instances.
+
+And here's the result:
+
+![UI Paged](../assets/screenshots/ui-paged.png)
+
+But how do we *change* pages? The answer is simple: use pagination display or tabulation!
+
+### Tabulation:
+
+Add this at the top of `init`:
+```java
+useTabulation(Rect.of(Slot.ROW_ONE_SLOT_FOUR, Slot.ROW_ONE_SLOT_SIX) /* (1)! */);
+```
+
+1. You can define your own space as well
+
+And here's the result:
+
+![UI Tabulated](../assets/screenshots/ui-tab.gif)
+
+!!! warning
+    The `useTabulation` (and `usePaginationDisplay`) hooks are composed at the **very bottom** of the
+    Composable tree. So, if you, for example, decide to add a component that goes over them, it will **overwrite**
+    tabulation. In these cases I recommend using `pagination#composeShared` before composing any pages. It will ensure that
+    composable (e.g. background) is rendered inside all pages.
+
+### Pagination Display
+
+You can also use a PaginationDisplay if you want:
+```java
+usePaginationDisplay(Rect.of(Slot.ROW_ONE_SLOT_FOUR, Slot.ROW_ONE_SLOT_SEVEN));
+```
+
+Result:
+
+![UI Pagination Display](../assets/screenshots/ui-pag-disp.gif)
+
+PaginationDisplay is dynamic, so you can choose as much space as you want (minimum 3), and it will
+render fine.
