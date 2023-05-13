@@ -33,11 +33,13 @@ Replace `VERSION` with current latest version (without v):
 
 ## Include Flare in plugin.yml
 
-Since Flare is a library and not a plugin, you should include it in your plugin.yml:
+Just add Flare as a dependency:
 
 ```yaml title="plugin.yml"
-libraries:
-  - "space.maxus:flare:VERSION"
+depend: [Flare]
 ```
+
+Currently, Spigot and Bukkit/CraftBukkit are not supported as platforms for Flare. 
+You should use Paper or it's forks instead.
 
 After that you are ready to use Flare!
