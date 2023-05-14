@@ -52,6 +52,7 @@ public abstract class Frame implements ReactivityProvider {
     }
 
     @Override
+    @ApiStatus.Experimental
     public <V> ReactiveState<V> useBoundState(@Nullable V initial) {
         ReactiveState<V> state = new ReactiveState<>(initial);
         state.subscribe(change -> this.markDirty());

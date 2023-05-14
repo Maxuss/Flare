@@ -9,6 +9,8 @@ nav:
   - setup.md
   - basic.md
   - ui/overview.md
+  - ui/hooks.md
+  - ui/composable.md
 
 plugins:
   - search

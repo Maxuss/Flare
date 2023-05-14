@@ -36,6 +36,8 @@ public class TestPlugin extends JavaPlugin implements CommandExecutor {
             Flare.open(new ParamDocFrame(new ParamDocFrame.MyProps("maxus", "This is a frame!")), (Player) sender);
         } else if("open".equals(command.getName()) && args[0].equals("5")) {
             Flare.open(new DocPagedFrame(), (Player) sender);
+        } else if("open".equals(command.getName()) && args[0].equals("6")) {
+            Flare.open(new DocShowcaseFrame(), (Player) sender);
         }
         return true;
     }

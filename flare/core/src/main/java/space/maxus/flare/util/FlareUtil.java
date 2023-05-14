@@ -29,6 +29,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 
@@ -46,6 +47,17 @@ public class FlareUtil {
 
     public ExecutorService executor(int threads) {
         return Executors.newFixedThreadPool(threads, THREAD_FACTORY);
+    }
+
+    public void executeNTimesAsync(Runnable task, int times, long period) {
+        AtomicInteger counter = new AtomicInteger(0);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Flare.getInstance(), thisTask -> {
+            task.run();
+            int count = counter.incrementAndGet();
+            if(count >= times) {
+                thisTask.cancel();
+            }
+        }, period, period);
     }
 
     public Component text(String miniMessage) {

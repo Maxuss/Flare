@@ -1,5 +1,6 @@
 package space.maxus.flare.util;
 
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +12,7 @@ import java.util.regex.Pattern;
 @FunctionalInterface
 public interface Validator {
     @Contract("_ -> new")
-    static @NotNull Validator matching(@RegEx String regex) {
+    static @NotNull Validator matching(@Language("RegExp") @RegEx String regex) {
         return new RegexValidator(Pattern.compile(regex));
     }
 
@@ -33,7 +34,7 @@ public interface Validator {
         return new CompoundValidator(passes);
     }
 
-    default Validator andMatching(@RegEx String regex) {
+    default Validator andMatching(@RegEx @Language("RegExp") String regex) {
         return and(Validator.matching(regex));
     }
 

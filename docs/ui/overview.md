@@ -106,6 +106,10 @@ public class DocFrame extends SimpleFrame {
 
 ![Resized UI](../assets/screenshots/ui-resized.png)
 
+### Handling Clicks
+
+You can override the `onClick`, `onRightClick`, `onLeftClick`, etc. to handle extra click logic for your frame.
+
 ### Composing UI
 
 Now it's time to change our actual initialization logic. Let's change our UI title!
@@ -280,6 +284,9 @@ public class DocPagedFrame extends PaginatedFrame {
 And here's the result:
 
 ![UI Paged](../assets/screenshots/ui-paged.png)
+
+If you wish to pass extra props to a paginated frame, you should extend `ParamPaginatedFrame` instead of
+`PaginatedFrame`.
 
 But how do we *change* pages? The answer is simple: use pagination display or tabulation!
 

@@ -45,5 +45,9 @@ public class DocFrame extends SimpleFrame {
                         .bind(clickCount)
                         .inside(Slot.ROW_TWO_SLOT_FIVE)
         );
+        this.compose(
+                new DocFC(new DocFC.Props("Hello!", "World!"))
+                        .inside(Slot.ROW_THREE_SLOT_FIVE)
+        );
     }
 }
