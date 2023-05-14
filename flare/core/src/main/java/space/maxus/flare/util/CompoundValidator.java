@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * A compound validator that can validate multiple predicates at once
+ */
 @Data
 public class CompoundValidator implements Validator {
     private final List<Validator> passes;
