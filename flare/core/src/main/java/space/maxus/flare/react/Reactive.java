@@ -12,8 +12,18 @@ import space.maxus.flare.item.ItemProvider;
 import space.maxus.flare.item.ReactiveItemProvider;
 import space.maxus.flare.text.ReactiveComponent;
 
+/**
+ * A utility class for reactivity within Flare.
+ */
 @UtilityClass
 public class Reactive {
+    /**
+     * Creates a reactive component from a state and a producer.
+     * @param state The reactive state to hook to
+     * @param producer The producer to use to produce the reactive component
+     * @return The reactive component
+     * @param <V> The type of the reactive state
+     */
     public <V> @NotNull ReactiveComponent<V> text(@NotNull ReactiveState<V> state, @NotNull Computable<@Nullable V, Component> producer) {
         Validate.notNull(state, "Tried to hook a ReactiveComponent to a null state!");
         Validate.notNull(producer, "Tried to hook a null producer to a ReactiveComponent");
@@ -30,7 +40,15 @@ public class Reactive {
         return component;
     }
 
-    public <V> @NotNull ItemProvider item(@NotNull ReactiveState<V> state, @NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
+    /**
+     * Creates a reactive item provider from a state and a provider.
+     * This is (partially) a wrapper around {@link ItemProvider#reactive(Computable)}
+     * @param state The reactive state to hook to
+     * @param provider The provider to use to produce the item reactively
+     * @return The reactive item provider
+     * @param <V> The type of the reactive state
+     */
+    public <V> @NotNull ReactiveItemProvider<V> item(@NotNull ReactiveState<V> state, @NotNull Computable<@Nullable V, @Nullable ItemStack> provider) {
         Validate.notNull(state, "Tried to hook an ItemProvider to a null state!");
         Validate.notNull(provider, "Tried to hook a null provider to an ItemProvider");
 

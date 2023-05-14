@@ -37,6 +37,17 @@ useContext("Hello, World!");
 ## setTitle
 
 `setTitle` allows to set title within Frames.
+
 ```java
 setTitle(player, "Hello, this is new title!");
+```
+
+## useMemo
+
+`useMemo` is used to memoize a `Computable<I, O>`
+
+```java
+Computable<Integer, String> memoized = useMemo(myState, integer -> {
+   // ... some heavy computations here
+})
 ```

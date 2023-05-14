@@ -10,22 +10,38 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * A thread-safe container for multiple {@link ReactiveSubscriber}s
+ * @param <V>
+ */
 @ThreadSafe
 public class SubscriberList<V> {
     private final Set<ReactiveSubscriber<V>> subscribers = ConcurrentHashMap.newKeySet();
 
+    /**
+     * Adds a listener to this list
+     * @param subscriber Subscriber to be added
+     */
     public void subscribe(@NotNull ReactiveSubscriber<V> subscriber) {
         Validate.notNull(subscriber, "Tried to register a null subscriber!");
 
         this.subscribers.add(subscriber);
     }
 
+    /**
+     * Removes a listener from this list
+     * @param subscriber Subscriber to be removed
+     */
     public void unsubscribe(@NotNull ReactiveSubscriber<V> subscriber) {
         Validate.notNull(subscriber, "Tried to unregister a null subscriber!");
 
         this.subscribers.remove(subscriber);
     }
 
+    /**
+     * Notifies all listeners of a change
+     * @param changedState New value to notify listeners of
+     */
     public void notify(@Nullable V changedState) {
         for (ReactiveSubscriber<V> subscriber : this.subscribers) {
             try {
