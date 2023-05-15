@@ -7,12 +7,22 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.Flare;
 
+/**
+ * Represents a computable that handles any errors inside itself
+ * @param <I> Input type of computable
+ * @param <O> Output type of computable
+ */
 public interface SafeComputable<I, O> extends Computable<I, O> {
     @Contract("_ -> new")
     static <I, O> @NotNull SafeComputable<I, O> wrap(Computable<I, O> c) {
         return new Wrapper<>(c);
     }
 
+    /**
+     * Safely computes the input, handling any errors inside itself, only throwing a {@link ComputeInterruptionException} if the thread is interrupted
+     * @param input Input value
+     * @return Output value
+     */
     O safeCompute(I input);
 
     @Override
@@ -38,6 +48,9 @@ public interface SafeComputable<I, O> extends Computable<I, O> {
         }
     }
 
+    /**
+     * Thrown when error occurs inside SafeComputable
+     */
     @StandardException
     final class ComputeInterruptionException extends RuntimeException {
 

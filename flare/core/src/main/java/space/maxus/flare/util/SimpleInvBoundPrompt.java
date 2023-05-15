@@ -6,10 +6,12 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.react.ReactiveState;
 
+@ApiStatus.Internal
 @Data
 public class SimpleInvBoundPrompt implements Prompt {
     private final String prompt;
