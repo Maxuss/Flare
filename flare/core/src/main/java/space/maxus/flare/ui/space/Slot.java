@@ -2,14 +2,18 @@ package space.maxus.flare.ui.space;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
-import org.checkerframework.common.value.qual.IntRange;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
+/**
+ * A single slot inside a frame
+ */
 @Data
 @AllArgsConstructor
 public class Slot implements Comparable<Slot>, ComposableSpace {
@@ -86,17 +90,35 @@ public class Slot implements Comparable<Slot>, ComposableSpace {
     private final int row;
     private final int column;
 
+    /**
+     * Constructs a new slot from row and column
+     * @param row Row of the slot
+     * @param column Column of the slot
+     * @return A new slot with provided row and slot
+     */
+    @SuppressWarnings("ConstantValue")
     public static Slot of(
-            @IntRange(from = 1, to = 6) int row,
-            @IntRange(from = 1, to = 9) int column
+            @Range(from = 1, to = 6) int row,
+            @Range(from = 1, to = 9) int column
     ) {
+        Validate.isTrue(row <= 6 && row >= 1, "Row does not correspond to the 1..6 bounds");
+        Validate.isTrue(column <= 9 && column >= 1, "Column does not correspond to the 1..9 bounds");
         return new Slot(row - 1, column - 1);
     }
 
-    public static Slot ofRaw(@IntRange(from = 0, to = 6 * 9) int raw) {
+    /**
+     * Constructs a new slot from raw coordinate
+     * @param raw Raw slot value
+     * @return A new Slot
+     */
+    public static Slot ofRaw(@Range(from = 0, to = 6 * 9) int raw) {
         return new Slot(raw / 9, raw % 9);
     }
 
+    /**
+     * Gets the raw coordinate of this slot
+     * @return The raw coordinate of this slot
+     */
     public int rawSlot() {
         return row * 9 + column;
     }

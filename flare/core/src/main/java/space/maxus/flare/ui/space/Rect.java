@@ -10,12 +10,20 @@ import space.maxus.flare.util.MinMaxPair;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A Rect is a ComposableSpace inside a Rectangle defined by first and last points.
+ */
 @EqualsAndHashCode
 public class Rect implements ComposableSpace {
     private final Set<Slot> slots;
     private final Slot from;
     private final Slot to;
 
+    /**
+     * Constructs a new rect with starting and ending slot
+     * @param from Strictly smallest first slot
+     * @param to Strictly biggest last slot
+     */
     public Rect(Slot from, Slot to) {
         Set<Slot> slotsAggr = new HashSet<>();
         for (int row = from.getRow(); row <= to.getRow(); row++) {
@@ -28,6 +36,12 @@ public class Rect implements ComposableSpace {
         this.to = to;
     }
 
+    /**
+     * Constructs a new Rect from starting and ending slots. Slots are ordered using {@link MinMaxPair} and can be passed in any order.
+     * @param from First slot
+     * @param to Second slot
+     * @return Constructed Rect
+     */
     public static @NotNull Rect of(Slot from, Slot to) {
         MinMaxPair<Slot> pair = new MinMaxPair<>(from, to);
         return new Rect(pair.getMin(), pair.getMax());
