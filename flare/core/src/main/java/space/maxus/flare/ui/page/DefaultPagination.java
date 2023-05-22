@@ -16,6 +16,9 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
 
+/**
+ * A default pagination implementation
+ */
 public final class DefaultPagination implements Pagination<Consumer<PageFrame>> {
     private final AtomicInteger pageCount = new AtomicInteger(0);
     private final List<PageFrame> pages = new ArrayList<>();
@@ -24,6 +27,10 @@ public final class DefaultPagination implements Pagination<Consumer<PageFrame>> 
     private final ConcurrentLinkedQueue<Callable<PackedComposable>> prioritizedSharedData = new ConcurrentLinkedQueue<>();
     private final ReadWriteLock pageLock = new ReentrantReadWriteLock();
 
+    /**
+     * Constructs a new default pagination with default page
+     * @param defaultPage Default page
+     */
     public DefaultPagination(int defaultPage) {
         this.currentPage = new AtomicInteger(defaultPage);
     }
