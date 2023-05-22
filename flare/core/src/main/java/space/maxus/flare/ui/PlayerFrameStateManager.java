@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.flare.util.FlareUtil;
@@ -16,6 +17,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Utility class + event handler for frame states
+ */
+@ApiStatus.Internal
 public class PlayerFrameStateManager implements Listener {
     private static final ConcurrentHashMap<UUID, List<Frame>> snapshots = new ConcurrentHashMap<>();
 

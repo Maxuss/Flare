@@ -8,12 +8,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.Flare;
 import space.maxus.flare.util.FlareUtil;
 
 import java.util.concurrent.Callable;
 
+/**
+ * A Flare reactive inventory holder that is implemented for Flare inventories
+ */
+@ApiStatus.Internal
 @ToString
 @EqualsAndHashCode
 public class ReactiveInventoryHolder implements InventoryHolder {
