@@ -8,6 +8,10 @@ import space.maxus.flare.ui.Dimensions;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
 
+/**
+ * A simple frame that can take in extra props.
+ * @param <P> Type of frame props.
+ */
 public abstract class ParamFrame<P> extends Frame {
     @Getter
     protected final @NotNull Dimensions dimensions;

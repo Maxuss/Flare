@@ -20,6 +20,10 @@ import space.maxus.flare.ui.space.Slot;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * PaginatedFrame is a simple frame that supports pagination.
+ * @apiNote Composition inside the {@link #init()} method will not have effect. Use {@link #createPage} instead.
+ */
 public abstract class PaginatedFrame extends Frame implements PaginationProxy {
     @Getter
     protected final @NotNull Dimensions dimensions;

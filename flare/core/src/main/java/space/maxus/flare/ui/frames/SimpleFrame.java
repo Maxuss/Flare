@@ -9,6 +9,9 @@ import space.maxus.flare.ui.Dimensions;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.ReactiveInventoryHolder;
 
+/**
+ * A simple implementation of {@link Frame}
+ */
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public abstract class SimpleFrame extends Frame {

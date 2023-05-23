@@ -14,6 +14,11 @@ import space.maxus.flare.ui.page.PaginationProxy;
 
 import java.util.function.Consumer;
 
+/**
+ * ParamPaginatedFrame is a simple frame that supports pagination and takes in props.
+ * @param <P> The type of props to use.
+ * @apiNote Composition inside the {@link #init()} method will not have effect. Use {@link #createPage} instead.
+ */
 public abstract class ParamPaginatedFrame<P> extends Frame implements PaginationProxy {
     protected final @NotNull ReactiveInventoryHolder holder;
     @Getter
