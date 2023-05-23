@@ -5,7 +5,7 @@ title: Flare Basics
 # Flare Basics
 
 Before getting started with the UI part of Flare, you should get known with 
-the Reactivity of Flare.
+the Reactivity within Flare.
 
 ## Reactive States
 

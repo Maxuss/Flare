@@ -10,6 +10,11 @@ import space.maxus.flare.ui.ComposableLike;
 
 import java.util.function.BiConsumer;
 
+/**
+ * A button is a simple clickable component.
+ * <br /> &nbsp;
+ *
+ */
 public interface Button extends Disable, ProviderRendered, Configurable<Button> {
     static Builder builder(ItemProvider item, boolean disabled) {
         return new ButtonImpl.ButtonBuilderImpl(item).disabled(disabled);
