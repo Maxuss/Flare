@@ -36,7 +36,7 @@ final class TextInputImpl extends RootReferencing implements TextInput {
     }
 
     @Override
-    public ReactiveState<String> onTextChange() {
+    public ReactiveState<String> textState() {
         return textState;
     }
 

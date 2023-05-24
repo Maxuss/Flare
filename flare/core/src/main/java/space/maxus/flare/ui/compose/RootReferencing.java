@@ -9,7 +9,13 @@ import space.maxus.flare.ui.space.ComposableSpace;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * An abstract class for component implementations that automatically handles root frame injection
+ */
 public abstract class RootReferencing implements Composable {
+    /**
+     * The root frame
+     */
     protected final AtomicReference<Frame> root = new AtomicReference<>(null);
     private @Nullable ComposableSpace attachedSpace;
 

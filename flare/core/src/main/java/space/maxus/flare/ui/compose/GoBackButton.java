@@ -14,7 +14,17 @@ import space.maxus.flare.ui.PlayerFrameStateManager;
 
 import java.util.Objects;
 
+/**
+ * A button that takes player to previously opened frame. Only renders if it exists.
+ * <br />
+ * See more in Flare docs: <a href="https://flare.maxus.space/ui/composable#gobackbutton">Go Back Button</a>
+ */
 public interface GoBackButton extends Disable, Composable, Configurable<GoBackButton> {
+    /**
+     * Returns the default builder for go back button
+     * @param frame The previous frame
+     * @return The default builder for go back button
+     */
     static ItemStackBuilder goBackItemBuilder(@Nullable Frame frame) {
         return Items.builder(Material.ARROW)
                 .name("<gray>Go Back <dark_gray>[◀]")
@@ -25,11 +35,20 @@ public interface GoBackButton extends Disable, Composable, Configurable<GoBackBu
                 .hideAllFlags();
     }
 
+    /**
+     * Returns a default go back item
+     * @param player Player for whom to build this button
+     * @return Default go back button
+     */
     @Contract(pure = true)
     static @NotNull ItemProvider goBackItem(HumanEntity player) {
         return () -> goBackItemBuilder(PlayerFrameStateManager.peekPrevious(player)).build();
     }
 
+    /**
+     * Returns a default go back item
+     * @return Default go back item
+     */
     @Contract(" -> new")
     static @NotNull GoBackButton create() {
         return new GoBackButtonImpl(null, false);
