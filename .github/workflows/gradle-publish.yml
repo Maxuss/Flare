@@ -8,8 +8,8 @@
 name: Gradle Package
 
 on:
-  - workflow_dispatch
-  - release:
+  workflow_dispatch:
+  release:
       types: [created, released, prereleased]
 
 jobs:
