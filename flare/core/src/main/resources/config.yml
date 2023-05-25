@@ -1,2 +1,6 @@
 bstats:
-  enabled: true # set to false in order to disable anonymous metrics
+  enabled: true # Set to false in order to disable anonymous metrics
+
+messages:
+  formatting: true # Set to false if you wish to disable colored formatting from flare messages
+  prefix: <gradient:#fc7025:#fcc719>[Flare] # Optionally change flare message prefix

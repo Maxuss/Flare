@@ -16,6 +16,10 @@ public class TestPlugin extends JavaPlugin implements CommandExecutor {
     @Override
     public void onEnable() {
         mutableState.set("Nothing");
+
+        Flare.getFrameRegistry().addFrame("doc_frame", new DocFrame());
+        Flare.getFrameRegistry().addFrame("doc_paged_frame", new DocPagedFrame());
+        Flare.getFrameRegistry().addFrame("showcase_doc_frame", new DocShowcaseFrame());
     }
 
     private static final ReactiveState<String> mutableState = new ReactiveState<>();

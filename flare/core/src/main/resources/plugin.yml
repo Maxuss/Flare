@@ -7,6 +7,10 @@ authors:
   - maxus
 api-version: $apiVersion
 softdepend: [ PlaceholderAPI ]
+commands:
+  flare:
+    description: General Flare command
+    usage: Use /flare open <page_id> to open page, or /flare reload, to reload configuration
 permissions:
   flare.open:
     default: op
