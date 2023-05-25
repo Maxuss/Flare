@@ -27,7 +27,7 @@ public enum Dimensions {
     /**
      * 3x3
      * <br />
-     * @apiNote These dimensions are <b>experimental</b>, and may not work as expected.
+     * These dimensions are <b>experimental</b>, and may not work as expected.
      */
     @ApiStatus.Experimental
     THREE_BY_THREE(3, 3),

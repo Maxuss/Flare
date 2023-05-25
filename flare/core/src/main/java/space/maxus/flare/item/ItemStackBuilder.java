@@ -98,7 +98,7 @@ public class ItemStackBuilder implements ItemProvider {
     }
 
     /**
-     * <b>Sets</b> lore of the item to the provided lore via {@link Items#loreMeta)}
+     * <b>Sets</b> lore of the item to the provided lore via {@link Items#loreMeta}
      * @param lore Lore to be set
      * @return This builder
      */

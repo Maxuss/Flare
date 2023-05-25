@@ -32,7 +32,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * <br />
  * A frame represents an inventory that can display composable elements.
  * <br />
- * @apiNote if you want to extend a frame, it <b>is not recommended</b> to extend this class, instead extend {@link space.maxus.flare.ui.frames.SimpleFrame}
+ * If you want to extend a frame, it <b>is not recommended</b> to extend this class, instead extend {@link space.maxus.flare.ui.frames.SimpleFrame}
  *
  * @see space.maxus.flare.ui.frames.SimpleFrame
  * @see space.maxus.flare.ui.frames.ParamFrame
@@ -45,8 +45,8 @@ public abstract class Frame implements ReactivityProvider {
     protected final @NotNull Map<@NotNull ComposableSpace, @NotNull Composable> composed = new LinkedHashMap<>();
     /**
      * Whether this frame is dirty.
-     *
-     * @apiNote This is an internal method. Value of this field should not be set externally, as it may lead to unexpected render issues.
+     * <p>
+     * This is an internal method. Value of this field should not be set externally, as it may lead to unexpected render issues.
      */
     @ApiStatus.Internal
     protected final AtomicBoolean isDirty = new AtomicBoolean(false);
@@ -57,7 +57,7 @@ public abstract class Frame implements ReactivityProvider {
 
     /**
      * Viewer currently inside this frame.
-     * @apiNote Value is <b>null</b> if called during initialization in {@link #init()}
+     * Value is <b>null</b> if called during initialization in {@link #init()}
      */
     @Getter
     private Player viewer;
@@ -87,8 +87,8 @@ public abstract class Frame implements ReactivityProvider {
 
     /**
      * Sets the holder for this frame
+     * This is an internal method, it is only used for frame-switching
      * @param holder Holder to be set
-     * @apiNote This is an internal method, it is only used for frame-switching
      */
     @ApiStatus.Internal
     protected abstract void setHolder(ReactiveInventoryHolder holder);
@@ -134,7 +134,6 @@ public abstract class Frame implements ReactivityProvider {
     /**
      * Binds a viewer to this frame.
      * @param viewer Viewer to be bound
-     * @apiNote This is an internal method
      */
     @ApiStatus.Internal
     public final void bindViewer(Player viewer) {
@@ -443,8 +442,8 @@ public abstract class Frame implements ReactivityProvider {
 
     /**
      * Opens this frame for the provided player
-     *
-     * @apiNote This is a partially internal method, for actually opening frames you should probably use {@link Flare#open(Frame, Player)}
+     * <p>
+     * This is a partially internal method, for actually opening frames you should probably use {@link Flare#open(Frame, Player)}
      * @param player Player for whom to open
      */
     public void open(Player player) {
@@ -526,10 +525,10 @@ public abstract class Frame implements ReactivityProvider {
 
     /**
      * Called when items are dragged across this frame.
+     * This method is currently experimental and may not work correctly
      * @param newItems Items that are dragged inside this frame
      * @param e The drag event
      * @return True if the event should be cancelled, false otherwise.
-     * @apiNote This method is currently experimental and may not work correctly
      */
     @ApiStatus.Experimental
     @ApiStatus.OverrideOnly
@@ -549,8 +548,8 @@ public abstract class Frame implements ReactivityProvider {
 
     /**
      * Called when this frame is closed.
-     *
-     * @apiNote The frame may be reopened later, see {@link #restorePreviousState(Player)} for more info
+     * <p>
+     * The frame may be reopened later, see {@link #restorePreviousState(Player)} for more info
      * @see #restorePreviousState(Player)
      */
     @ApiStatus.OverrideOnly

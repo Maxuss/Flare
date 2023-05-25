@@ -44,8 +44,8 @@ public class MockFrame extends ParamFrame<Player> {
         this.compose(new HasherFC().inside(Rect.of(Slot.ROW_TWO_SLOT_EIGHT, Slot.ROW_THREE_SLOT_EIGHT)));
         this.compose(new TextFieldFC("Input a number: ").inside(Rect.of(Slot.ROW_FOUR_SLOT_ONE, Slot.ROW_FOUR_SLOT_TWO)));
         this.compose(
-                Button
-                        .checkbox()
+                Checkbox
+                        .builder()
                         .checkedItem(Checkbox.checkedItem("Click me", "This is a <green>checked</green> checkbox"))
                         .uncheckedItem(Checkbox.uncheckedItem("Click me", "This is an <red>unchecked</red> checkbox"))
                         .build()

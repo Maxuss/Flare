@@ -30,7 +30,6 @@ public interface Composable extends ComposableLike {
     /**
      * Injects frame into this component, the frame can then be retrieved from {@link #root()}
      * @param root Frame to be injected
-     * @apiNote This method is only used internally by Flare.
      */
     @ApiStatus.Internal
     void injectRoot(Frame root);
@@ -125,10 +124,10 @@ public interface Composable extends ComposableLike {
 
     /**
      * Called when items are dragged across this composable inside interface.
+     * This method is currently experimental and may not work correctly
      * @param newItems Items that are dragged inside this composable's space
      * @param e The drag event
      * @return True if the event should be cancelled, false otherwise.
-     * @apiNote This method is currently experimental and may not work correctly
      */
     @ApiStatus.OverrideOnly
     @ApiStatus.Experimental

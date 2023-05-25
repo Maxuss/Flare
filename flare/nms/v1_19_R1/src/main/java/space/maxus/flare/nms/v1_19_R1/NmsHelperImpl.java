@@ -8,9 +8,11 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.ApiStatus;
 import space.maxus.flare.nms.NmsHelper;
 import space.maxus.flare.nms.NmsVersion;
 
+@ApiStatus.Internal
 public class NmsHelperImpl implements NmsHelper {
     @Override
     public NmsVersion getVersion() {
