@@ -6,8 +6,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.maxus.flare.extern.FrameRegistry;
 import space.maxus.flare.handlers.ClickHandler;
 import space.maxus.flare.handlers.ModalHandler;
 import space.maxus.flare.nms.NmsHelper;
@@ -17,15 +19,36 @@ import space.maxus.flare.nms.generic.ReflectionHelper;
 import space.maxus.flare.ui.Frame;
 import space.maxus.flare.ui.PlayerFrameStateManager;
 
+/**
+ * The global Flare class
+ */
 public class Flare extends JavaPlugin {
+    /**
+     * Whether PlaceholderAPI is present in this server
+     */
     @Getter
     private static boolean placeholderApiSupported = false;
+    /**
+     * Returns NMS helper, containing some version-dependent platform calculations
+     */
     @Getter
     private static NmsHelper nms;
+    /**
+     * Returns instance of Flare
+     */
     @Getter
     private static Flare instance;
+    /**
+     * Returns the Flare metrics
+     */
     @Getter
+    @ApiStatus.Internal
     private static @Nullable Metrics metrics;
+    /**
+     * Returns the frame registry
+     */
+    @Getter
+    private static FrameRegistry frameRegistry;
 
     public static @NotNull org.slf4j.Logger logger() {
         return getInstance().getSLF4JLogger();
@@ -46,6 +69,8 @@ public class Flare extends JavaPlugin {
         placeholderApiSupported = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
         if(placeholderApiSupported)
             Flare.logger().info("Enabled PlaceholderAPI support!");
+
+        frameRegistry = new FrameRegistry();
 
         Bukkit.getPluginManager().registerEvents(new ClickHandler(), instance);
         Bukkit.getPluginManager().registerEvents(new PlayerFrameStateManager(), instance);
