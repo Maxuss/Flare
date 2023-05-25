@@ -17,7 +17,17 @@ import space.maxus.flare.ui.compose.Configurable;
 import space.maxus.flare.ui.page.Pagination;
 import space.maxus.flare.util.SafeComputable;
 
+/**
+ * Pagination display is used to display pagination state.
+ * <br />
+ * See more in Flare docs: <a href="https://flare.maxus.space/ui/overview/#pagination-display">PaginationDisplay</a>
+ */
 public interface PaginationDisplay extends Composable, Configurable<PaginationDisplay> {
+    /**
+     * Returns the item builder for arrow forward button
+     * @param disabled Whether the button is disabled
+     * @return Item builder
+     */
     static @NotNull ItemStackBuilder arrowForwardButton(boolean disabled) {
         return Items.builder(Material.PLAYER_HEAD)
                 .hideAllFlags()
@@ -34,6 +44,11 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
                 );
     }
 
+    /**
+     * Returns the item builder for arrow backward button
+     * @param disabled Whether the button is disabled
+     * @return Item builder
+     */
     static @NotNull ItemStackBuilder arrowBackwardButton(boolean disabled) {
         return Items.builder(Material.PLAYER_HEAD)
                 .hideAllFlags()
@@ -50,6 +65,14 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
                 );
     }
 
+    /**
+     * Returns the item builder for page select button
+     * @param frame The page frame
+     * @param page The index of the page
+     * @param selected Whether the button is selected
+     * @param player The player viewer
+     * @return Item builder
+     */
     static @NotNull ItemStackBuilder pageNumber(Frame frame, int page, boolean selected, @Nullable Player player) {
         return Items.builder(Material.PLAYER_HEAD, player)
                 .hideAllFlags()
@@ -69,39 +92,103 @@ public interface PaginationDisplay extends Composable, Configurable<PaginationDi
                 );
     }
 
+    /**
+     * Creates a new pagination display
+     * @param pagination The pagination used
+     * @return New pagination display
+     */
     static @NotNull PaginationDisplay of(Pagination<?> pagination) {
         return new PaginationDisplayImpl(pagination, 0, null, null, null, null);
     }
 
+    /**
+     * Creates a new pagination display
+     * @param pagination The pagination used
+     * @param idx Currently selected page index
+     * @return New pagination display
+     */
     static @NotNull PaginationDisplay of(Pagination<?> pagination, int idx) {
         return new PaginationDisplayImpl(pagination, 0, null, null, null, null);
     }
 
+    /**
+     * Creates a new pagination builder
+     * @param pagination The pagination to use
+     * @return A new pagination builder
+     */
     static @NotNull Builder builder(Pagination<?> pagination) {
         return new PaginationDisplayImpl.Builder(pagination);
     }
 
+    /**
+     * Gets the current pagination
+     * @return The currently used pagination
+     */
     Pagination<?> getPagination();
 
+    /**
+     * Returns the reactive state of the selected page index
+     * @return The reactive state of the selected page index
+     */
     ReactiveState<Integer> selectedIndex();
 
+    /**
+     * Returns the reactive state of the selected page frame
+     * @return The reactive state of the selected page frame
+     */
     ReactiveState<Frame> selectedFrame();
 
+    /**
+     * Switches to another page index
+     * @param page Page index to switch to
+     */
     default void switchPage(int page) {
         getPagination().switchPage(viewer(), page);
     }
 
+    /**
+     * A pagination display builder
+     */
     interface Builder extends ComposableLike {
+        /**
+         * Sets the currently selected page index
+         * @param index Index to be set
+         * @return This builder
+         */
         @NotNull Builder selectedIndex(int index);
 
+        /**
+         * Sets the back button item provider
+         * @param back The provider to use
+         * @return This builder
+         */
         @NotNull Builder backButton(@Nullable ItemProvider back);
 
+        /**
+         * Sets the forward button item provider
+         * @param forward The provider to use
+         * @return This builder
+         */
         @NotNull Builder forwardButton(@Nullable ItemProvider forward);
 
+        /**
+         * Sets the selected page item builder
+         * @param page The provider to be set
+         * @return This builder
+         */
         @NotNull Builder selectedPage(@Nullable SafeComputable<Pair<Integer, Frame>, ItemStack> page);
 
+        /**
+         * Sets the unselected page item builder
+         * @param page The provider to be set
+         * @return This builder
+         */
         @NotNull Builder unselectedPage(@Nullable SafeComputable<Pair<Integer, Frame>, ItemStack> page);
 
+        /**
+         * Builds this pagination display
+         * @return Built pagination display
+         */
         @NotNull PaginationDisplay build();
 
         @Override

@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.flare.ui.Composable;
@@ -15,14 +16,30 @@ import space.maxus.flare.util.FlareUtil;
 
 import java.util.*;
 
+/**
+ * A composition is a collection of multiple components, composed by relative coordinates.
+ * <br />
+ * See more in Flare docs: <a href="https://flare.maxus.space/ui/composable#composition">Composition</a>
+ */
 public interface Composition extends Composable, Configurable<Composition> {
+    /**
+     * Constructs a composition out of an array of packed composables
+     * @param comps Composable elements to be included
+     * @return A new composition
+     * @see space.maxus.flare.ui.ComposableLike#inside(ComposableSpace)
+     */
     @Contract("_ -> new")
     static @NotNull Composition of(PackedComposable... comps) {
         return new ExplicitComposition(Arrays.asList(comps));
     }
 
+    @ApiStatus.Internal
     List<PackedComposable> fitIn(ComposableSpace space);
 
+    /**
+     * Returns all composable elements inside this composition
+     * @return All composable elements inside this composition
+     */
     List<PackedComposable> children();
 
     @Override

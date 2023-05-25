@@ -12,27 +12,58 @@ import space.maxus.flare.ui.compose.Button;
 import space.maxus.flare.ui.compose.Placeholder;
 import space.maxus.flare.ui.space.Slot;
 
+/**
+ * Contains certain utility modals
+ */
 @UtilityClass
 public class Modals {
+    /**
+     * A Yes/No modal
+     */
     @Builder
     public static final class YesNoModal implements ComposableLike {
+        /**
+         * The name of the modal
+         */
         @Builder.Default
         private final String name = "Modal";
+        /**
+         * The description of the modal button
+         */
         @Builder.Default
         private final String description = "Opens a modal";
+        /**
+         * The name of the decline button
+         */
         @Builder.Default
         private final String declineName = "Decline";
+        /**
+         * The name of the accept button
+         */
         @Builder.Default
         private final String acceptName = "Accept";
+        /**
+         * Handler for when the accept button is clicked
+         */
         @Builder.Default
         private final Runnable onAccept = () -> {
         };
+        /**
+         * Handler for when the decline button
+         */
         @Builder.Default
         private final Runnable onDecline = () -> {
         };
+        /**
+         * Extra information in the modal
+         */
         @Builder.Default
         private final @Nullable String extraInformation = null;
 
+        /**
+         * Converts this modal into a modal builder
+         * @return The modal builder
+         */
         @SuppressWarnings("ConstantValue")
         public Modal.@NotNull Builder asBuilder() {
             return yesOrNoModalBuilder(
