@@ -27,6 +27,7 @@ dependencies {
 
     implementation(project(":flare:common"))
     implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation("com.typesafe:config:1.4.2")
 
     runtimeOnly(project(":flare:nms"))
 
@@ -48,6 +49,7 @@ tasks {
 
     shadowJar {
         relocate("org.bstats", "space.maxus.flare.metrics")
+        relocate("com.typesafe", "space.maxus.flare.config")
 
         archiveFileName.set("flare-ui-${project.version}-all.jar")
     }
