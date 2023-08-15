@@ -94,7 +94,7 @@ to create ItemStack builders.
 
 Here are a few examples of the `Items` utility class:
 
-```
+```java
 ItemStack headStack = Items.head("<base64 head skin here>");
 ItemStack another = Items.withMeta(Material.DIAMOND,
                                        meta -> meta.setUnbreakable(true));
