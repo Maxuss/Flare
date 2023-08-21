@@ -7,7 +7,7 @@
  * in the user manual at https://docs.gradle.org/8.1.1/userguide/multi_project_builds.html
  */
 
-val nmsVersions = arrayOf("v1_19_R3", "v1_19_R2", "v1_19_R1")
+val nmsVersions = arrayOf("v1_20_R1", "v1_19_R3", "v1_19_R2", "v1_19_R1")
 
 include(":flare:core")
 include(":flare:common")

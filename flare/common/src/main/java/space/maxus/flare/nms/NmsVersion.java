@@ -7,7 +7,8 @@ package space.maxus.flare.nms;
 public enum NmsVersion {
     v1_19_R1,
     v1_19_R2,
-    v1_19_R3, // current latest supported
+    v1_19_R3,
+    v1_20_R1, // current latest supported
     /**
      * Undetermined version, reflection adapter will be used instead
      */

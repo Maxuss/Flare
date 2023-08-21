@@ -1,7 +1,7 @@
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.5.3"
-    id("io.freefair.lombok") version "8.0.1"
+    id("io.papermc.paperweight.userdev") version "1.5.5"
+    id("io.freefair.lombok") version "8.2.2"
     `maven-publish`
     signing
 
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT")
 
     implementation(project(":flare:common"))
     implementation("org.bstats:bstats-bukkit:3.0.2")
